@@ -9,4 +9,3 @@ func _process(delta):
 	var mPos = get_global_mouse_position ()
 	var globals = get_node("/root/globals")
 	pass
-	

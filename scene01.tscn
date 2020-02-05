@@ -20,4 +20,4 @@ position = Vector2( -248, -144 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 
 [node name="DebugText" parent="." instance=ExtResource( 3 )]
-position = Vector2( -248, -144 )
+position = Vector2( -241, -139 )
