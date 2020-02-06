@@ -37,6 +37,23 @@ Once a global script is setup in Project Settings -> Autoload you can use its na
 eg if you create a 'globals' auto load script, you can do this:
 ```var degrees = radians * globals.RAD2DEG```
 
+## GUI
+
+Types
+Button
+    CheckBox
+    CheckButton
+    ColorPickerButton
+    MenuButton
+    OptionButton
+    ToolButton
+LinkButton
+TextureButton
+
+HScrollBar
+VScrollBar
+ScrollContainer
+
 ## Example Links
 
 https://docs.godotengine.org/en/3.2/getting_started/scripting/gdscript/gdscript_basics.html
