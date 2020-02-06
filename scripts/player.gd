@@ -6,6 +6,8 @@ var fireTick = 0
 
 func _ready():
 	print("Player init")
+	
+signal hit
 
 func _fire_projectile():
 	var prj = projectilePrefab.instance()
