@@ -1,13 +1,9 @@
 extends Area2D
 
-var timeToLive = 0.5
+var timeToLive = 1
 var velocity = Vector2(0, 0)
 
 signal hit
-
-func _ready():
-	#("Prj spawn v: " + str(velocity.x) + ", " + str(velocity.y))
-		pass
 
 func _process(delta):
 	timeToLive -= delta
@@ -15,13 +11,19 @@ func _process(delta):
 		# remove self
 		#print("Projectile die")
 		get_parent().queue_free()
-		pass
+		return
 	var step = Vector2(velocity.x * delta, velocity.y * delta)
 	position += step
 
 
 func _on_Area2D_body_entered(body):
-	print("Prj hit something")
+	
+	var hp: Node = body.get_node("Health")
+	if hp == null:
+		print("Prj hit but no hp found")
+		return
+	if hp.team == 1:
+		return
+	print("Prj hit " + str(hp))
 	timeToLive = 0
 	emit_signal("hit")
-	pass # Replace with function body.
