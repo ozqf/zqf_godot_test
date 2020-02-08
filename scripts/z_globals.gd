@@ -6,7 +6,8 @@ extends Node
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
 
-var debugText = ""
+var debugText: String = ""
+var debugCamPos: String = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -37,6 +37,13 @@ Once a global script is setup in Project Settings -> Autoload you can use its na
 eg if you create a 'globals' auto load script, you can do this:
 ```var degrees = radians * globals.RAD2DEG```
 
+Seems like a bit of a faff but here goes:
+http://docs.godotengine.org/en/latest/getting_started/step_by_step/singletons_autoload.html
+
+* Project menu -> Project Settings
+* Autoload tab
+* Add script (click singleton)
+
 ## GUI
 
 Types
@@ -54,11 +61,19 @@ HScrollBar
 VScrollBar
 ScrollContainer
 
-## Example Links
+## Links
 
+### Scripting
 https://docs.godotengine.org/en/3.2/getting_started/scripting/gdscript/gdscript_basics.html
 https://docs.godotengine.org/en/3.2/tutorials/inputs/mouse_and_input_coordinates.html
 
 ### Collision detection
 http://docs.godotengine.org/en/latest/tutorials/physics/physics_introduction.html
 http://docs.godotengine.org/en/latest/classes/class_kinematiccollision2d.html
+
+### Tutorials
+More comprehensive "first game"
+https://godot.readthedocs.io/en/latest/getting_started/step_by_step/your_first_game.html
+Ultra basics - Flappy bird clone
+https://generalistprogrammer.com/tag/godot-3-2d-tutorial/
+

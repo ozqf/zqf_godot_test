@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var projectilePrefab = preload("res://Projectile.tscn")
+var projectilePrefab = preload("res://prefabs/Projectile.tscn")
 var speed = 128;
 var fireTick = 0
 
