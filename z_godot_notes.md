@@ -74,6 +74,8 @@ http://docs.godotengine.org/en/latest/classes/class_kinematiccollision2d.html
 ### Tutorials
 More comprehensive "first game"
 https://godot.readthedocs.io/en/latest/getting_started/step_by_step/your_first_game.html
+FPS - pretty feature complete as far as fundamentals are concerned
+https://docs.godotengine.org/en/3.2/tutorials/3d/fps_tutorial/index.html
 Ultra basics - Flappy bird clone
 https://generalistprogrammer.com/tag/godot-3-2d-tutorial/
 

@@ -66,6 +66,6 @@ func _physics_process(_delta):
 		get_tree().quit()
 	if Input.is_action_just_released("ui_focus_next"):
 		var currentScene = get_tree().get_current_scene().get_filename()
-		get_tree().change_scene(currentScene)
+		var _errCode: int = get_tree().change_scene(currentScene)
 	
-	move_and_slide(velocity)
+	var _moveResult: Vector2 = move_and_slide(velocity)
