@@ -4,7 +4,7 @@
 
 [sub_resource type="CubeMesh" id=2]
 
-[node name="tile_3d" type="StaticBody"]
+[node name="tile_3d" type="KinematicBody"]
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
