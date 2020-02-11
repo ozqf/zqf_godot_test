@@ -45,6 +45,7 @@ var _spawnPos: Vector3 = Vector3()
 var _txt: String = ""
 var _tileScale: float = 2
 var _positionStep: int = 4
+const TILES_PER_FRAME = 20
 
 func load_from_text(_txt: String):
 	var _l: int = _txt.length()
@@ -113,7 +114,7 @@ func read_tile_char():
 func tick_load():
 	#print("Tick proc gen")
 	# spawn a few tiles per tick
-	for _i in range(0, 10):
+	for _i in range(0, TILES_PER_FRAME):
 		read_tile_char()
 		if _cursor >= _length:
 			end_load()
