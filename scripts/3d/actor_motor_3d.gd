@@ -20,10 +20,10 @@ func _ready():
 	print("Player 3D ready")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _process(_delta: float):
-	if Input.is_action_pressed("attack_1"):
-		print("Attack!")
-	pass
+# func _process(_delta: float):
+# 	if Input.is_action_pressed("attack_1"):
+# 		print("Attack!")
+	# pass
 
 func process_input(_delta: float):
 	pass
