@@ -36,17 +36,23 @@ var asci:String = """########################################x  ......##########
 ######################   #######################################
 """
 
-func load(_txt: String):
-	pass
+func load_from_text(_txt: String):
+	var _l: int = _txt.length()
+	print("Make map from length: " + str(_l) + " chars")
+	for i in range(0, _l):
+		var _c = _txt[i]
+		if _c == '\n':
+			break
+		print(str(i) + ": "  + _c)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var tile = tile_t.instance()
-	print("Spawn tile " + str(tile))
 	var _pos: Vector3 = Vector3()
 	_pos.z = -20
 	tile.transform.origin = _pos
-	print("Map asci length: " + str(asci.length()))
+	print("Spawn tile " + str(tile) + " at " + str(_pos))
+	load_from_text(asci)
 
 func _process(_delta):
 	pass
