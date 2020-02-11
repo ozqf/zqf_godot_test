@@ -17,6 +17,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5 )
 
 [node name="Camera" type="Camera" parent="ent_actor_3d"]
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 13 )
+far = 300.0
 
 [node name="World" type="Spatial" parent="."]
 

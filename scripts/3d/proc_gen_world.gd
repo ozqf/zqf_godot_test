@@ -35,8 +35,16 @@ var asci:String = """########################################x  ......##########
 """
 
 var tile_t = preload("res://prefabs3d/ent_tile_3d.tscn")
-var _initTimer:float = 1
-var _initialised:bool = false
+var _isLoading:bool = false
+
+var _width: int = 0
+var _height: int = 0
+var _cursor: int = 0
+var _length: int = 0
+var _spawnPos: Vector3 = Vector3()
+var _txt: String = ""
+var _tileScale: float = 2
+var _positionStep: int = 4
 
 func load_from_text(_txt: String):
 	var _l: int = _txt.length()
@@ -80,7 +88,6 @@ func load_from_text(_txt: String):
 		# next column
 		x += positionStep
 	print("Grid spawn complete")
-		
 
 func spawn_block(x: float, y: float, z: float, scale: float):
 	var _pos: Vector3 = Vector3(x, y, z)
@@ -89,19 +96,77 @@ func spawn_block(x: float, y: float, z: float, scale: float):
 	tile.transform.origin = _pos
 	tile.scale = Vector3(scale, scale, scale)
 
+func read_tile_char():
+	var _c = _txt[_cursor]
+	_cursor += 1
+	if _c == '\r':
+		return
+	if _c =='\n':
+		_spawnPos.x = 0
+		_spawnPos.y = 0
+		_spawnPos.z += _positionStep
+		return
+	if _c == '#':
+		spawn_block(_spawnPos.x, 0, _spawnPos.z, _tileScale)
+	_spawnPos.x += _positionStep
+
+func tick_load():
+	#print("Tick proc gen")
+	# spawn a few tiles per tick
+	for _i in range(0, 10):
+		read_tile_char()
+		if _cursor >= _length:
+			end_load()
+			return
+	pass
+
+func end_load():
+	_isLoading = false
+
+	pass
+
+func begin_load(sourceText):
+	_txt = sourceText
+	_isLoading = true
+	_cursor = 0
+	_length = _txt.length()
+	print("Make map from length: " + str(_length) + " chars")
+	# Scan for map width
+	for i in range(0, _length):
+		var _c = _txt[i]
+		if _c == '\r':
+			print("Line end on return at index " + str(i))
+			_width = i
+			break
+		if _c == '\n':
+			print("Line end on new line at index " + str(i))
+			_width = i
+			break
+	_height = _length / _width
+	# check for an empty line at the end of the string:
+	if _txt[_length - 1] == '\n':
+		_height -= 1
+	
+	print("Grid size: " + str(_width) + ", " + str(_height))
+	pass
+
+func _ready():
+	begin_load(asci)
+	pass
+
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# destructor logic
 		print("Proc gen destructor")
 		pass
 
-#func _ready():
-	#load_from_text(asci)
-
 func _process(_delta:float):
-	if _initialised == false:
-		_initTimer -= _delta
-		if _initTimer < 0:
-			_initialised = true
-			load_from_text(asci)
+	if _isLoading == true:
+		tick_load()
 	pass
+	# if _initialised == false:
+	# 	_initTimer -= _delta
+	# 	if _initTimer < 0:
+	# 		_initialised = true
+	# 		load_from_text(asci)
+	# pass
