@@ -151,7 +151,7 @@ func tick_load():
 func end_load():
 	_isLoading = false
 	print("Proc Gen complete - emit")
-	emit_signal("load_state")
+	emit_signal("load_state", "foo")
 	pass
 
 func begin_load(sourceText):

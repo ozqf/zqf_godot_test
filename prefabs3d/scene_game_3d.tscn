@@ -1,15 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://prefabs/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs3d/ent_actor_3d.tscn" type="PackedScene" id=2]
-[ext_resource path="res://prefabs3d/ent_tile_3d.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs3d/ent_proc_gen_world.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/3d/game_scene_3d.gd" type="Script" id=5]
 
-[sub_resource type="SphereMesh" id=1]
-
 [node name="scene" type="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0314388, -0.0580864, 0.00491905 )
 script = ExtResource( 5 )
 
 [node name="HUD" parent="." instance=ExtResource( 1 )]
@@ -21,28 +17,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5 )
 transform = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 10, 13 )
 far = 300.0
 
-[node name="World" type="Spatial" parent="."]
-
-[node name="tile_3d" parent="World" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0 )
-
-[node name="tile_3d2" parent="World" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
-
-[node name="tile_3d3" parent="World" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -20 )
-
-[node name="tile_3d4" parent="World" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -20 )
-
 [node name="proc_gen_world" parent="." instance=ExtResource( 4 )]
-
-[node name="Position3D" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
-material/0 = null
 
 [node name="load_camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, -2.38419e-07, 1, 0, -1, -2.38419e-07, 124, 100, 64 )
 current = true
 far = 300.0
-[connection signal="load_state" from="proc_gen_world" to="." method="on_world_loaded"]
