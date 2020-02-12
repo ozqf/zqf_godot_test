@@ -35,7 +35,11 @@ var asci:String = """########################################x  ......##########
 """
 
 var tile_t = preload("res://prefabs3d/ent_tile_3d.tscn")
+var floor_t = preload("res://prefabs3d/ent_floor_3d.tscn")
+var void_t = preload("res://prefabs3d/ent_void_3d.tscn")
 var _isLoading:bool = false
+
+signal load_state
 
 var _width: int = 0
 var _height: int = 0
@@ -45,7 +49,7 @@ var _spawnPos: Vector3 = Vector3()
 var _txt: String = ""
 var _tileScale: float = 2
 var _positionStep: int = 4
-const TILES_PER_FRAME = 20
+const TILES_PER_FRAME = 10
 
 func load_from_text(_txt: String):
 	var _l: int = _txt.length()
@@ -85,30 +89,53 @@ func load_from_text(_txt: String):
 			z += positionStep
 			continue
 		if _c == '#':
-			spawn_block(x, y, z, tileScale)
+			spawn_block(x, y, z, tileScale, 1)
+		if _c == ' ':
+			spawn_block(x, y - tileScale, z, tileScale, 0)
+		if _c == '.':
+			spawn_block(x, y - tileScale, z, tileScale, 2)
 		# next column
 		x += positionStep
 	print("Grid spawn complete")
 
-func spawn_block(x: float, y: float, z: float, scale: float):
+func spawn_block(x: float, y: float, z: float, scale: float, type: int):
 	var _pos: Vector3 = Vector3(x, y, z)
-	var tile = tile_t.instance()
+	var tile
+	var scaleV3: Vector3 = Vector3(scale, scale, scale)
+	if type == 0:
+		tile = floor_t.instance()
+	elif type == 2:
+		tile = void_t.instance()
+	else:
+		tile = tile_t.instance()
+		scaleV3.y *= 4
 	add_child(tile)
 	tile.transform.origin = _pos
-	tile.scale = Vector3(scale, scale, scale)
+	tile.scale = scaleV3#Vector3(scale, scale, scale)
 
 func read_tile_char():
 	var _c = _txt[_cursor]
 	_cursor += 1
 	if _c == '\r':
 		return
-	if _c =='\n':
+	elif _c =='\n':
 		_spawnPos.x = 0
 		_spawnPos.y = 0
 		_spawnPos.z += _positionStep
 		return
-	if _c == '#':
-		spawn_block(_spawnPos.x, 0, _spawnPos.z, _tileScale)
+	elif _c == ' ':
+		var y: float = -(_tileScale * 2)
+		spawn_block(_spawnPos.x, y, _spawnPos.z, _tileScale, 0)
+	elif _c == '#':
+		spawn_block(_spawnPos.x, 0, _spawnPos.z, _tileScale, 1)
+	elif _c == '.':
+		var y: float = -(_tileScale * 2) * 2
+		spawn_block(_spawnPos.x, y, _spawnPos.z, _tileScale, 2)
+	# TODO: replace with entity spawns
+	else:
+		var y: float = -(_tileScale * 2)
+		spawn_block(_spawnPos.x, y, _spawnPos.z, _tileScale, 0)
+	
 	_spawnPos.x += _positionStep
 
 func tick_load():
@@ -123,7 +150,8 @@ func tick_load():
 
 func end_load():
 	_isLoading = false
-
+	print("Proc Gen complete - emit")
+	emit_signal("load_state")
 	pass
 
 func begin_load(sourceText):

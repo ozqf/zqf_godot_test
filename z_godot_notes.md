@@ -64,6 +64,10 @@ ScrollContainer
 ## Links
 
 ### Scripting
+
+Error Codes
+http://docs.godotengine.org/en/3.2/classes/class_@globalscope.html#enum-globalscope-error
+
 https://docs.godotengine.org/en/3.2/getting_started/scripting/gdscript/gdscript_basics.html
 https://docs.godotengine.org/en/3.2/tutorials/inputs/mouse_and_input_coordinates.html
 

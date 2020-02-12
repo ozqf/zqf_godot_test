@@ -1,18 +1,15 @@
 extends Spatial
 
+func on_world_loaded():
+	print("Scene - world loaded")
+	# disable overhead camera
+	# TODO: Ensure player camera takes over when spawned
+	#$load_camera.current = false
+	pass
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	var node = get_node("proc_gen_world")
-	print("Proc gen node: " + str(node))
+	#var node = $proc_gen_world
+	#print("Proc gen node: " + str(node))
+	#var errCode: int = node.connect("load_State", self, "on_world_loaded")
+	#print("Connect err: " + str(errCode))
 	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
