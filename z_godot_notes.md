@@ -2,6 +2,21 @@
 
 These are notes regarding doing basic boilerplate stuff with the Godot Engine.
 
+## GDScript snippets
+
+### Instance a Prefab in code
+```
+# Import scene type
+var my_prefab_type = preload("res://prefabs/my_prefab.tscn")
+
+# create an instance
+func foo:
+    # 'new' instance
+    var obj = my_prefab_type.instance()
+    # object must be placed in the node tree
+    add_child(obj)
+```
+
 ## GDScript - Language elements
 
 ### Absent features

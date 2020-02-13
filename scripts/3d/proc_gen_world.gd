@@ -49,54 +49,57 @@ var _spawnPos: Vector3 = Vector3()
 var _txt: String = ""
 var _tileScale: float = 2
 var _positionStep: int = 4
-const TILES_PER_FRAME = 10
+const TILES_PER_FRAME = 20
 
-func load_from_text(_txt: String):
-	var _l: int = _txt.length()
-	print("Make map from length: " + str(_l) + " chars")
-	var width: int = 0
-	var height: int = 0
-	# Scan for map width
-	for i in range(0, _l):
-		var _c = _txt[i]
-		if _c == '\r':
-			print("Line end on return at index " + str(i))
-			width = i
-			break
-		if _c == '\n':
-			print("Line end on new line at index " + str(i))
-			width = i
-			break
-	height = _l / width
-	# check for an empty line at the end of the string:
-	if _txt[_l - 1] == '\n':
-		height -= 1
+var start:Vector3 = Vector3()
+var end:Vector3 = Vector3()
+
+# func load_from_text(_txt: String):
+# 	var _l: int = _txt.length()
+# 	print("Make map from length: " + str(_l) + " chars")
+# 	var width: int = 0
+# 	var height: int = 0
+# 	# Scan for map width
+# 	for i in range(0, _l):
+# 		var _c = _txt[i]
+# 		if _c == '\r':
+# 			print("Line end on return at index " + str(i))
+# 			width = i
+# 			break
+# 		if _c == '\n':
+# 			print("Line end on new line at index " + str(i))
+# 			width = i
+# 			break
+# 	height = _l / width
+# 	# check for an empty line at the end of the string:
+# 	if _txt[_l - 1] == '\n':
+# 		height -= 1
 	
-	print("Grid size: " + str(width) + ", " + str(height))
-	# Load
-	var tileScale: float = 2
-	var positionStep: int = 4
-	var x: int = 0
-	var y: int = 0
-	var z: int = 0
-	for i in range(0, _l):
-		var _c = _txt[i]
-		if _c == '\r':
-			continue
-		if _c == '\n':
-			# new row
-			x = 0
-			z += positionStep
-			continue
-		if _c == '#':
-			spawn_block(x, y, z, tileScale, 1)
-		if _c == ' ':
-			spawn_block(x, y - tileScale, z, tileScale, 0)
-		if _c == '.':
-			spawn_block(x, y - tileScale, z, tileScale, 2)
-		# next column
-		x += positionStep
-	print("Grid spawn complete")
+# 	print("Grid size: " + str(width) + ", " + str(height))
+# 	# Load
+# 	var tileScale: float = 2
+# 	var positionStep: int = 4
+# 	var x: int = 0
+# 	var y: int = 0
+# 	var z: int = 0
+# 	for i in range(0, _l):
+# 		var _c = _txt[i]
+# 		if _c == '\r':
+# 			continue
+# 		if _c == '\n':
+# 			# new row
+# 			x = 0
+# 			z += positionStep
+# 			continue
+# 		if _c == '#':
+# 			spawn_block(x, y, z, tileScale, 1)
+# 		if _c == ' ':
+# 			spawn_block(x, y - tileScale, z, tileScale, 0)
+# 		if _c == '.':
+# 			spawn_block(x, y - tileScale, z, tileScale, 2)
+# 		# next column
+# 		x += positionStep
+# 	print("Grid spawn complete")
 
 func spawn_block(x: float, y: float, z: float, scale: float, type: int):
 	var _pos: Vector3 = Vector3(x, y, z)
@@ -108,14 +111,29 @@ func spawn_block(x: float, y: float, z: float, scale: float, type: int):
 		tile = void_t.instance()
 	else:
 		tile = tile_t.instance()
-		scaleV3.y *= 4
+		scaleV3.y *= 2
 	add_child(tile)
 	tile.transform.origin = _pos
-	tile.scale = scaleV3#Vector3(scale, scale, scale)
+	tile.scale = scaleV3
 
 func read_tile_char():
 	var _c = _txt[_cursor]
 	_cursor += 1
+	# entity check
+	if _c == 'x':
+		_c = ' '
+	elif _c == 's':
+		start = _spawnPos
+		start.y = 0
+		print("Start at " + str(start))
+		_c = ' '
+	elif _c == 'e':
+		end = _spawnPos
+		end.y = 0
+		print("End at " + str(end))
+		_c = ' '
+	
+	# fallthrough check
 	if _c == '\r':
 		return
 	elif _c =='\n':
@@ -151,7 +169,7 @@ func tick_load():
 func end_load():
 	_isLoading = false
 	print("Proc Gen complete - emit")
-	emit_signal("load_state", "foo")
+	emit_signal("load_state", "done", self)
 	pass
 
 func begin_load(sourceText):

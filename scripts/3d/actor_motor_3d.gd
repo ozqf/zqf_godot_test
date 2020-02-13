@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var projectilePrefab = preload("res://prefabs/Projectile.tscn")
+var projectile_t = preload("res://prefabs3d/ent_projectile_3d.tscn")
 
 const input_t = preload("actor_input.gd")
 var input = input_t.new()
@@ -20,10 +20,17 @@ func _ready():
 	print("Player 3D ready")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-# func _process(_delta: float):
-# 	if Input.is_action_pressed("attack_1"):
-# 		print("Attack!")
-	# pass
+func _process(_delta: float):
+	if Input.is_action_pressed("attack_1"):
+		var prj = projectile_t.instance()
+		prj.transform.origin = transform.origin
+		prj.velocity = (-transform.basis.z) * 50
+		get_parent().add_child(prj)
+		print("Attack!")
+	
+	if Input.is_action_just_released("ui_cancel"):
+		get_tree().quit()
+	pass
 
 func process_input(_delta: float):
 	pass
