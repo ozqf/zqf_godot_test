@@ -24,7 +24,7 @@ func _process(_delta: float):
 	if Input.is_action_pressed("attack_1"):
 		var prj = projectile_t.instance()
 		prj.transform.origin = transform.origin
-		prj.velocity = (-transform.basis.z) * 50
+		prj.velocity = (-transform.basis.z) * 100
 		get_parent().add_child(prj)
 		print("Attack!")
 	

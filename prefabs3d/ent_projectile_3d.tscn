@@ -17,3 +17,4 @@ shape = SubResource( 1 )
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = null
+[connection signal="body_entered" from="." to="." method="_on_projectile_body_entered"]

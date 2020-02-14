@@ -12,3 +12,6 @@ func _process(delta: float):
 	tickTime -= delta
 	if tickTime <= 0:
 		queue_free()
+
+func _on_projectile_body_entered(body):
+	tickTime = 0
