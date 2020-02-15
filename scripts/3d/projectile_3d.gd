@@ -14,4 +14,9 @@ func _process(delta: float):
 		queue_free()
 
 func _on_projectile_body_entered(body):
+	var hp: Node = body.get_node("Health")
+	if hp != null:
+		print("Prj hit obj with hp")
+	else:
+		print("Prj hit but no hp")
 	tickTime = 0
