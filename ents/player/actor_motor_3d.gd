@@ -18,7 +18,7 @@ var MOVE_SPEED: float = 20
 
 func _ready():
 	print("Player 3D ready")
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 
 func _process(_delta: float):
 	if Input.is_action_pressed("attack_1"):
@@ -27,9 +27,6 @@ func _process(_delta: float):
 		prj.velocity = (-transform.basis.z) * 100
 		get_parent().add_child(prj)
 		print("Attack!")
-	
-	if Input.is_action_just_released("ui_cancel"):
-		get_tree().quit()
 	pass
 
 func process_input(_delta: float):
