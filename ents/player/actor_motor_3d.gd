@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var projectile_t = preload("res://prefabs3d/ent_projectile_3d.tscn")
+var projectile_t = preload("res://ents/projectile/ent_projectile_3d.tscn")
 
 const input_t = preload("actor_input.gd")
 var input = input_t.new()

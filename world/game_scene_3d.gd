@@ -1,6 +1,6 @@
 extends Spatial
 
-var plyr_prefab_type = preload("res://prefabs3d/ent_actor_3d.tscn")
+var plyr_prefab_type = preload("res://ents/player/ent_actor_3d.tscn")
 
 func on_world_loaded(msg: String, obj):
 	var plyr = plyr_prefab_type.instance()

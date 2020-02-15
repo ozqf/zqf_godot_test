@@ -16,12 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="ZqfGodotDemo"
-run/main_scene="res://prefabs3d/scene_game_3d.tscn"
+run/main_scene="res://world/scene_game_3d.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-globals="*res://prefabs/globals.tscn"
+globals="*res://service/globals.tscn"
 
 [display]
 

@@ -34,9 +34,9 @@ var asci:String = """########################################x  ......##########
 ######################   #######################################
 """
 
-var tile_t = preload("res://prefabs3d/ent_tile_3d.tscn")
-var floor_t = preload("res://prefabs3d/ent_floor_3d.tscn")
-var void_t = preload("res://prefabs3d/ent_void_3d.tscn")
+var tile_t = preload("res://world/ent_tile_3d.tscn")
+var floor_t = preload("res://world/ent_floor_3d.tscn")
+var void_t = preload("res://world/ent_void_3d.tscn")
 var _isLoading:bool = false
 
 signal load_state
