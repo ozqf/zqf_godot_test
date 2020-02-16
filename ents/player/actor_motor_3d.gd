@@ -13,7 +13,7 @@ const KEYS_BIT_RIGHT = (1 << 3)
 var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
 
-var MOUSE_SENSITIVITY: float = 0.1
+var MOUSE_SENSITIVITY: float = 0.05
 var MOVE_SPEED: float = 20
 
 func _ready():
@@ -34,14 +34,15 @@ func process_input(_delta: float):
 
 func process_movement(_input, _delta: float):
 	var _inputDir: Vector3 = Vector3()
-	if Input.is_action_pressed("move_forward"):
-		_inputDir.z -= 1
-	if Input.is_action_pressed("move_backward"):
-		_inputDir.z += 1
-	if Input.is_action_pressed("move_left"):
-		_inputDir.x -= 1
-	if Input.is_action_pressed("move_right"):
-		_inputDir.x += 1
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		if Input.is_action_pressed("move_forward"):
+			_inputDir.z -= 1
+		if Input.is_action_pressed("move_backward"):
+			_inputDir.z += 1
+		if Input.is_action_pressed("move_left"):
+			_inputDir.x -= 1
+		if Input.is_action_pressed("move_right"):
+			_inputDir.x += 1
 	
 	var _forward: Vector3 = global_transform.basis.z
 	var _left: Vector3 = global_transform.basis.x
