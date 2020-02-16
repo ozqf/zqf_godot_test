@@ -14,14 +14,14 @@ var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
 
 var MOUSE_SENSITIVITY: float = 0.05
-var MOVE_SPEED: float = 20
+var MOVE_SPEED: float = 15
 
 func _ready():
 	print("Player 3D ready")
 	
 
 func _process(_delta: float):
-	if Input.is_action_pressed("attack_1"):
+	if globals.bGameInputActive == true and Input.is_action_pressed("attack_1"):
 		var prj = projectile_t.instance()
 		prj.transform.origin = transform.origin
 		prj.velocity = (-transform.basis.z) * 100
@@ -34,7 +34,7 @@ func process_input(_delta: float):
 
 func process_movement(_input, _delta: float):
 	var _inputDir: Vector3 = Vector3()
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	if globals.bGameInputActive == true:
 		if Input.is_action_pressed("move_forward"):
 			_inputDir.z -= 1
 		if Input.is_action_pressed("move_backward"):
@@ -68,7 +68,7 @@ func _physics_process(_delta: float):
 
 # Process mouse input via raw input events, if mouse is captured
 func _input(_event: InputEvent):
-	if _event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	if _event is InputEventMouseMotion and globals.bGameInputActive == true:
 		var mMoveX: float = _event.relative.x * MOUSE_SENSITIVITY
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX

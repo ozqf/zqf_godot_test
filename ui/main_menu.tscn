@@ -35,3 +35,5 @@ margin_top = 32.0
 margin_right = 50.0
 margin_bottom = 52.0
 text = "QUIT"
+[connection signal="pressed" from="root/VSeparator/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="root/VSeparator/quit" to="." method="_on_quit_pressed"]

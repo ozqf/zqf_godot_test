@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="ZqfGodotDemo"
-run/main_scene="res://world/scene_game_3d.tscn"
+run/main_scene="res://world/game_scene.tscn"
 config/icon="res://icon.png"
 
 [autoload]

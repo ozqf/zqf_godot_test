@@ -34,9 +34,10 @@ var asci:String = """########################################x  ......##########
 ######################   #######################################
 """
 
-var tile_t = preload("res://world/ent_tile_3d.tscn")
-var floor_t = preload("res://world/ent_floor_3d.tscn")
-var void_t = preload("res://world/ent_void_3d.tscn")
+var tile_t = preload("res://world/tiles/ent_tile_3d.tscn")
+var floor_t = preload("res://world/tiles/ent_floor_3d.tscn")
+var void_t = preload("res://world/tiles/ent_void_3d.tscn")
+var enemy_t = preload("res://ents/mobs/ent_mob.tscn")
 var _isLoading:bool = false
 
 signal load_state
@@ -116,24 +117,18 @@ func spawn_block(x: float, y: float, z: float, scale: float, type: int):
 	tile.transform.origin = _pos
 	tile.scale = scaleV3
 
+func spawn_mob(x: float, y: float, z: float):
+	var mob = enemy_t.instance()
+	var pos: Vector3 = Vector3(x, y, z)
+	print("Spawn mob at " + str(x) + ", " + str(y) + ", " + str(z))
+	mob.transform.origin = pos
+	add_child(mob)
+
 func read_tile_char():
 	var _c = _txt[_cursor]
 	_cursor += 1
-	# entity check
-	if _c == 'x':
-		_c = ' '
-	elif _c == 's':
-		start = _spawnPos
-		start.y = 0
-		print("Start at " + str(start))
-		_c = ' '
-	elif _c == 'e':
-		end = _spawnPos
-		end.y = 0
-		print("End at " + str(end))
-		_c = ' '
-	
-	# fallthrough check
+	# entity check - spawn entity then fall through to
+	# place floor tile beneath enemy
 	if _c == '\r':
 		return
 	elif _c =='\n':
@@ -141,15 +136,29 @@ func read_tile_char():
 		_spawnPos.y = 0
 		_spawnPos.z += _positionStep
 		return
-	elif _c == ' ':
+	elif _c == 'x': #mob
+		spawn_mob(_spawnPos.x, 0, _spawnPos.z)
+		_c = ' '
+	elif _c == 's': # start pos
+		start = _spawnPos
+		start.y = 0
+		print("Start at " + str(start))
+		_c = ' '
+	elif _c == 'e': # end pos
+		end = _spawnPos
+		end.y = 0
+		print("End at " + str(end))
+		_c = ' '
+	
+	# fallthrough check for tiles
+	if _c == ' ':
 		var y: float = -(_tileScale * 2)
 		spawn_block(_spawnPos.x, y, _spawnPos.z, _tileScale, 0)
 	elif _c == '#':
-		spawn_block(_spawnPos.x, 0, _spawnPos.z, _tileScale, 1)
+		spawn_block(_spawnPos.x, -2, _spawnPos.z, _tileScale, 1)
 	elif _c == '.':
 		var y: float = -(_tileScale * 2) * 2
 		spawn_block(_spawnPos.x, y, _spawnPos.z, _tileScale, 2)
-	# TODO: replace with entity spawns
 	else:
 		var y: float = -(_tileScale * 2)
 		spawn_block(_spawnPos.x, y, _spawnPos.z, _tileScale, 0)
@@ -198,7 +207,7 @@ func begin_load(sourceText):
 	pass
 
 func _ready():
-	begin_load(asci)
+	#begin_load(asci)
 	pass
 
 func _notification(what):

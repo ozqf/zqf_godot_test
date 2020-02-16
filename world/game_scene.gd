@@ -2,8 +2,11 @@ extends Spatial
 
 var plyr_prefab_type = preload("res://ents/player/ent_actor_3d.tscn")
 
+onready var proc_gen = $proc_gen_world
+var plyr
+
 func on_world_loaded(msg: String, obj):
-	var plyr = plyr_prefab_type.instance()
+	plyr = plyr_prefab_type.instance()
 	plyr.transform.origin = obj.start
 	add_child(plyr)
 	# disable overhead camera
@@ -13,10 +16,12 @@ func on_world_loaded(msg: String, obj):
 	globals.debugText = "World pos step: " + str(obj._positionStep)
 	pass
 
-func _ready():
-	var node = $proc_gen_world
-	print("Proc gen node: " + str(node))
-	var errCode: int = node.connect("load_state", self, "on_world_loaded")
+func _start_game():
+	var errCode: int = proc_gen.connect("load_state", self, "on_world_loaded")
 	print("Connect err: " + str(errCode))
-	pass # Replace with function body.
 	globals.debugText = "Make world"
+	proc_gen.begin_load(proc_gen.asci)
+
+func _ready():
+	_start_game()
+	pass

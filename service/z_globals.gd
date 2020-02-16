@@ -1,15 +1,12 @@
 extends Node
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
 
 var debugText: String = ""
 var debugCamPos: String = ""
+var bGameInputActive: bool = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	print("Globals init")
 	pass # Replace with function body.
@@ -17,3 +14,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func start_game():
+	print("Globals - start game")
+	get_tree().change_scene("res://world/game_scene.tscn")
+
+func quit_game():
+	get_tree().quit()
