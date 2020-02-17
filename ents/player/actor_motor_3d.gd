@@ -10,11 +10,17 @@ const KEYS_BIT_BACKWARD = (1 << 1)
 const KEYS_BIT_LEFT = (1 << 2)
 const KEYS_BIT_RIGHT = (1 << 3)
 
+var move_mode: int = 2
 var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
+var _velocity: Vector3 = Vector3()
+var yaw: float = 0
 
 var MOUSE_SENSITIVITY: float = 0.05
 var MOVE_SPEED: float = 15
+var DRIVE_SPEED: float = 20
+var DRIVE_ACCEL: float = 100
+var TURN_RATE: float = 135
 
 func _ready():
 	print("Player 3D ready")
@@ -47,7 +53,7 @@ func process_movement(_input, _delta: float):
 	var _forward: Vector3 = global_transform.basis.z
 	var _left: Vector3 = global_transform.basis.x
 
-	var _velocity: Vector3 = Vector3()
+	_velocity = Vector3()
 	_velocity.x += _forward.x * _inputDir.z
 	_velocity.y += _forward.y * _inputDir.z
 	_velocity.z += _forward.z * _inputDir.z
@@ -62,16 +68,56 @@ func process_movement(_input, _delta: float):
 	#_velocity *= _delta
 	var _moveResult: Vector3 = move_and_slide(_velocity)
 
+func _move_vehicle(_delta: float):
+	#var _inputDir: Vector3 = Vector3()
+	var _velNormal = _velocity.normalized()
+	var speed: float = _velocity.length()
+	# scale push by gap between speed and max speed
+	var pushMultiplier: float = 1 - (speed / DRIVE_SPEED)
+	#var dp = _velNormal.dot(-transform.basis.z)
+	var dp = transform.basis.z.dot(_velNormal)
+	if dp < 0:
+		dp = 0
+	pushMultiplier += dp
+	pushMultiplier /= 2
+	globals.debugText = "Speed: " + str(speed) + " Mul: " + str(pushMultiplier) + " dp: " + str(dp)
+	if globals.bGameInputActive == true:
+		if Input.is_action_pressed("move_forward"):
+			#_inputDir.z -= 1
+			var push: Vector3 = (-transform.basis.z * DRIVE_ACCEL) * pushMultiplier
+			_velocity += push * _delta
+		if Input.is_action_pressed("move_backward"):
+			_velocity *= 0.95
+		if Input.is_action_pressed("move_left"):
+			#_inputDir.x -= 1
+			#yaw += (45 * DEG2RAD) * _delta
+			var rotY = (TURN_RATE * globals.DEG2RAD) * _delta
+			rotate_y(rotY)
+		if Input.is_action_pressed("move_right"):
+			#_inputDir.x += 1
+			#yaw += (45 * DEG2RAD) * _delta
+			var rotY = (-TURN_RATE * globals.DEG2RAD) * _delta
+			rotate_y(rotY)
+	var _moveResult: Vector3 = move_and_slide(_velocity)
+	pass
+
 func _physics_process(_delta: float):
-	process_movement(input, _delta)
+	if move_mode == 1:
+		process_movement(input, _delta)
+	elif move_mode == 2:
+		_move_vehicle(_delta)
+	#globals.debugText = str(yaw * globals.RAD2DEG)
 	pass
 
 # Process mouse input via raw input events, if mouse is captured
 func _input(_event: InputEvent):
+	if move_mode != 1:
+		return
 	if _event is InputEventMouseMotion and globals.bGameInputActive == true:
 		var mMoveX: float = _event.relative.x * MOUSE_SENSITIVITY
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
 		var rotY: float = (mMoveX * globals.DEG2RAD)
+		yaw += rotY
 		rotate_y(rotY)
 	pass
