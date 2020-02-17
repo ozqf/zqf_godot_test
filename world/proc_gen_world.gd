@@ -120,7 +120,7 @@ func spawn_block(x: float, y: float, z: float, scale: float, type: int):
 func spawn_mob(x: float, y: float, z: float):
 	var mob = enemy_t.instance()
 	var pos: Vector3 = Vector3(x, y, z)
-	print("Spawn mob at " + str(x) + ", " + str(y) + ", " + str(z))
+	#print("Spawn mob at " + str(x) + ", " + str(y) + ", " + str(z))
 	mob.transform.origin = pos
 	add_child(mob)
 

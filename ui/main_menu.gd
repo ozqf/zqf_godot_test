@@ -29,3 +29,7 @@ func _on_start_pressed():
 
 func _on_quit_pressed():
 	globals.quit_game()
+
+
+func _on_title_pressed():
+	globals.goto_title()
