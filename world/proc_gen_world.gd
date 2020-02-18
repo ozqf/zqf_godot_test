@@ -50,7 +50,7 @@ var _spawnPos: Vector3 = Vector3()
 var _txt: String = ""
 var _tileScale: float = 2
 var _positionStep: int = 4
-const TILES_PER_FRAME = 20
+const TILES_PER_FRAME = 80
 
 var start:Vector3 = Vector3()
 var end:Vector3 = Vector3()
@@ -137,11 +137,11 @@ func read_tile_char():
 		_spawnPos.z += _positionStep
 		return
 	elif _c == 'x': #mob
-		spawn_mob(_spawnPos.x, 0, _spawnPos.z)
+		spawn_mob(_spawnPos.x, -1, _spawnPos.z)
 		_c = ' '
 	elif _c == 's': # start pos
 		start = _spawnPos
-		start.y = 0
+		start.y = -1
 		print("Start at " + str(start))
 		_c = ' '
 	elif _c == 'e': # end pos

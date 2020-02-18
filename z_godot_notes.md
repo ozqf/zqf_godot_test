@@ -76,6 +76,13 @@ HScrollBar
 VScrollBar
 ScrollContainer
 
+## Collision Groups
+
+* World - vs ents and projectiles
+* Fence - vs ents
+* Ents - vs ents, vs world, vs projectiles, vs fences
+* projectiles - vs ents, vs world
+
 ## Links
 
 ### Scripting

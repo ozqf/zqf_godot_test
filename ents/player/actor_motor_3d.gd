@@ -17,7 +17,7 @@ var _velocity: Vector3 = Vector3()
 var yaw: float = 0
 
 var MOUSE_SENSITIVITY: float = 0.05
-var MOVE_SPEED: float = 15
+var MOVE_SPEED: float = 10
 var DRIVE_SPEED: float = 20
 var DRIVE_ACCEL: float = 100
 var TURN_RATE: float = 135
@@ -49,7 +49,15 @@ func process_movement(_input, _delta: float):
 			_inputDir.x -= 1
 		if Input.is_action_pressed("move_right"):
 			_inputDir.x += 1
-	
+	# ----
+	var mMoveX: float = 0
+	if Input.is_action_pressed("ui_left"):
+		mMoveX = 135
+	if Input.is_action_pressed("ui_right"):
+		mMoveX = -135
+	var rotY: float = (mMoveX * globals.DEG2RAD) * _delta
+	rotate_y(rotY)
+	# ----
 	var _forward: Vector3 = global_transform.basis.z
 	var _left: Vector3 = global_transform.basis.x
 

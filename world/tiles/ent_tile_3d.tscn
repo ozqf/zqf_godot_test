@@ -7,6 +7,7 @@
 [sub_resource type="CubeMesh" id=2]
 
 [node name="tile_3d" type="KinematicBody"]
+collision_mask = 12
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
