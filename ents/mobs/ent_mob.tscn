@@ -33,3 +33,4 @@ material/0 = null
 
 [node name="health" type="Node" parent="."]
 script = ExtResource( 2 )
+team = 1

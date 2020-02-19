@@ -26,29 +26,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSeparator" type="VSplitContainer" parent="root"]
-margin_right = 50.0
-margin_bottom = 102.0
+[node name="VBoxContainer" type="VBoxContainer" parent="root"]
+margin_left = -0.815552
+margin_top = 1.12872
+margin_right = 49.1844
+margin_bottom = 69.1287
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="start" type="Button" parent="root/VSeparator"]
+[node name="start" type="Button" parent="root/VBoxContainer"]
 margin_right = 50.0
 margin_bottom = 20.0
 text = "START"
 
-[node name="title" type="Button" parent="root/VSeparator"]
-margin_top = 32.0
+[node name="title" type="Button" parent="root/VBoxContainer"]
+margin_top = 24.0
 margin_right = 50.0
-margin_bottom = 50.0
+margin_bottom = 44.0
 text = "TITLE"
 
-[node name="quit" type="Button" parent="root/VSeparator"]
-margin_top = 64.0
+[node name="quit" type="Button" parent="root/VBoxContainer"]
+margin_top = 48.0
 margin_right = 50.0
-margin_bottom = 50.0
+margin_bottom = 68.0
 text = "QUIT"
-[connection signal="pressed" from="root/VSeparator/start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="root/VSeparator/title" to="." method="_on_title_pressed"]
-[connection signal="pressed" from="root/VSeparator/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="root/VBoxContainer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="root/VBoxContainer/title" to="." method="_on_title_pressed"]
+[connection signal="pressed" from="root/VBoxContainer/quit" to="." method="_on_quit_pressed"]

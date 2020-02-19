@@ -16,6 +16,9 @@ var physTick: float = 0
 var _velocity: Vector3 = Vector3()
 var yaw: float = 0
 
+var attackTick: float = 0
+var attackRefireTime: float = 0.05
+
 var MOUSE_SENSITIVITY: float = 0.05
 var MOVE_SPEED: float = 10
 var DRIVE_SPEED: float = 20
@@ -27,12 +30,15 @@ func _ready():
 	
 
 func _process(_delta: float):
+	if attackTick > 0:
+		attackTick -= _delta
+		return
+
 	if globals.bGameInputActive == true and Input.is_action_pressed("attack_1"):
+		attackTick = attackRefireTime
 		var prj = projectile_t.instance()
-		prj.transform.origin = transform.origin
-		prj.velocity = (-transform.basis.z) * 100
+		prj.launch(transform.origin, -transform.basis.z, 100, 0)
 		get_parent().add_child(prj)
-		print("Attack!")
 	pass
 
 func process_input(_delta: float):

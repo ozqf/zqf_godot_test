@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://ui/debug_text.gd" type="Script" id=1]
+[ext_resource path="res://ui/HUD.gd" type="Script" id=2]
 
 [node name="HUD" type="CanvasLayer"]
+script = ExtResource( 2 )
 
 [node name="debug_text" type="Label" parent="."]
 margin_right = 55.0
@@ -12,3 +14,43 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="player_status" type="VBoxContainer" parent="."]
+margin_left = 1.0
+margin_top = 24.0
+margin_right = 185.0
+margin_bottom = 76.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="player_status"]
+margin_right = 184.0
+margin_bottom = 14.0
+
+[node name="health_label" type="Label" parent="player_status/HBoxContainer"]
+margin_right = 50.0
+margin_bottom = 14.0
+text = "HEALTH"
+
+[node name="health_value" type="Label" parent="player_status/HBoxContainer"]
+margin_left = 54.0
+margin_right = 78.0
+margin_bottom = 14.0
+text = "100"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="player_status"]
+margin_top = 18.0
+margin_right = 184.0
+margin_bottom = 32.0
+
+[node name="ammo_label" type="Label" parent="player_status/HBoxContainer2"]
+margin_right = 44.0
+margin_bottom = 14.0
+text = "AMMO"
+
+[node name="ammo_value" type="Label" parent="player_status/HBoxContainer2"]
+margin_left = 48.0
+margin_right = 72.0
+margin_bottom = 14.0
+text = "100"

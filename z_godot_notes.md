@@ -17,6 +17,11 @@ func foo:
     add_child(obj)
 ```
 
+### Node Tree traversal/usage
+
+Get Root of current:
+```instance()```
+
 ## GDScript - Language elements
 
 ### Absent features
@@ -38,12 +43,12 @@ functions CAN be static however. Presumably all data must be passed in via argum
 eg ```get_node("NodePath").foo``` becomes ```$NodePath.foo```
 * PI, TAU, INF (infinity), NAN
 * Base types null, bool, int, float, String. Take that javascript. A proper int type.
+* Looks like Bitwise ops fully supported
 
 ### ToString
 str(variable)
 eg
 ```var txt = "Count is: " + str(count)```
-
 
 ### Globals
 
@@ -87,10 +92,16 @@ ScrollContainer
 
 ### Scripting
 
-Error Codes
+#### General
+https://docs.godotengine.org/en/3.2/getting_started/scripting/gdscript/gdscript_basics.html
+
+#### Classes
+https://docs.godotengine.org/en/3.2/classes/index.html
+
+#### Error Codes
 http://docs.godotengine.org/en/3.2/classes/class_@globalscope.html#enum-globalscope-error
 
-https://docs.godotengine.org/en/3.2/getting_started/scripting/gdscript/gdscript_basics.html
+#### Input
 https://docs.godotengine.org/en/3.2/tutorials/inputs/mouse_and_input_coordinates.html
 
 ### Collision detection
