@@ -9,6 +9,8 @@ var debugText: String = ""
 var debugCamPos: String = ""
 var bGameInputActive: bool = false
 
+var game_root = null
+
 var _observers = []
 
 func _ready():

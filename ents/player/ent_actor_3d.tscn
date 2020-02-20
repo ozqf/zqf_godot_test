@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
+[ext_resource path="res://ents/weapon.gd" type="Script" id=2]
 
 [sub_resource type="CylinderShape" id=1]
 
@@ -23,17 +24,12 @@ transform = Transform( 1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0
 [node name="Models" type="Spatial" parent="."]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Models"]
+[node name="body" type="MeshInstance" parent="Models"]
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="MeshInstance2" type="MeshInstance" parent="Models"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, -1, 1, -1 )
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="MeshInstance3" type="MeshInstance" parent="Models"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 1, 1, -1 )
+[node name="head" type="MeshInstance" parent="Models"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0 )
 mesh = SubResource( 2 )
 material/0 = null
 
@@ -43,3 +39,23 @@ material/0 = null
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
 mesh = SubResource( 3 )
 material/0 = null
+
+[node name="weapon_right" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.493977, 4.76837e-07, -0.491663 )
+script = ExtResource( 2 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="weapon_right"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="weapon_left" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5 )
+script = ExtResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="weapon_left"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="walk_motor" type="Node" parent="."]

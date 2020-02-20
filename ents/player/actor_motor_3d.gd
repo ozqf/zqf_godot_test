@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var projectile_t = preload("res://ents/projectile/ent_projectile_3d.tscn")
+#var projectile_t = preload("res://ents/projectile/ent_projectile_3d.tscn")
 
 const input_t = preload("actor_input.gd")
 var input = input_t.new()
@@ -16,8 +16,11 @@ var physTick: float = 0
 var _velocity: Vector3 = Vector3()
 var yaw: float = 0
 
-var attackTick: float = 0
-var attackRefireTime: float = 0.05
+onready var weapon_right = $weapon_right
+onready var weapon_left = $weapon_left
+
+#var attackTick: float = 0
+#var attackRefireTime: float = 0.05
 
 var MOUSE_SENSITIVITY: float = 0.05
 var MOVE_SPEED: float = 10
@@ -27,19 +30,14 @@ var TURN_RATE: float = 135
 
 func _ready():
 	print("Player 3D ready")
-	
 
 func _process(_delta: float):
-	if attackTick > 0:
-		attackTick -= _delta
-		return
-
 	if globals.bGameInputActive == true and Input.is_action_pressed("attack_1"):
-		attackTick = attackRefireTime
-		var prj = projectile_t.instance()
-		prj.launch(transform.origin, -transform.basis.z, 100, 0)
-		get_parent().add_child(prj)
-	pass
+		weapon_right.on = true
+		weapon_left.on = true
+	else:
+		weapon_right.on = false
+		weapon_left.on = false
 
 func process_input(_delta: float):
 	pass
