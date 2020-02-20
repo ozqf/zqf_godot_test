@@ -1,0 +1,63 @@
+[gd_scene format=2]
+
+[node name="score_screen" type="Node"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.189
+anchor_top = 0.302
+anchor_right = 0.189
+anchor_bottom = 0.302
+margin_left = 112.892
+margin_top = -145.15
+margin_right = 499.892
+margin_bottom = 217.85
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 387.0
+margin_bottom = 14.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 167.0
+margin_right = 220.0
+margin_bottom = 14.0
+text = "RESULTS"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 387.0
+margin_bottom = 32.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 156.0
+margin_right = 190.0
+margin_bottom = 14.0
+text = "KILLS"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 194.0
+margin_right = 230.0
+margin_bottom = 14.0
+text = "100%"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 36.0
+margin_right = 387.0
+margin_bottom = 50.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 134.0
+margin_right = 165.0
+margin_bottom = 14.0
+text = "TIME"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer3"]
+margin_left = 169.0
+margin_right = 253.0
+margin_bottom = 14.0
+text = "4m 52.3528s"
