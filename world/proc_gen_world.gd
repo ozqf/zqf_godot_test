@@ -42,6 +42,8 @@ var _isLoading:bool = false
 
 signal load_state
 
+var m_floorY: float = -1.5
+
 var _width: int = 0
 var _height: int = 0
 var _cursor: int = 0
@@ -137,16 +139,16 @@ func read_tile_char():
 		_spawnPos.z += _positionStep
 		return
 	elif _c == 'x': #mob
-		spawn_mob(_spawnPos.x, -1, _spawnPos.z)
+		spawn_mob(_spawnPos.x, m_floorY, _spawnPos.z)
 		_c = ' '
 	elif _c == 's': # start pos
 		start = _spawnPos
-		start.y = -1
+		start.y = m_floorY
 		print("Start at " + str(start))
 		_c = ' '
 	elif _c == 'e': # end pos
 		end = _spawnPos
-		end.y = 0
+		end.y = m_floorY
 		print("End at " + str(end))
 		_c = ' '
 	

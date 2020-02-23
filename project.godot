@@ -29,6 +29,7 @@ gdscript/warnings/unused_variable=false
 
 [display]
 
+window/vsync/use_vsync=false
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -70,4 +71,4 @@ attack_1={
 [rendering]
 
 quality/2d/use_pixel_snap=true
-environment/default_environment="res://default_env.tres"
+environment/default_environment="res://world/default_env.tres"

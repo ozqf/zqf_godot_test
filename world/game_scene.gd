@@ -29,6 +29,9 @@ func on_world_loaded(msg: String, obj):
 	globals.broadcast("level_state", 1)
 	pass
 
+func _process(_delta: float):
+	globals.debugText = str(Engine.get_frames_per_second())
+
 func _start_game():
 	globals.game_root = self
 	var errCode: int = proc_gen.connect("load_state", self, "on_world_loaded")

@@ -64,6 +64,19 @@ http://docs.godotengine.org/en/latest/getting_started/step_by_step/singletons_au
 * Autoload tab
 * Add script (click singleton)
 
+## Application Node layouts
+
+root
+	- globals (autoload singleton)
+		- children of globals scene
+		- main menu etc
+		- Screens that shared by game scenes, eg score screen.
+	- game scene (the primary scene to load as set in project settings)
+		- world
+		- ents
+		- ...etc
+
+
 ## GUI
 
 Types

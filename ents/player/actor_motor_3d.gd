@@ -23,7 +23,7 @@ onready var weapon_left = $weapon_left
 #var attackRefireTime: float = 0.05
 
 var MOUSE_SENSITIVITY: float = 0.05
-var MOVE_SPEED: float = 10
+var MOVE_SPEED: float = 12
 var DRIVE_SPEED: float = 20
 var DRIVE_ACCEL: float = 100
 var TURN_RATE: float = 135
