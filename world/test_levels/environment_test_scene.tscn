@@ -1,0 +1,133 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://world/dev_world_env.tres" type="Environment" id=1]
+[ext_resource path="res://world/test_levels/mat_dev_floor.tres" type="Material" id=2]
+
+[node name="root" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.939692, -0.116978, 0.321394, 0, 0.939692, 0.34202, -0.34202, -0.321394, 0.883022, 6, 5, 5 )
+environment = ExtResource( 1 )
+fov = 75.0
+far = 200.0
+
+[node name="csg" type="Spatial" parent="."]
+
+[node name="arena" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, 0 )
+width = 10.0
+depth = 10.0
+material = ExtResource( 2 )
+
+[node name="CSGBox2" type="CSGBox" parent="csg/arena"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+operation = 2
+width = 9.0
+height = 3.0
+depth = 9.0
+material = ExtResource( 2 )
+
+[node name="building" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12 )
+width = 10.0
+height = 4.0
+depth = 10.0
+material = ExtResource( 2 )
+
+[node name="building2" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 5, -12 )
+material_override = ExtResource( 2 )
+width = 10.0
+height = 10.0
+depth = 10.0
+
+[node name="building3" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 5, -12 )
+width = 10.0
+height = 10.0
+depth = 10.0
+material = ExtResource( 2 )
+
+[node name="building5" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 10, -24 )
+width = 10.0
+height = 20.0
+depth = 10.0
+material = ExtResource( 2 )
+
+[node name="building6" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -24 )
+width = 10.0
+height = 10.0
+depth = 10.0
+material = ExtResource( 2 )
+
+[node name="building7" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 8, -24 )
+width = 10.0
+height = 16.0
+depth = 10.0
+material = ExtResource( 2 )
+
+[node name="building4" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, 0 )
+material_override = ExtResource( 2 )
+width = 10.0
+depth = 10.0
+
+[node name="floor" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -0.5, -6 )
+material_override = ExtResource( 2 )
+width = 100.0
+height = 1.0
+depth = 100.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="1x1x1" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+width = 1.0
+height = 1.0
+depth = 1.0
+
+[node name="light_fixture" type="CSGBox" parent="csg"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, -3 )
+invert_faces = true
+
+[node name="OmniLight2" type="OmniLight" parent="csg/light_fixture"]
+shadow_enabled = true
+omni_range = 10.0
+
+[node name="light_fixture2" type="CSGBox" parent="csg/light_fixture"]
+operation = 2
+width = 1.5
+height = 3.0
+depth = 1.5
+
+[node name="light_fixture3" type="CSGBox" parent="csg/light_fixture"]
+operation = 2
+width = 3.0
+height = 1.5
+depth = 1.5
+
+[node name="light_fixture4" type="CSGBox" parent="csg/light_fixture"]
+operation = 2
+width = 1.5
+height = 1.5
+depth = 3.0
+
+[node name="lights" type="Spatial" parent="."]
+
+[node name="SpotLight" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -3, 3, 0 )
+spot_range = 10.0
+spot_angle = 35.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="lights"]
+transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -0.0191388, 4, 5.01126 )
+light_color = Color( 0.705882, 0.705882, 0.443137, 1 )
+shadow_enabled = true
+
+[node name="OmniLight" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3, -5 )
