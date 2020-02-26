@@ -59,7 +59,7 @@ func process_movement(_input, _delta: float):
 		mMoveX = 135
 	if Input.is_action_pressed("ui_right"):
 		mMoveX = -135
-	var rotY: float = (mMoveX * globals.DEG2RAD) * _delta
+	var rotY: float = (mMoveX * common.DEG2RAD) * _delta
 	rotate_y(rotY)
 	# ----
 	var _forward: Vector3 = global_transform.basis.z
@@ -103,12 +103,12 @@ func _move_vehicle(_delta: float):
 		if Input.is_action_pressed("move_left"):
 			#_inputDir.x -= 1
 			#yaw += (45 * DEG2RAD) * _delta
-			var rotY = (TURN_RATE * globals.DEG2RAD) * _delta
+			var rotY = (TURN_RATE * common.DEG2RAD) * _delta
 			rotate_y(rotY)
 		if Input.is_action_pressed("move_right"):
 			#_inputDir.x += 1
 			#yaw += (45 * DEG2RAD) * _delta
-			var rotY = (-TURN_RATE * globals.DEG2RAD) * _delta
+			var rotY = (-TURN_RATE * common.DEG2RAD) * _delta
 			rotate_y(rotY)
 	var _moveResult: Vector3 = move_and_slide(_velocity)
 	pass
@@ -118,7 +118,7 @@ func _physics_process(_delta: float):
 		process_movement(input, _delta)
 	elif move_mode == 2:
 		_move_vehicle(_delta)
-	#globals.debugText = str(yaw * globals.RAD2DEG)
+	#globals.debugText = str(yaw * common.RAG2DEG)
 	pass
 
 # Process mouse input via raw input events, if mouse is captured
@@ -126,10 +126,12 @@ func _input(_event: InputEvent):
 	if move_mode != 1:
 		return
 	if _event is InputEventMouseMotion and globals.bGameInputActive == true:
+		# TODO: Does not scale correctly with window size!
+		# larger window == crippling reduction of sensitivity
 		var mMoveX: float = _event.relative.x * MOUSE_SENSITIVITY
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
-		var rotY: float = (mMoveX * globals.DEG2RAD)
+		var rotY: float = (mMoveX * common.DEG2RAD)
 		yaw += rotY
 		rotate_y(rotY)
 	pass

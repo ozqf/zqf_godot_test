@@ -55,7 +55,7 @@ eg
 Globals are handled via an Auto load singleton.
 Once a global script is setup in Project Settings -> Autoload you can use its name to access it
 eg if you create a 'globals' auto load script, you can do this:
-```var degrees = radians * globals.RAD2DEG```
+```var degrees = radians * common.RAG2DEG```
 
 Seems like a bit of a faff but here goes:
 http://docs.godotengine.org/en/latest/getting_started/step_by_step/singletons_autoload.html

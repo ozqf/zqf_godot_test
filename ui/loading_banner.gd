@@ -1,14 +1,12 @@
-extends CanvasLayer
+extends Sprite
 
-onready var container: Control = $screen_container
 var event_mask: int = common.EVENT_BIT_GAME_STATE
 
 func _ready():
-	container.hide()
 	globals.add_observer(self)
 
 func observe_event(msg: String):
-	if msg == "level_complete":
-		container.show()
+	if msg == "level_loading":
+		self.show()
 	elif msg == "level_start":
-		container.hide()
+		self.hide()

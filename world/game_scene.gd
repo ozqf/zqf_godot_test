@@ -7,7 +7,7 @@ enum GameState { loading, ready, playing, over, complete }
 
 var game_state = GameState.loading
 
-var event_mask: int = 1
+var event_mask: int = common.EVENT_BIT_GAME_STATE
 
 onready var proc_gen = $proc_gen_world
 var plyr = null
@@ -26,7 +26,7 @@ func on_world_loaded(msg: String, obj):
 	$load_camera.current = false
 	print("Scene - world loaded: " + msg)
 	globals.debugText = "World pos step: " + str(obj._positionStep)
-	globals.broadcast("level_state", 1)
+	globals.broadcast("level_start", common.EVENT_BIT_GAME_STATE)
 	pass
 
 func _process(_delta: float):
@@ -37,6 +37,7 @@ func _start_game():
 	var errCode: int = proc_gen.connect("load_state", self, "on_world_loaded")
 	print("Connect err: " + str(errCode))
 	globals.debugText = "Make world"
+	globals.broadcast("level_loading", common.EVENT_BIT_GAME_STATE)
 	proc_gen.begin_load(proc_gen.asci)
 
 func _ready():
