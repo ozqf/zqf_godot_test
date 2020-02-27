@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ents/mobs/mob.gd" type="Script" id=1]
 [ext_resource path="res://ents/z_health.gd" type="Script" id=2]
+[ext_resource path="res://ents/weapon.gd" type="Script" id=3]
 
 [sub_resource type="CylinderShape" id=1]
 
@@ -21,16 +22,14 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="MeshInstance2" type="MeshInstance" parent="Models"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, -1, 1, -1 )
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="MeshInstance3" type="MeshInstance" parent="Models"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 1, 1, -1 )
-mesh = SubResource( 2 )
-material/0 = null
-
 [node name="health" type="Node" parent="."]
 script = ExtResource( 2 )
-team = 1
+
+[node name="weapon" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, -0.5 )
+script = ExtResource( 3 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="weapon"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null

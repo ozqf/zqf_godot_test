@@ -35,8 +35,7 @@ func prepare_for_launch(teamId: int, damage: int, lifeTime: float):
 	m_damage = damage
 	m_tickTime = lifeTime
 
-func launch(pos: Vector3, forward: Vector3, speed: int, teamId: int):
+func launch(pos: Vector3, forward: Vector3, speed: int):
 	transform.origin = pos;
 	m_velocity = forward * speed
-	m_teamId = teamId
 	pass

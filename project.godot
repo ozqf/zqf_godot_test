@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 
 common="*res://service/common.tscn"
 globals="*res://service/globals.tscn"
+factory="*res://service/factory.tscn"
 
 [debug]
 

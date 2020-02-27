@@ -17,6 +17,23 @@ func foo:
     add_child(obj)
 ```
 
+### Array
+```
+# declare
+var _arr = []
+# push
+_arr.push_back(obj)
+# pop
+var i:int = _arr.find(obj)
+_arr_.remove(i)
+# reset
+_arr.clear()
+# length
+_arr.size()
+# count - number of times an entry appears in the array
+_arr.count()
+```
+
 ### Node Tree traversal/usage
 
 Get Root of current:
@@ -103,12 +120,17 @@ ScrollContainer
 
 ## Links
 
+### Editor
+
+Cheatsheet of shortcuts
+https://github.com/godotengine/godot/issues/4875
+
 ### Scripting
 
 #### General
 https://docs.godotengine.org/en/3.2/getting_started/scripting/gdscript/gdscript_basics.html
 
-#### Classes
+#### API Classes
 https://docs.godotengine.org/en/3.2/classes/index.html
 
 #### Error Codes

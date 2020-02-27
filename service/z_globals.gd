@@ -1,5 +1,7 @@
 extends Node
 
+var load_percent: float = 0
+
 var debugText: String = ""
 var debugCamPos: String = ""
 var bGameInputActive: bool = false
@@ -22,7 +24,7 @@ func add_observer(obj):
 	_observers.push_back(obj)
 	var txt = "Added observer (flags "
 	txt += str(obj.event_mask)
-	txt += ") count: " + str(_observers.size())
+	txt += ") total observers: " + str(_observers.size())
 	print(txt)
 
 # Observers must be manually cleaned up if a listener is removed from the node tree:
@@ -36,7 +38,7 @@ func add_observer(obj):
 func remove_observer(obj):
 	var i:int = _observers.find(obj)
 	_observers.remove(i)
-	print("Remove observer, count: " + str(_observers.size()))
+	print("Remove observer, total observers: " + str(_observers.size()))
 
 func broadcast(txt: String, event_bit: int):
 	for observer in _observers:
@@ -57,4 +59,3 @@ func goto_title():
 
 func quit_game():
 	get_tree().quit()
-

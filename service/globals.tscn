@@ -14,9 +14,22 @@ script = ExtResource( 1 )
 
 [node name="main_menu" parent="." instance=ExtResource( 2 )]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="loading_banner" type="CanvasLayer" parent="."]
 
-[node name="Sprite" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 15.5082, 14.2159 )
-texture = ExtResource( 4 )
+[node name="Node2D" type="Node2D" parent="loading_banner"]
 script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="loading_banner/Node2D"]
+position = Vector2( 512.08, 303.474 )
+scale = Vector2( 32.6622, 19.7051 )
+texture = ExtResource( 4 )
+
+[node name="load_percent" type="Label" parent="loading_banner/Node2D"]
+margin_left = 481.572
+margin_top = 446.202
+margin_right = 530.572
+margin_bottom = 460.202
+text = "Loading"
+__meta__ = {
+"_edit_use_anchors_": false
+}

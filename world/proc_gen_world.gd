@@ -52,10 +52,11 @@ var _spawnPos: Vector3 = Vector3()
 var _txt: String = ""
 var _tileScale: float = 2
 var _positionStep: int = 4
-const TILES_PER_FRAME = 80
+const TILES_PER_FRAME = 20
 
 var start:Vector3 = Vector3()
 var end:Vector3 = Vector3()
+var mobs:PoolVector3Array = []
 
 # func load_from_text(_txt: String):
 # 	var _l: int = _txt.length()
@@ -139,7 +140,8 @@ func read_tile_char():
 		_spawnPos.z += _positionStep
 		return
 	elif _c == 'x': #mob
-		spawn_mob(_spawnPos.x, m_floorY, _spawnPos.z)
+		#spawn_mob(_spawnPos.x, m_floorY, _spawnPos.z)
+		mobs.push_back(Vector3(_spawnPos.x, m_floorY, _spawnPos.z))
 		_c = ' '
 	elif _c == 's': # start pos
 		start = _spawnPos
@@ -170,6 +172,7 @@ func read_tile_char():
 func tick_load():
 	#print("Tick proc gen")
 	# spawn a few tiles per tick
+	globals.load_percent = int(float(_cursor) / float(_length) * 100)
 	for _i in range(0, TILES_PER_FRAME):
 		read_tile_char()
 		if _cursor >= _length:

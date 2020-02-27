@@ -21,6 +21,14 @@ func on_world_loaded(msg: String, obj):
 	plyr = plyr_prefab_type.instance()
 	plyr.transform.origin = obj.start
 	add_child(plyr)
+
+	# count mobs to spawn
+	var numMobs = proc_gen.mobs.size()
+	print("Enemy count: " + str(numMobs))
+	for i in range (0, 1):
+		var p:Vector3 = proc_gen.mobs[i]
+		proc_gen.spawn_mob(p.x, p.y, p.z)
+
 	# disable overhead camera
 	# TODO: Ensure player camera takes over when spawned
 	$load_camera.current = false

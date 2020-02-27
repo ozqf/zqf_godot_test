@@ -30,6 +30,12 @@ var TURN_RATE: float = 135
 
 func _ready():
 	print("Player 3D ready")
+	var prj_def = factory.create_projectile_def()
+	weapon_right.projectile_def = prj_def
+
+	prj_def = factory.create_projectile_def()
+	prj_def.speed = 50
+	weapon_left.projectile_def = prj_def
 
 func _process(_delta: float):
 	if globals.bGameInputActive == true and Input.is_action_pressed("attack_1"):
