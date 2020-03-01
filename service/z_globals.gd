@@ -45,7 +45,6 @@ func broadcast(txt: String, event_bit: int):
 		if (observer.event_mask & event_bit) != 0:
 			observer.observe_event(txt)
 
-
 ###########################################################################
 # root menu commands
 ###########################################################################
@@ -59,3 +58,58 @@ func goto_title():
 
 func quit_game():
 	get_tree().quit()
+
+###########################################################################
+# text commands
+###########################################################################
+
+func tokenise(_text:String):
+	print("Tokenise " + _text)
+	var tokens: PoolStringArray = []
+	var _len:int = _text.length()
+	var readingToken: bool = false
+	var _charsInToken:int = 0
+	var _tokenStart:int = 0
+	var i:int = 0
+	var finished:bool = false
+	while (true):
+		var c = _text[i]
+		i += 1
+		if i >= _len:
+			finished = true
+		var isWhiteSpace:bool = (c == " " || c == "\t")
+		if readingToken:
+			# finish token
+			if isWhiteSpace || finished:
+				if finished && !isWhiteSpace:
+					# count this last char if we are making a token
+					_charsInToken += 1
+				readingToken = false
+				var token:String = _text.substr(_tokenStart, _charsInToken)
+				tokens.push_back(token)
+				print('"' + token + '"')
+			else:
+				# increment token length
+				_charsInToken += 1
+		else:
+			# eat whitespace
+			if c == " " || c == "\t":
+				pass
+			else:
+				# begin a new token
+				readingToken = true
+				_tokenStart = i - 1
+				_charsInToken = 1
+		if finished:
+			break
+	return tokens
+
+func execute(command: String):
+	var tokens: PoolStringArray = tokenise(command)
+	if tokens.size() == 0:
+		print("No command read")
+		return
+	if tokens[0] == "exit":
+		quit_game()
+
+	pass

@@ -74,7 +74,7 @@ Once a global script is setup in Project Settings -> Autoload you can use its na
 eg if you create a 'globals' auto load script, you can do this:
 ```var degrees = radians * common.RAG2DEG```
 
-Seems like a bit of a faff but here goes:
+Thought it would be a faff but really isn't.
 http://docs.godotengine.org/en/latest/getting_started/step_by_step/singletons_autoload.html
 
 * Project menu -> Project Settings
