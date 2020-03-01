@@ -111,5 +111,11 @@ func execute(command: String):
 		return
 	if tokens[0] == "exit":
 		quit_game()
+		return
+	if tokens[0] == "start":
+		start_game()
+		return
+	if tokens[0] == "gototitle":
+		goto_title()
 
 	pass

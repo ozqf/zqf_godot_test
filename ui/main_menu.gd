@@ -41,19 +41,16 @@ func _process(_delta):
 		var command = _consoleText.text
 		_consoleText.text = ""
 		globals.execute(command)
-		#get_tree().quit()
-		#toggle_menu_on()
 		pass
 
 func _on_start_pressed():
-	globals.start_game()
+	globals.execute("start")
 
 func _on_quit_pressed():
 	globals.execute("exit")
-	#globals.quit_game()
 
 func _on_title_pressed():
-	globals.goto_title()
+	globals.execute("gototitle")
 	
 func observe_event(msg: String):
 	if msg == "level_loading":
