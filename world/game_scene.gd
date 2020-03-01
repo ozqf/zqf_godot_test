@@ -25,7 +25,7 @@ func on_world_loaded(msg: String, obj):
 	# count mobs to spawn
 	var numMobs = proc_gen.mobs.size()
 	print("Enemy count: " + str(numMobs))
-	for i in range (0, 1):
+	for i in range (0, numMobs):
 		var p:Vector3 = proc_gen.mobs[i]
 		proc_gen.spawn_mob(p.x, p.y, p.z)
 
@@ -34,7 +34,7 @@ func on_world_loaded(msg: String, obj):
 	$load_camera.current = false
 	print("Scene - world loaded: " + msg)
 	globals.debugText = "World pos step: " + str(obj._positionStep)
-	globals.broadcast("level_start", common.EVENT_BIT_GAME_STATE)
+	globals.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
 	pass
 
 func _process(_delta: float):
@@ -45,7 +45,7 @@ func _start_game():
 	var errCode: int = proc_gen.connect("load_state", self, "on_world_loaded")
 	print("Connect err: " + str(errCode))
 	globals.debugText = "Make world"
-	globals.broadcast("level_loading", common.EVENT_BIT_GAME_STATE)
+	globals.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
 	proc_gen.begin_load(proc_gen.asci)
 
 func _ready():
@@ -60,7 +60,7 @@ func on_level_complete():
 	game_state = GameState.complete
 	plyr.queue_free()
 
-func observe_event(msg: String):
+func observe_event(msg: String, _obj):
 	print("Game scene observe event " + msg)
 	if msg == "level_complete":
 		on_level_complete()

@@ -35,7 +35,6 @@ func toggle_menu_on():
 
 func _process(_delta):
 	if Input.is_action_just_released("ui_cancel"):
-		#get_tree().quit()
 		toggle_menu_on()
 	if Input.is_action_just_released("ui_accept"):
 		var command = _consoleText.text
@@ -44,17 +43,17 @@ func _process(_delta):
 		pass
 
 func _on_start_pressed():
-	globals.execute("start")
+	globals.execute(common.CMD_START_GAME)
 
 func _on_quit_pressed():
-	globals.execute("exit")
+	globals.execute(common.CMD_EXIT_APP)
 
 func _on_title_pressed():
-	globals.execute("gototitle")
+	globals.execute(common.CMD_GOTO_TITLE)
 	
-func observe_event(msg: String):
-	if msg == "level_loading":
+func observe_event(msg: String, _obj):
+	if msg == common.EVENT_LEVEL_LOADING:
 		set_process(false)
 		off()
-	elif msg == "level_start":
+	elif msg == common.EVENT_LEVEL_START:
 		set_process(true)

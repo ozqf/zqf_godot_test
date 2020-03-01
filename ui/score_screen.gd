@@ -7,7 +7,7 @@ func _ready():
 	container.hide()
 	globals.add_observer(self)
 
-func observe_event(msg: String):
+func observe_event(msg: String, _obj):
 	if msg == "level_complete":
 		container.show()
 	elif msg == "level_start":

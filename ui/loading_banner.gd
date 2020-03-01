@@ -12,7 +12,7 @@ func _process(_delta: float):
 	text.text = "Loading (" + str(percent) + "%)"
 	pass
 
-func observe_event(msg: String):
+func observe_event(msg: String, _obj):
 	if msg == "level_loading":
 		self.show()
 		set_process(true)

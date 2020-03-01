@@ -1,6 +1,40 @@
 extends Spatial
 
-var asci:String = """########################################x  ......###############
+var asci:String = """#####################################      #####################
+#########################      ##..          x##################
+######################### #    #    x x      x##################
+######################    #           .....  x####.....#########
+######################    xx####   ......... ..........#########
+#####   x ############   x  ##x  .......#### e.....   .#########
+#####  x   x#############   ##  x   ...#####s  x      ##########
+#####x   x  ####...######## ##  x   ...#######x  #.   .#########
+####    #x   ###......#####       xx.######### x ..x...#########
+##     x     ##.......#########   ################. ...#########
+#x x #      x##.......######### ###################  x##########
+## x       xx .............#### ###################   ##########
+##     x         #..#.........#x############   ##  x  ###...####
+#####   k        #####.....##.# ##########         x#####......#
+##########       ############.# ##########         x...........#
+########### x              x   x         x           .....##....
+############     ##########.### ###########          ......#....
+#########################...### ###########         x...........
+######################......... ##...######       #####....#...#
+###################............ #....######  x    #######......#
+###################.......##...x#....###### x ############.....#
+###################........#..# .....#####################.....#
+#####################...     ..x.....#####################...###
+####################### x x  .. ....############################
+#######################  x   .  x...############################
+#######################x xx  .   ......#########################
+#######################      .  x......#########################
+################x    ##x     .. .......#########################
+################         #.     .#.....#########################
+################         #......##.....#########################
+################k        .......##.....#########################
+#################   .....###...#################################
+"""
+
+var asci2:String = """########################################x  ......###############
 ######################################     ......###############
 ##########################...#### x ##x    .......##############
 ###################...####...####        x .###....  x  ########
@@ -58,53 +92,6 @@ var start:Vector3 = Vector3()
 var end:Vector3 = Vector3()
 var mobs:PoolVector3Array = []
 
-# func load_from_text(_txt: String):
-# 	var _l: int = _txt.length()
-# 	print("Make map from length: " + str(_l) + " chars")
-# 	var width: int = 0
-# 	var height: int = 0
-# 	# Scan for map width
-# 	for i in range(0, _l):
-# 		var _c = _txt[i]
-# 		if _c == '\r':
-# 			print("Line end on return at index " + str(i))
-# 			width = i
-# 			break
-# 		if _c == '\n':
-# 			print("Line end on new line at index " + str(i))
-# 			width = i
-# 			break
-# 	height = _l / width
-# 	# check for an empty line at the end of the string:
-# 	if _txt[_l - 1] == '\n':
-# 		height -= 1
-	
-# 	print("Grid size: " + str(width) + ", " + str(height))
-# 	# Load
-# 	var tileScale: float = 2
-# 	var positionStep: int = 4
-# 	var x: int = 0
-# 	var y: int = 0
-# 	var z: int = 0
-# 	for i in range(0, _l):
-# 		var _c = _txt[i]
-# 		if _c == '\r':
-# 			continue
-# 		if _c == '\n':
-# 			# new row
-# 			x = 0
-# 			z += positionStep
-# 			continue
-# 		if _c == '#':
-# 			spawn_block(x, y, z, tileScale, 1)
-# 		if _c == ' ':
-# 			spawn_block(x, y - tileScale, z, tileScale, 0)
-# 		if _c == '.':
-# 			spawn_block(x, y - tileScale, z, tileScale, 2)
-# 		# next column
-# 		x += positionStep
-# 	print("Grid spawn complete")
-
 func spawn_block(x: float, y: float, z: float, scale: float, type: int):
 	var _pos: Vector3 = Vector3(x, y, z)
 	var tile
@@ -123,7 +110,6 @@ func spawn_block(x: float, y: float, z: float, scale: float, type: int):
 func spawn_mob(x: float, y: float, z: float):
 	var mob = enemy_t.instance()
 	var pos: Vector3 = Vector3(x, y, z)
-	#print("Spawn mob at " + str(x) + ", " + str(y) + ", " + str(z))
 	mob.transform.origin = pos
 	add_child(mob)
 
@@ -140,7 +126,6 @@ func read_tile_char():
 		_spawnPos.z += _positionStep
 		return
 	elif _c == 'x': #mob
-		#spawn_mob(_spawnPos.x, m_floorY, _spawnPos.z)
 		mobs.push_back(Vector3(_spawnPos.x, m_floorY, _spawnPos.z))
 		_c = ' '
 	elif _c == 's': # start pos
@@ -211,10 +196,6 @@ func begin_load(sourceText):
 	print("Grid size: " + str(_width) + ", " + str(_height))
 	pass
 
-func _ready():
-	#begin_load(asci)
-	pass
-
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# destructor logic
@@ -225,9 +206,4 @@ func _process(_delta:float):
 	if _isLoading == true:
 		tick_load()
 	pass
-	# if _initialised == false:
-	# 	_initTimer -= _delta
-	# 	if _initTimer < 0:
-	# 		_initialised = true
-	# 		load_from_text(asci)
-	# pass
+ 

@@ -19,7 +19,8 @@ func _ready():
 
 # Observers must have this signature:
 # a public int called 'event_mask' which selects which events to receive
-# a function: observe_event(msg: String)
+# a function: observe_event(msg: String, params)
+# 	where obj is some type (or null) based on the msg
 func add_observer(obj):
 	_observers.push_back(obj)
 	var txt = "Added observer (flags "
@@ -40,10 +41,10 @@ func remove_observer(obj):
 	_observers.remove(i)
 	print("Remove observer, total observers: " + str(_observers.size()))
 
-func broadcast(txt: String, event_bit: int):
+func broadcast(txt: String, obj, event_bit: int):
 	for observer in _observers:
 		if (observer.event_mask & event_bit) != 0:
-			observer.observe_event(txt)
+			observer.observe_event(txt, obj)
 
 ###########################################################################
 # root menu commands
@@ -109,13 +110,13 @@ func execute(command: String):
 	if tokens.size() == 0:
 		print("No command read")
 		return
-	if tokens[0] == "exit":
+	if tokens[0] == common.CMD_EXIT_APP:
 		quit_game()
 		return
-	if tokens[0] == "start":
+	if tokens[0] == common.CMD_START_GAME:
 		start_game()
 		return
-	if tokens[0] == "gototitle":
+	if tokens[0] == common.CMD_GOTO_TITLE:
 		goto_title()
 
 	pass
