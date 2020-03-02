@@ -18,10 +18,12 @@ shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
+cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = ExtResource( 2 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
+visible = false
 light_indirect_energy = 0.0
 shadow_bias = 0.46
 [connection signal="body_entered" from="." to="." method="_on_projectile_body_entered"]
