@@ -7,20 +7,26 @@ enum GameState { loading, ready, playing, over, complete }
 
 var game_state = GameState.loading
 
-var event_mask: int = common.EVENT_BIT_GAME_STATE
+var event_mask: int = common.EVENT_BIT_GAME_STATE | common.EVENT_BIT_ENTITY_SPAWN
 
 onready var proc_gen = $proc_gen_world
 var plyr = null
 var exit = null
+
+func get_enemy_target(_target):
+	# no player in the game?
+	if plyr == null:
+		return null
+	return plyr
 
 func on_world_loaded(msg: String, obj):
 	exit = exit_prefab_type.instance()
 	exit.transform.origin = obj.end
 	add_child(exit)
 
-	plyr = plyr_prefab_type.instance()
-	plyr.transform.origin = obj.start
-	add_child(plyr)
+	var player = plyr_prefab_type.instance()
+	player.transform.origin = obj.start
+	add_child(player)
 
 	# count mobs to spawn
 	var numMobs = proc_gen.mobs.size()
@@ -62,8 +68,13 @@ func on_level_complete():
 
 func observe_event(msg: String, _obj):
 	print("Game scene observe event " + msg)
-	if msg == "level_complete":
+	if msg == common.EVENT_LEVEL_COMPLETE:
 		on_level_complete()
+	if (msg == common.EVENT_PLAYER_SPAWN):
+		plyr = _obj
+	if (msg == common.EVENT_PLAYER_DIED):
+		if plyr == _obj:
+			plyr = null
 		
 
 func _notification(what):

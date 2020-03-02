@@ -7,6 +7,9 @@ const EVENT_LEVEL_START: String = "level_start"
 const EVENT_LEVEL_LOADING: String = "level_loading"
 const EVENT_LEVEL_COMPLETE: String = "level_complete"
 
+const EVENT_PLAYER_SPAWN: String = "player_spawned"
+const EVENT_PLAYER_DIED: String = "player_died"
+
 const CMD_START_GAME: String = "start"
 const CMD_EXIT_APP: String = "exit"
 const CMD_GOTO_TITLE: String = "gototitle"
