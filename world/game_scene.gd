@@ -31,8 +31,8 @@ func on_world_loaded(msg: String, obj):
 	# count mobs to spawn
 	var numMobs = proc_gen.mobs.size()
 	print("Enemy count: " + str(numMobs))
-	#var spawnCount = 1 # for testing
-	var spawnCount = numMobs
+	var spawnCount = 1 # for testing
+	#var spawnCount = numMobs
 	for i in range (0, spawnCount):
 		var p:Vector3 = proc_gen.mobs[i]
 		proc_gen.spawn_mob(p.x, p.y, p.z)
