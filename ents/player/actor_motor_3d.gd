@@ -1,6 +1,8 @@
 extends KinematicBody
 
-#var projectile_t = preload("res://ents/projectile/ent_projectile_3d.tscn")
+# some camera positions
+# high pos 0, 6, 5 angle -30, 0, 0
+# low pos 0, 4, 4, angle -22.5, 0, 0
 
 const input_t = preload("actor_input.gd")
 var input = input_t.new()

@@ -144,6 +144,9 @@ http://docs.godotengine.org/en/latest/tutorials/physics/physics_introduction.htm
 http://docs.godotengine.org/en/latest/classes/class_kinematiccollision2d.html
 
 ### Tutorials
+Third party gdnative tutorials:
+https://gamedevadventures.posthaven.com/using-c-plus-plus-and-gdnative-in-godot-part-1
+
 More comprehensive "first game"
 https://godot.readthedocs.io/en/latest/getting_started/step_by_step/your_first_game.html
 FPS - pretty feature complete as far as fundamentals are concerned

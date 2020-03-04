@@ -52,16 +52,16 @@ func check_target():
 ###################################################################
 
 func push_state(state: int):
-	print("Change to state " + str(state))
+	#print("Change to state " + str(state))
 	stack.push_back(state)
 
 func pop_state():
 	stack.pop_back()
 	var stackSize = stack.size()
-	if (stackSize > 0):
-		print("Dropped back to state " + str(stack[stackSize - 1]))
-	else:
-		print("Popped last state!")
+	# if (stackSize > 0):
+		# print("Dropped back to state " + str(stack[stackSize - 1]))
+	# else:
+		# print("Popped last state!")
 
 ###################################################################
 # AI Ticks

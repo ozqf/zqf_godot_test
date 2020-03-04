@@ -47,7 +47,12 @@ Die
 FixedJump
 	description - follows some pre-scripted movement until it finishes.
 
-##### State Interfaces
+##### AI Update Architecture
+
+Tickers is a global service. Mobs send themselves to one of these 'Tickers'.
+
+
+###### State Interfaces
 
 States:
 ```
