@@ -50,6 +50,10 @@ func _process(_delta: float):
 
 func _start_game():
 	globals.game_root = self
+	if proc_gen == null:
+		print("Start game - no proc gen")
+		globals.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+		return
 	var errCode: int = proc_gen.connect("load_state", self, "on_world_loaded")
 	print("Connect err: " + str(errCode))
 	globals.debugText = "Make world"

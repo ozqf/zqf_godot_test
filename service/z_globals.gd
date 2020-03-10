@@ -8,11 +8,31 @@ var bGameInputActive: bool = false
 
 var game_root = null
 
+var players = []
+var player = null
+
 var _observers = []
 
 func _ready():
 	print("Globals init")
 
+###########################################################################
+# Entity utilities
+###########################################################################
+func get_enemy_target(target):
+	if game_root == null:
+		return null
+	return game_root.get_enemy_target(target)
+
+func register_player(plyr):
+	#players.push_back(plyr)
+	player = plyr
+	
+func deregister_player():
+	#var i = players.find(plyr)
+	#players.remove(i)
+	player = null
+	
 ###########################################################################
 # Global event system
 ###########################################################################
@@ -46,16 +66,22 @@ func broadcast(txt: String, obj, event_bit: int):
 		if (observer.event_mask & event_bit) != 0:
 			observer.observe_event(txt, obj)
 
+func load_scene(path: String):
+	#broadcast("level_loading", null, common.EVENT_BIT_GAME_STATE)
+	var _foo = get_tree().change_scene(path)
+	var _b:Node = get_tree().get_root()
+	print("New scene root name: " + _b.name)
+
 ###########################################################################
 # root menu commands
 ###########################################################################
 func start_game():
 	print("Globals - start game")
-	var _foo = get_tree().change_scene("res://world/game_scene.tscn")
+	load_scene("res://world/game_scene.tscn")
 
 func goto_title():
 	print("Globals - goto title")
-	var _foo = get_tree().change_scene("res://world/intermission_scene.tscn")
+	load_scene("res://world/intermission_scene.tscn")
 
 func quit_game():
 	get_tree().quit()
@@ -63,6 +89,11 @@ func quit_game():
 ###########################################################################
 # text commands
 ###########################################################################
+
+func load_map(name: String):
+	var path = "res://maps/" + name + ".tscn"
+	print("Globals - load map " + path)
+	load_scene(path)
 
 func tokenise(_text:String):
 	print("Tokenise " + _text)
@@ -105,6 +136,14 @@ func tokenise(_text:String):
 			break
 	return tokens
 
+func check_map_command(tokens: PoolStringArray):
+	if tokens[0] != "map":
+		return false;
+	if tokens.size() < 2:
+		print("No map specified")
+		return true
+	load_map(tokens[1])
+
 func execute(command: String):
 	var tokens: PoolStringArray = tokenise(command)
 	if tokens.size() == 0:
@@ -118,5 +157,6 @@ func execute(command: String):
 		return
 	if tokens[0] == common.CMD_GOTO_TITLE:
 		goto_title()
-
+	if check_map_command(tokens):
+		return
 	pass
