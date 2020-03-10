@@ -3,9 +3,13 @@ extends Node
 const EVENT_BIT_GAME_STATE: int = (1 << 0)
 const EVENT_BIT_ENTITY_SPAWN: int = (1 << 1)
 
-const EVENT_LEVEL_START: String = "level_start"
-const EVENT_LEVEL_LOADING: String = "level_loading"
-const EVENT_LEVEL_COMPLETE: String = "level_complete"
+const EVENT_LEVEL_LOADING: String = "level_loading" # The level is changing - cleanup
+# Level has loaded, gameplay begins shortly
+# the intention of prestart is to allow further load steps to broadcast that they are working
+# and to prevent gameplay from starting until they are ready
+const EVENT_LEVEL_PRESTART: String = "level_prestart"
+const EVENT_LEVEL_START: String = "level_start" # gameplay has started
+const EVENT_LEVEL_COMPLETE: String = "level_complete" # a game end condition has been met
 
 const EVENT_PLAYER_SPAWN: String = "player_spawned"
 const EVENT_PLAYER_DIED: String = "player_died"

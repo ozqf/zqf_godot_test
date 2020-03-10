@@ -143,6 +143,9 @@ https://docs.godotengine.org/en/3.2/tutorials/inputs/mouse_and_input_coordinates
 http://docs.godotengine.org/en/latest/tutorials/physics/physics_introduction.html
 http://docs.godotengine.org/en/latest/classes/class_kinematiccollision2d.html
 
+### Pausing
+https://docs.godotengine.org/en/3.2/tutorials/misc/pausing_games.html
+
 ### Tutorials
 Third party gdnative tutorials:
 https://gamedevadventures.posthaven.com/using-c-plus-plus-and-gdnative-in-godot-part-1

@@ -44,7 +44,7 @@ func check_los_to_target(_tar):
 		return true
 
 func check_target():
-	target = globals.get_enemy_target(target)
+	target = g_ents.get_enemy_target(target, self.global_transform.origin)
 	return !(target == null)
 
 ###################################################################

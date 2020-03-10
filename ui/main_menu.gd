@@ -12,9 +12,11 @@ func _ready():
 	_root = get_node("root")
 	globals.add_observer(self)
 	_consoleText = get_node("root/console/console_text")
+	off()
 
 func on():
 	_on = true
+	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	globals.bGameInputActive = false
 	_consoleText.grab_focus()
@@ -22,6 +24,7 @@ func on():
 
 func off():
 	_on = false
+	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	globals.bGameInputActive = true
 	_root.hide()

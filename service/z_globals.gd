@@ -8,31 +8,14 @@ var bGameInputActive: bool = false
 
 var game_root = null
 
-var players = []
-var player = null
-
 var _observers = []
 
 func _ready():
 	print("Globals init")
 
-###########################################################################
-# Entity utilities
-###########################################################################
-func get_enemy_target(target):
-	if game_root == null:
-		return null
-	return game_root.get_enemy_target(target)
+func _process(_delta: float):
+	debugText = str(Engine.get_frames_per_second())
 
-func register_player(plyr):
-	#players.push_back(plyr)
-	player = plyr
-	
-func deregister_player():
-	#var i = players.find(plyr)
-	#players.remove(i)
-	player = null
-	
 ###########################################################################
 # Global event system
 ###########################################################################
@@ -47,10 +30,10 @@ func add_observer(obj):
 	txt += str(obj.event_mask)
 	txt += ") total observers: " + str(_observers.size())
 	print(txt)
-
+#
 # Observers must be manually cleaned up if a listener is removed from the node tree:
 # EG:
-# func _notification(what):
+#func _notification(what):
 # 	if what == NOTIFICATION_PREDELETE:
 # 		# destructor logic
 # 		print("Game scene destructor")

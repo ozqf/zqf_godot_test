@@ -45,9 +45,6 @@ func on_world_loaded(msg: String, obj):
 	globals.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
 	pass
 
-func _process(_delta: float):
-	globals.debugText = str(Engine.get_frames_per_second())
-
 func _start_game():
 	globals.game_root = self
 	if proc_gen == null:
