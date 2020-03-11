@@ -12,12 +12,16 @@ const KEYS_BIT_BACKWARD = (1 << 1)
 const KEYS_BIT_LEFT = (1 << 2)
 const KEYS_BIT_RIGHT = (1 << 3)
 
+const PITCH_CAP_DEGREES = 89
+
 var move_mode: int = 1
 var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
 var _velocity: Vector3 = Vector3()
 var yaw: float = 0
+var pitch: float = 0
 
+onready var camera_obj = $camera
 onready var weapon_right = $weapon_right
 onready var weapon_left = $weapon_left
 
@@ -143,10 +147,22 @@ func _input(_event: InputEvent):
 	if _event is InputEventMouseMotion and globals.bGameInputActive == true:
 		# TODO: Does not scale correctly with window size!
 		# larger window == crippling reduction of sensitivity
+		# Horizontal
 		var mMoveX: float = _event.relative.x * MOUSE_SENSITIVITY
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
 		var rotY: float = (mMoveX * common.DEG2RAD)
 		yaw += rotY
+		# vertical
+		var mMoveY: float = _event.relative.y * MOUSE_SENSITIVITY
+		var rotX: float = (mMoveY)
+		pitch += rotX
+		pitch = clamp(pitch, -PITCH_CAP_DEGREES, PITCH_CAP_DEGREES)
+		var camRot:Vector3 = camera_obj.rotation_degrees
+		camRot.x = pitch
+		# apply
 		rotate_y(rotY)
+		weapon_right.rotation_degrees = camRot
+		camera_obj.rotation_degrees = camRot
+		globals.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
 	pass

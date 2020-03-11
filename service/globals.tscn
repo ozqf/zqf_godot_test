@@ -1,15 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://service/z_globals.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/score_screen.tscn" type="PackedScene" id=3]
 [ext_resource path="res://sprites/debug_black.png" type="Texture" id=4]
 [ext_resource path="res://ui/loading_banner.gd" type="Script" id=5]
+[ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=6]
 
 [node name="globals" type="Node2D"]
 pause_mode = 2
 position = Vector2( -227.182, 27.2075 )
 script = ExtResource( 1 )
+
+[node name="HUD" parent="." instance=ExtResource( 6 )]
 
 [node name="score_screen" parent="." instance=ExtResource( 3 )]
 

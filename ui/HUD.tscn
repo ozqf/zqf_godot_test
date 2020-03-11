@@ -16,10 +16,13 @@ __meta__ = {
 }
 
 [node name="player_status" type="VBoxContainer" parent="."]
+anchor_top = 0.875
+anchor_right = 0.181
+anchor_bottom = 1.002
 margin_left = 1.0
-margin_top = 24.0
-margin_right = 185.0
-margin_bottom = 76.0
+margin_top = 36.9999
+margin_right = -0.344009
+margin_bottom = -0.200073
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://world/dev_world_env.tres" type="Environment" id=1]
-[ext_resource path="res://world/test_levels/mat_dev_floor.tres" type="Material" id=2]
+[ext_resource path="res://maps/test_levels/mat_dev_floor.tres" type="Material" id=2]
+
 
 [node name="root" type="Spatial"]
 
