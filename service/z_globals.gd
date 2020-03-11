@@ -1,5 +1,9 @@
 extends Node
 
+class TextCommand:
+	var name: String
+	var callback:FuncRef
+
 var load_percent: float = 0
 
 var debugText: String = ""
@@ -10,9 +14,11 @@ var bGameInputActive: bool = false
 var game_root = null
 
 var _observers = []
+var _txtCommands = []
 
 func _ready():
 	print("Globals init")
+	build_global_commands()
 
 func _process(_delta: float):
 	debugText = str(Engine.get_frames_per_second())
@@ -79,8 +85,9 @@ func load_map(name: String):
 	print("Globals - load map " + path)
 	load_scene(path)
 
+# I'm not very good at writing tokenise functions...
 func tokenise(_text:String):
-	print("Tokenise " + _text)
+	#print("Tokenise " + _text)
 	var tokens: PoolStringArray = []
 	var _len:int = _text.length()
 	var readingToken: bool = false
@@ -103,7 +110,7 @@ func tokenise(_text:String):
 				readingToken = false
 				var token:String = _text.substr(_tokenStart, _charsInToken)
 				tokens.push_back(token)
-				print('"' + token + '"')
+				#print('"' + token + '"')
 			else:
 				# increment token length
 				_charsInToken += 1
@@ -120,27 +127,45 @@ func tokenise(_text:String):
 			break
 	return tokens
 
-func check_map_command(tokens: PoolStringArray):
-	if tokens[0] != "map":
-		return false;
+func cmd_map(tokens: PoolStringArray):
 	if tokens.size() < 2:
 		print("No map specified")
 		return true
 	load_map(tokens[1])
+
+func cmd_exit(_tokens: PoolStringArray):
+	quit_game()
+
+func cmd_start_game(_tokens: PoolStringArray):
+	start_game()
+
+func cmd_goto_title(_tokens: PoolStringArray):
+	goto_title()
+
+# Commmands cannot be de-registered, so commands should only be on global
+# objects
+func register_text_command(name:String, obj, funcName):
+	var cmd = TextCommand.new()
+	cmd.name = name
+	var callbackRef = funcref(obj, funcName)
+	cmd.callback = callbackRef
+	_txtCommands.push_back(cmd)
+
+func build_global_commands():
+	register_text_command(common.CMD_EXIT_APP, self, "cmd_exit")
+	register_text_command(common.CMD_START_GAME, self, "cmd_start_game")
+	register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title")
+	register_text_command("map", self, "cmd_map")
+	pass
 
 func execute(command: String):
 	var tokens: PoolStringArray = tokenise(command)
 	if tokens.size() == 0:
 		print("No command read")
 		return
-	if tokens[0] == common.CMD_EXIT_APP:
-		quit_game()
-		return
-	if tokens[0] == common.CMD_START_GAME:
-		start_game()
-		return
-	if tokens[0] == common.CMD_GOTO_TITLE:
-		goto_title()
-	if check_map_command(tokens):
-		return
+	
+	for i in range(0, _txtCommands.size()):
+		if _txtCommands[i].name == tokens[0]:
+			_txtCommands[i].callback.call_func(tokens)
+		pass
 	pass
