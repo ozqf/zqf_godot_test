@@ -19,6 +19,9 @@ const CMD_EXIT_APP: String = "exit"
 const CMD_GOTO_TITLE: String = "gototitle"
 const CMD_SYSTEM_INFO: String = "sys"
 
+const TEAM_PLAYER: int =  0
+const TEAM_MOBS: int = 1
+
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
 

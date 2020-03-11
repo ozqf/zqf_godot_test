@@ -21,9 +21,12 @@ var _velocity: Vector3 = Vector3()
 var yaw: float = 0
 var pitch: float = 0
 
-onready var camera_obj = $camera
-onready var weapon_right = $weapon_right
-onready var weapon_left = $weapon_left
+onready var head:Spatial = $info/head
+onready var weapon_right = $info/head/weapon_right
+onready var weapon_left = $info/head/weapon_left
+onready var hp = $health
+onready var bodyMesh = $info/body_mesh
+onready var headMesh = $info/head/head_mesh
 
 #var attackTick: float = 0
 #var attackRefireTime: float = 0.05
@@ -36,6 +39,11 @@ var TURN_RATE: float = 135
 
 func _ready():
 	print("Player 3D ready")
+	hp.m_team = common.TEAM_PLAYER
+
+	bodyMesh.hide()
+	headMesh.hide()
+
 	var prj_def = factory.create_projectile_def()
 	weapon_right.projectile_def = prj_def
 
@@ -159,11 +167,12 @@ func _input(_event: InputEvent):
 		var rotX: float = (mMoveY)
 		pitch += rotX
 		pitch = clamp(pitch, -PITCH_CAP_DEGREES, PITCH_CAP_DEGREES)
-		var camRot:Vector3 = camera_obj.rotation_degrees
+		var camRot:Vector3 = head.rotation_degrees
 		camRot.x = pitch
 		# apply
 		rotate_y(rotY)
-		weapon_right.rotation_degrees = camRot
-		camera_obj.rotation_degrees = camRot
+		#weapon_right.rotation_degrees = camRot
+		#weapon_left.rotation_degrees = camRot
+		head.rotation_degrees = camRot
 		globals.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
 	pass

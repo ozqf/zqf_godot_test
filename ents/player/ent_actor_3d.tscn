@@ -3,12 +3,14 @@
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
 [ext_resource path="res://ents/weapon.gd" type="Script" id=2]
 [ext_resource path="res://world/default_world_env.tres" type="Environment" id=3]
+[ext_resource path="res://ents/z_health.gd" type="Script" id=4]
 
-[sub_resource type="CylinderShape" id=1]
+[sub_resource type="CapsuleShape" id=3]
+margin = 0.4
+radius = 0.6
+height = 1.6
 
 [sub_resource type="CubeMesh" id=2]
-
-[sub_resource type="CubeMesh" id=3]
 
 [node name="ent_actor_3d" type="KinematicBody"]
 collision_layer = 4
@@ -16,50 +18,47 @@ collision_mask = 15
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
-shape = SubResource( 1 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.3, 0 )
+shape = SubResource( 3 )
 
-[node name="camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
+[node name="info" type="Spatial" parent="."]
+
+[node name="body_mesh" type="MeshInstance" parent="info"]
+transform = Transform( 0.5, 0, 0, 0, 0.8, 0, 0, 0, 0.5, 0, 0.8, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="head" type="Spatial" parent="info"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0 )
+
+[node name="weapon_right" type="Spatial" parent="info/head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, -0.8, -0.45 )
+script = ExtResource( 2 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="info/head/weapon_right"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, -0.3 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="weapon_left" type="Spatial" parent="info/head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, -0.8, -0.45 )
+script = ExtResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="info/head/weapon_left"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, -0.3 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="head_mesh" type="MeshInstance" parent="info/head"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="camera" type="Camera" parent="info/head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
 environment = ExtResource( 3 )
 fov = 80.0
 far = 1000.0
 
-[node name="Models" type="Spatial" parent="."]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
-
-[node name="body" type="MeshInstance" parent="Models"]
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="head" type="MeshInstance" parent="Models"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0 )
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="RayCast" type="RayCast" parent="."]
-
-[node name="MeshInstance" type="MeshInstance" parent="RayCast"]
-transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
-mesh = SubResource( 3 )
-material/0 = null
-
-[node name="weapon_right" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0, -0.35 )
-script = ExtResource( 2 )
-
-[node name="MeshInstance3" type="MeshInstance" parent="weapon_right"]
-transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="weapon_left" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0, -0.35 )
-script = ExtResource( 2 )
-
-[node name="MeshInstance2" type="MeshInstance" parent="weapon_left"]
-transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="walk_motor" type="Node" parent="."]
+[node name="health" type="Node" parent="."]
+script = ExtResource( 4 )

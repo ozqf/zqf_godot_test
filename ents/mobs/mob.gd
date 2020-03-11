@@ -20,11 +20,11 @@ var thinkTick: float = 0
 ###################################################################
 func _ready():
 	# force set team
-	hp.m_team = 1
+	hp.m_team = common.TEAM_MOBS
 
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 15
-	prj_def.teamId = 1
+	prj_def.teamId = common.TEAM_MOBS
 	prj_def.lifeTime = 3
 	weapon.projectile_def = prj_def
 	weapon.attackRefireTime = 2

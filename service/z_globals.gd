@@ -96,6 +96,7 @@ func cmd_goto_title(_tokens: PoolStringArray):
 	goto_title()
 
 func cmd_sys(_tokens: PoolStringArray):
+	print("=== System info ===")
 	var real: Vector2 = OS.get_real_window_size()
 	var scr: Vector2 = OS.get_screen_size()
 	print("Real Window size " + str(real.x) + ", " + str(real.y))
@@ -109,6 +110,14 @@ func cmd_help(_tokens: PoolStringArray):
 	for i in range(0, _txtCommands.size()):
 		print(_txtCommands[i].name)
 
+func cmd_test(_tokens: PoolStringArray):
+	print("=== Console cmd test ===")
+	var sig: String = "tfi"
+	var flag: bool = check_token_signature(_tokens, sig)
+	print("Check against signature " + sig + ": " + str(sig.length()))
+	print("Num tokens: " + str(_tokens.size()))
+	print("Result: " + str(flag))
+
 func load_map(name: String):
 	var path = "res://maps/" + name + ".tscn"
 	print("Globals - load map " + path)
@@ -117,10 +126,30 @@ func load_map(name: String):
 ###########################################################################
 # text command system
 ###########################################################################
+func check_token_type(token: String, sigChar):
+	if sigChar == 't':
+		return true
+	if sigChar == 'f':
+		return token.is_valid_float()
+	if sigChar == 'i':
+		return token.is_valid_integer()
+	return false
+
+func check_token_signature(tokens: PoolStringArray, sig: String):
+	var _len: int = sig.length()
+	if tokens.size() != _len:
+		print("Token count to signature length mismatch")
+		return false
+	for i in range(0, _len):
+		var c = sig[i]
+		var token: String = tokens[i]
+		if check_token_type(token, c) == false:
+			return false
+	return true
 
 # I'm not very good at writing tokenise functions...
 func tokenise(_text:String):
-	#print("Tokenise " + _text)
+	print("Tokenise " + _text)
 	var tokens: PoolStringArray = []
 	var _len:int = _text.length()
 	if _len == 0:
@@ -145,7 +174,7 @@ func tokenise(_text:String):
 				readingToken = false
 				var token:String = _text.substr(_tokenStart, _charsInToken)
 				tokens.push_back(token)
-				#print('"' + token + '"')
+				print('"' + token + '"')
 			else:
 				# increment token length
 				_charsInToken += 1
@@ -178,6 +207,7 @@ func build_global_commands():
 	register_text_command("map", self, "cmd_map")
 	register_text_command(common.CMD_SYSTEM_INFO, self, "cmd_sys")
 	register_text_command("help", self, "cmd_help")
+	register_text_command("test", self, "cmd_test")
 
 func execute(command: String):
 	var tokens: PoolStringArray = tokenise(command)

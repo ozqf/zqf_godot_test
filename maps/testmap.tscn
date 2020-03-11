@@ -36,4 +36,4 @@ shadow_enabled = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -7 )
 
 [node name="ent_actor_3d" parent="actors" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8 )
+transform = Transform( 0.98152, 0, 0, 0, 0.98152, 0, 0, 0, 0.98152, 0.0490742, 1.19209e-07, 7.96352 )
