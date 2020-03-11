@@ -39,6 +39,14 @@ _arr.count()
 Get Root of current:
 ```instance()```
 
+### Misc snippets
+
+#### Get window and screen sizes
+```
+var real: Vector2 = OS.get_real_window_size() # window size
+var scr: Vector2 = OS.get_screen_size() # actual monitor res
+```
+
 ## GDScript - Language elements
 
 ### Absent features

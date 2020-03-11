@@ -80,16 +80,51 @@ func quit_game():
 # text commands
 ###########################################################################
 
+func cmd_map(tokens: PoolStringArray):
+	if tokens.size() < 2:
+		print("No map specified")
+		return true
+	load_map(tokens[1])
+
+func cmd_exit(_tokens: PoolStringArray):
+	quit_game()
+
+func cmd_start_game(_tokens: PoolStringArray):
+	start_game()
+
+func cmd_goto_title(_tokens: PoolStringArray):
+	goto_title()
+
+func cmd_sys(_tokens: PoolStringArray):
+	var real: Vector2 = OS.get_real_window_size()
+	var scr: Vector2 = OS.get_screen_size()
+	print("Real Window size " + str(real.x) + ", " + str(real.y))
+	print("Screen size " + str(scr.x) + ", " + str(scr.y))
+	var ratio = common.get_window_to_screen_ratio()
+	print("Ratio: " + str(ratio.x) + ", " + str(ratio.y))
+	pass
+
+func cmd_help(_tokens: PoolStringArray):
+	print("Help - list text commands:")
+	for i in range(0, _txtCommands.size()):
+		print(_txtCommands[i].name)
+
 func load_map(name: String):
 	var path = "res://maps/" + name + ".tscn"
 	print("Globals - load map " + path)
 	load_scene(path)
+
+###########################################################################
+# text command system
+###########################################################################
 
 # I'm not very good at writing tokenise functions...
 func tokenise(_text:String):
 	#print("Tokenise " + _text)
 	var tokens: PoolStringArray = []
 	var _len:int = _text.length()
+	if _len == 0:
+		return tokens
 	var readingToken: bool = false
 	var _charsInToken:int = 0
 	var _tokenStart:int = 0
@@ -127,21 +162,6 @@ func tokenise(_text:String):
 			break
 	return tokens
 
-func cmd_map(tokens: PoolStringArray):
-	if tokens.size() < 2:
-		print("No map specified")
-		return true
-	load_map(tokens[1])
-
-func cmd_exit(_tokens: PoolStringArray):
-	quit_game()
-
-func cmd_start_game(_tokens: PoolStringArray):
-	start_game()
-
-func cmd_goto_title(_tokens: PoolStringArray):
-	goto_title()
-
 # Commmands cannot be de-registered, so commands should only be on global
 # objects
 func register_text_command(name:String, obj, funcName):
@@ -156,12 +176,13 @@ func build_global_commands():
 	register_text_command(common.CMD_START_GAME, self, "cmd_start_game")
 	register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title")
 	register_text_command("map", self, "cmd_map")
-	pass
+	register_text_command(common.CMD_SYSTEM_INFO, self, "cmd_sys")
+	register_text_command("help", self, "cmd_help")
 
 func execute(command: String):
 	var tokens: PoolStringArray = tokenise(command)
 	if tokens.size() == 0:
-		print("No command read")
+		print("No command read - use help to see commands")
 		return
 	
 	for i in range(0, _txtCommands.size()):

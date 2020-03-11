@@ -17,6 +17,13 @@ const EVENT_PLAYER_DIED: String = "player_died"
 const CMD_START_GAME: String = "start"
 const CMD_EXIT_APP: String = "exit"
 const CMD_GOTO_TITLE: String = "gototitle"
+const CMD_SYSTEM_INFO: String = "sys"
 
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
+
+func get_window_to_screen_ratio():
+    var real: Vector2 = OS.get_real_window_size()
+    var scr: Vector2 = OS.get_screen_size()
+    var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
+    return result

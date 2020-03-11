@@ -28,7 +28,7 @@ onready var weapon_left = $weapon_left
 #var attackTick: float = 0
 #var attackRefireTime: float = 0.05
 
-var MOUSE_SENSITIVITY: float = 0.05
+var MOUSE_SENSITIVITY: float = 0.1
 var MOVE_SPEED: float = 12
 var DRIVE_SPEED: float = 20
 var DRIVE_ACCEL: float = 100
@@ -145,16 +145,17 @@ func _input(_event: InputEvent):
 	if move_mode != 1:
 		return
 	if _event is InputEventMouseMotion and globals.bGameInputActive == true:
-		# TODO: Does not scale correctly with window size!
-		# larger window == crippling reduction of sensitivity
+		# scale inputs by this ratio or mouse sensitivity is based on resolution!
+		var scrSizeRatio: Vector2 = common.get_window_to_screen_ratio()
 		# Horizontal
-		var mMoveX: float = _event.relative.x * MOUSE_SENSITIVITY
+		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY * scrSizeRatio.x)
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
 		var rotY: float = (mMoveX * common.DEG2RAD)
 		yaw += rotY
 		# vertical
-		var mMoveY: float = _event.relative.y * MOUSE_SENSITIVITY
+		# TODO: Uninverted mouse!
+		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
 		var rotX: float = (mMoveY)
 		pitch += rotX
 		pitch = clamp(pitch, -PITCH_CAP_DEGREES, PITCH_CAP_DEGREES)
