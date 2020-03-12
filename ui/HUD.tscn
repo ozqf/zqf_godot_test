@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ui/debug_text.gd" type="Script" id=1]
 [ext_resource path="res://ui/HUD.gd" type="Script" id=2]
+[ext_resource path="res://assets/crosshair01.png" type="Texture" id=3]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -28,7 +29,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="player_status"]
-margin_right = 184.0
+margin_right = 183.0
 margin_bottom = 14.0
 
 [node name="health_label" type="Label" parent="player_status/HBoxContainer"]
@@ -44,7 +45,7 @@ text = "100"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="player_status"]
 margin_top = 18.0
-margin_right = 184.0
+margin_right = 183.0
 margin_bottom = 32.0
 
 [node name="ammo_label" type="Label" parent="player_status/HBoxContainer2"]
@@ -57,3 +58,30 @@ margin_left = 48.0
 margin_right = 72.0
 margin_bottom = 14.0
 text = "100"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 509.0
+margin_top = 301.0
+margin_right = -508.0
+margin_bottom = -287.0
+color = Color( 0, 1, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
