@@ -9,8 +9,9 @@ var MOVE_SPEED: float = 4
 
 onready var hp = $health
 onready var weapon = $weapon
-onready var leftSensor = $sensors/left
-onready var rightSensor = $sensors/right
+onready var motor = $motor
+#onready var leftSensor = $sensors/left
+#onready var rightSensor = $sensors/right
 
 var stack = []
 var target = null
@@ -71,6 +72,19 @@ func pop_state():
 # AI Ticks
 ###################################################################
 func _process(_delta:float):
+	test_tick_motor(_delta)
+	
+	#_tick_ai_stack(_delta)
+	pass
+
+func test_tick_motor(_delta:float):
+	if check_target() == false:
+		return
+	var move: Vector3 = motor.tick(_delta, self, target.transform.origin)
+	move *= MOVE_SPEED
+	var _moveResult = move_and_slide(move)
+
+func _tick_ai_stack(_delta: float):
 	var stackLength:int = stack.size()
 	# check we have an ai state
 	if stack.size() == 0:
@@ -90,8 +104,6 @@ func _process(_delta:float):
 		# unknown state...
 		print("Unknown state " + str(currentState) + " on mob")
 		pop_state()
-	# 
-	globals.mobDebugText = str(leftSensor.overlaps) + ", " + str(rightSensor.overlaps)
 	pass
 
 func tick_idle(_delta: float):
@@ -115,6 +127,7 @@ func tick_move(_delta: float):
 			push_state(AI_STATE_ATTACK)
 	else:
 		thinkTick -= _delta
+		#motor.tick(_delta, self.transform.origin, target.transform.origin)
 		move_to_attack_target(_delta)
 
 func tick_attack(_delta:float):

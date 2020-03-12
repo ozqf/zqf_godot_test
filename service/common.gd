@@ -26,7 +26,19 @@ const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
 
 func get_window_to_screen_ratio():
-    var real: Vector2 = OS.get_real_window_size()
-    var scr: Vector2 = OS.get_screen_size()
-    var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
-    return result
+	var real: Vector2 = OS.get_real_window_size()
+	var scr: Vector2 = OS.get_screen_size()
+	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
+	return result
+
+func dot_product(x0: float, y0: float, x1: float, y1: float):
+	return x0 * x1 + y0 * y1
+
+func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2):
+
+	var vx: float = lineOrigin.x - p.x
+	var vy: float = lineOrigin.y - p.y
+	var lineNormalX: float = lineSize.y
+	var lineNormalY: float = -lineSize.x
+	var dp: float = dot_product(vx, vy, lineNormalX, lineNormalY)
+	return (dp > 0)
