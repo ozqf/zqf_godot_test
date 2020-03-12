@@ -6,5 +6,6 @@ func _ready():
 func _process(_delta):
 	var txt = globals.debugText + "\n" + globals.debugCamPos + "\n"
 	txt = txt + globals.playerDebugText + "\n"
+	txt = txt + globals.mobDebugText + "\n"
 	self.text = txt
 	pass

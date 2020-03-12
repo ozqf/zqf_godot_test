@@ -1,28 +1,58 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ents/player/ent_actor_3d.tscn" type="PackedScene" id=1]
 [ext_resource path="res://world/tiles/ent_floor_3d.tscn" type="PackedScene" id=2]
 [ext_resource path="res://world/tiles/ent_tile_3d.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ents/mobs/ent_mob.tscn" type="PackedScene" id=4]
 
+[sub_resource type="NavigationMesh" id=1]
+
 [node name="root" type="Spatial"]
 
 [node name="world" type="Spatial" parent="."]
 
-[node name="tile_3d" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -1, 0 )
+[node name="pillars" type="Spatial" parent="world"]
 
-[node name="tile_3d2" parent="world" instance=ExtResource( 3 )]
+[node name="tile_3d2" parent="world/pillars" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 4, 4, -2 )
 
-[node name="tile_3d3" parent="world" instance=ExtResource( 3 )]
+[node name="tile_3d3" parent="world/pillars" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 4, 4, 5 )
 
-[node name="tile_3d5" parent="world" instance=ExtResource( 3 )]
+[node name="tile_3d5" parent="world/pillars" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6, 4, -2 )
 
-[node name="tile_3d4" parent="world" instance=ExtResource( 3 )]
+[node name="tile_3d4" parent="world/pillars" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6, 4, 5 )
+
+[node name="tile_3d6" parent="world/pillars" instance=ExtResource( 3 )]
+transform = Transform( 10, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, -15 )
+
+[node name="tile_3d7" parent="world/pillars" instance=ExtResource( 3 )]
+transform = Transform( 10, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 15 )
+
+[node name="tile_3d8" parent="world/pillars" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 10, 15, -3, 0 )
+
+[node name="tile_3d9" parent="world/pillars" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 10, -15, -3, 0 )
+
+[node name="arena_hull" type="Spatial" parent="world"]
+
+[node name="tile_3d" parent="world/arena_hull" instance=ExtResource( 2 )]
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 30, 0, -1, 0 )
+
+[node name="tile_3d6" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 30, -31, 4, 0 )
+
+[node name="tile_3d7" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 30, 31, 4, 0 )
+
+[node name="tile_3d8" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 31 )
+
+[node name="tile_3d9" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, -31 )
 
 [node name="lights" type="Spatial" parent="."]
 
@@ -30,10 +60,25 @@ transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6, 4, 5 )
 transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 7, 0 )
 shadow_enabled = true
 
+[node name="DirectionalLight2" type="DirectionalLight" parent="lights"]
+transform = Transform( -0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, 10, 10, 0 )
+light_energy = 0.2
+
 [node name="actors" type="Spatial" parent="."]
 
 [node name="ent_mob" parent="actors" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -7 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
 
 [node name="ent_actor_3d" parent="actors" instance=ExtResource( 1 )]
 transform = Transform( 0.98152, 0, 0, 0, 0.98152, 0, 0, 0, 0.98152, 0.0490742, 1.19209e-07, 7.96352 )
+
+[node name="nav" type="Spatial" parent="."]
+
+[node name="Navigation" type="Navigation" parent="nav"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="nav/Navigation"]
+navmesh = SubResource( 1 )
+
+[node name="Navigation2" type="Navigation" parent="nav"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4 )

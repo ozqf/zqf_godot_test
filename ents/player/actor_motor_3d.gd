@@ -28,9 +28,6 @@ onready var hp = $health
 onready var bodyMesh = $info/body_mesh
 onready var headMesh = $info/head/head_mesh
 
-#var attackTick: float = 0
-#var attackRefireTime: float = 0.05
-
 var MOUSE_SENSITIVITY: float = 0.1
 var MOVE_SPEED: float = 12
 var DRIVE_SPEED: float = 20
@@ -108,7 +105,6 @@ func process_movement(_input, _delta: float):
 	var _moveResult: Vector3 = move_and_slide(_velocity)
 
 func _move_vehicle(_delta: float):
-	#var _inputDir: Vector3 = Vector3()
 	var _velNormal = _velocity.normalized()
 	var speed: float = _velocity.length()
 	# scale push by gap between speed and max speed
@@ -128,13 +124,9 @@ func _move_vehicle(_delta: float):
 		if Input.is_action_pressed("move_backward"):
 			_velocity *= 0.95
 		if Input.is_action_pressed("move_left"):
-			#_inputDir.x -= 1
-			#yaw += (45 * DEG2RAD) * _delta
 			var rotY = (TURN_RATE * common.DEG2RAD) * _delta
 			rotate_y(rotY)
 		if Input.is_action_pressed("move_right"):
-			#_inputDir.x += 1
-			#yaw += (45 * DEG2RAD) * _delta
 			var rotY = (-TURN_RATE * common.DEG2RAD) * _delta
 			rotate_y(rotY)
 	var _moveResult: Vector3 = move_and_slide(_velocity)
@@ -145,7 +137,6 @@ func _physics_process(_delta: float):
 		process_movement(input, _delta)
 	elif move_mode == 2:
 		_move_vehicle(_delta)
-	#globals.debugText = str(yaw * common.RAG2DEG)
 	pass
 
 # Process mouse input via raw input events, if mouse is captured
@@ -171,8 +162,7 @@ func _input(_event: InputEvent):
 		camRot.x = pitch
 		# apply
 		rotate_y(rotY)
-		#weapon_right.rotation_degrees = camRot
-		#weapon_left.rotation_degrees = camRot
+		# weapons are attached to head and don't need to be rotated themselves
 		head.rotation_degrees = camRot
 		globals.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
 	pass

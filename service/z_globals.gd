@@ -8,6 +8,7 @@ var load_percent: float = 0
 
 var debugText: String = ""
 var playerDebugText: String = ""
+var mobDebugText: String = ""
 var debugCamPos: String = ""
 var bGameInputActive: bool = false
 

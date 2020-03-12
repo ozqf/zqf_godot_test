@@ -9,6 +9,8 @@ var MOVE_SPEED: float = 4
 
 onready var hp = $health
 onready var weapon = $weapon
+onready var leftSensor = $sensors/left
+onready var rightSensor = $sensors/right
 
 var stack = []
 var target = null
@@ -35,7 +37,9 @@ func _ready():
 func check_los_to_target(_tar):
 	var space = get_world().direct_space_state
 	var origin = self.global_transform.origin
+	origin.y += 2
 	var dest = _tar.global_transform.origin
+	dest.y += 2
 	var mask = 1
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	if result:
@@ -86,6 +90,8 @@ func _process(_delta:float):
 		# unknown state...
 		print("Unknown state " + str(currentState) + " on mob")
 		pop_state()
+	# 
+	globals.mobDebugText = str(leftSensor.overlaps) + ", " + str(rightSensor.overlaps)
 	pass
 
 func tick_idle(_delta: float):
