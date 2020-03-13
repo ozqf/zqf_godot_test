@@ -18,6 +18,9 @@ func _physics_process(_delta: float):
 func _process(delta: float):
 	m_tickTime -= delta
 	if m_tickTime <= 0:
+		var impact = factory.create_fx_bullet_impact()
+		factory.add_to_scene_root(impact, transform.origin)
+		print("Spawn fx at " + str(transform.origin))
 		queue_free()
 
 func _on_projectile_body_entered(body):
