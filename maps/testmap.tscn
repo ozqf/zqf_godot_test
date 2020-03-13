@@ -23,7 +23,7 @@ transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 4, 4, 5 )
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6, 4, -2 )
 
 [node name="tile_3d4" parent="world/pillars" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6, 4, 5 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6.0307, 4, 4.98713 )
 
 [node name="tile_3d6" parent="world/pillars" instance=ExtResource( 3 )]
 transform = Transform( 10, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, -15 )

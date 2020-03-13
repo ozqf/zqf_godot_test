@@ -1,5 +1,7 @@
 extends Area
 
+onready var mesh = $mesh
+
 var m_velocity: Vector3 = Vector3()
 
 # these are default values but should be overridden in prepare_for_launch
@@ -7,8 +9,11 @@ var m_tickTime: float = 1
 var m_teamId: int = 0
 var m_damage: int = 20
 
-#func _ready():
-#	var _foo = self.connect("body_entered", self, "_on_projectile_body_entered")
+var m_visibilityTick: float = 0.02
+
+func _ready():
+	mesh.hide()
+	var _foo = self.connect("body_entered", self, "_on_projectile_body_entered")
 
 func _physics_process(_delta: float):
 	var pos = transform.origin
@@ -20,8 +25,13 @@ func _process(delta: float):
 	if m_tickTime <= 0:
 		var impact = factory.create_fx_bullet_impact()
 		factory.add_to_scene_root(impact, transform.origin)
-		print("Spawn fx at " + str(transform.origin))
+		#print("Spawn fx at " + str(transform.origin))
 		queue_free()
+	
+	m_visibilityTick -= delta
+	if m_visibilityTick < 0:
+		m_visibilityTick = 9999999
+		mesh.show()
 
 func _on_projectile_body_entered(body):
 	if body.has_node("health"):
@@ -40,5 +50,7 @@ func prepare_for_launch(teamId: int, damage: int, lifeTime: float):
 
 func launch(pos: Vector3, forward: Vector3, speed: int):
 	transform.origin = pos;
+	var lookPos: Vector3 = pos + forward
+	look_at(lookPos, Vector3.UP)
 	m_velocity = forward * speed
 	pass

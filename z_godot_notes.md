@@ -154,6 +154,9 @@ http://docs.godotengine.org/en/latest/classes/class_kinematiccollision2d.html
 ### Pausing
 https://docs.godotengine.org/en/3.2/tutorials/misc/pausing_games.html
 
+### Godot Engine Internals
+https://godotengine.org/article/godot-3-renderer-design-explained
+
 ### Tutorials
 Third party gdnative tutorials:
 https://gamedevadventures.posthaven.com/using-c-plus-plus-and-gdnative-in-godot-part-1
