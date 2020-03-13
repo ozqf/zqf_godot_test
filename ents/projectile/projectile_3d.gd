@@ -50,7 +50,7 @@ func prepare_for_launch(teamId: int, damage: int, lifeTime: float):
 
 func launch(pos: Vector3, forward: Vector3, speed: int):
 	transform.origin = pos;
-	var lookPos: Vector3 = pos + forward
-	look_at(lookPos, Vector3.UP)
+	#var lookPos: Vector3 = pos + forward
+	#look_at(lookPos, Vector3.UP)
 	m_velocity = forward * speed
 	pass
