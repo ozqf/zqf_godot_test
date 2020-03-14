@@ -4,4 +4,4 @@ var damage: int = 20
 var lifeTime: float = 1
 
 # launch stats
-var speed: float = 75
+var speed: float = 20

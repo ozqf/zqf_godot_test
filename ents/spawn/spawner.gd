@@ -1,7 +1,7 @@
 extends Spatial
 
 var spawnTime: float = 2
-var spawnTick: float = 1
+var spawnTick: float = 11111111
 
 func tock():
 	var mob = factory.create_mob()

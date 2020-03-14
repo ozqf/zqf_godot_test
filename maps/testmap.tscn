@@ -14,13 +14,13 @@
 [node name="pillars" type="Spatial" parent="world"]
 
 [node name="tile_3d2" parent="world/pillars" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 4, 4, -2 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 4, 4, -5 )
 
 [node name="tile_3d3" parent="world/pillars" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 4, 4, 5 )
 
 [node name="tile_3d5" parent="world/pillars" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6, 4, -2 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6, 4, -5 )
 
 [node name="tile_3d4" parent="world/pillars" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, -6.0307, 4, 4.98713 )

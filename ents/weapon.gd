@@ -13,7 +13,8 @@ func can_attack():
 func shoot():
 	var def = projectile_def
 	attackTick = attackRefireTime
-	var prj = factory.create_projectile()
+	#var prj = factory.create_projectile()
+	var prj = factory.create_point_projectile()
 	var t = get_global_transform()
 	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
 	prj.launch(t.origin, -t.basis.z, def.speed)

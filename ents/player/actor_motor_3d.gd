@@ -42,10 +42,11 @@ func _ready():
 	headMesh.hide()
 
 	var prj_def = factory.create_projectile_def()
+	prj_def.speed = 75
 	weapon_right.projectile_def = prj_def
 
 	prj_def = factory.create_projectile_def()
-	prj_def.speed = 50
+	prj_def.speed = 75
 	weapon_left.projectile_def = prj_def
 	globals.broadcast(common.EVENT_PLAYER_SPAWN, self, common.EVENT_BIT_ENTITY_SPAWN)
 

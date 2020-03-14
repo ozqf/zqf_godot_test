@@ -6,6 +6,8 @@ extends Node
 var projectile_def_t = load("res://ents/projectile/projectile_def.gd")
 var projectile_t = preload("res://ents/projectile/ent_projectile_3d.tscn")
 
+var point_projectile_t = preload("res://ents/projectile/ent_point_projectile.tscn")
+
 var mob_t = preload("res://ents/mobs/ent_mob.tscn")
 
 var fx_impact_t = preload("res://fx/fx_bullet_impact.tscn")
@@ -19,6 +21,9 @@ func create_projectile_def():
 func create_projectile():
 	return projectile_t.instance()
 
+func create_point_projectile():
+	return point_projectile_t.instance()
+	
 func create_mob():
 	return mob_t.instance()
 
