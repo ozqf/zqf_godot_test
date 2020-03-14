@@ -13,7 +13,8 @@ var m_visibilityTick: float = 0.02
 
 func _ready():
 	mesh.hide()
-	var _foo = self.connect("body_entered", self, "_on_projectile_body_entered")
+	# Done in editor for now:
+	#var _foo = self.connect("body_entered", self, "_on_projectile_body_entered")
 
 func _physics_process(_delta: float):
 	var pos = transform.origin

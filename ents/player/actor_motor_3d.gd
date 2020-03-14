@@ -28,7 +28,7 @@ onready var hp = $health
 onready var bodyMesh = $info/body_mesh
 onready var headMesh = $info/head/head_mesh
 
-var MOUSE_SENSITIVITY: float = 0.1
+var MOUSE_SENSITIVITY: float = 0.15
 var MOVE_SPEED: float = 12
 var DRIVE_SPEED: float = 20
 var DRIVE_ACCEL: float = 100
