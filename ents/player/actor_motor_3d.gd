@@ -55,7 +55,7 @@ func _notification(what):
 		# destructor logic
 		globals.broadcast(common.EVENT_PLAYER_DIED, self, common.EVENT_BIT_ENTITY_SPAWN)
 		pass
-	
+
 func _process(_delta: float):
 	if globals.bGameInputActive == true and Input.is_action_pressed("attack_1"):
 		weapon_right.on = true

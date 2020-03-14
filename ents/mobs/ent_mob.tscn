@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ents/mobs/mob.gd" type="Script" id=1]
 [ext_resource path="res://ents/z_health.gd" type="Script" id=2]
 [ext_resource path="res://ents/weapon.gd" type="Script" id=3]
 [ext_resource path="res://ents/sensor/overlap_sensor.gd" type="Script" id=4]
 [ext_resource path="res://ents/mobs/mob_motor.gd" type="Script" id=5]
+[ext_resource path="res://ents/ent.gd" type="Script" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.6
@@ -70,6 +71,9 @@ shape = SubResource( 4 )
 
 [node name="motor" type="Spatial" parent="."]
 script = ExtResource( 5 )
+
+[node name="ent" type="Node" parent="."]
+script = ExtResource( 6 )
 [connection signal="body_entered" from="sensors/left" to="sensors/left" method="_on_Area_body_entered"]
 [connection signal="body_exited" from="sensors/left" to="sensors/left" method="_on_Area_body_exited"]
 [connection signal="body_entered" from="sensors/right" to="sensors/right" method="_on_Area_body_entered"]

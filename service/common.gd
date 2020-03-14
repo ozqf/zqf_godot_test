@@ -14,6 +14,9 @@ const EVENT_LEVEL_COMPLETE: String = "level_complete" # a game end condition has
 const EVENT_PLAYER_SPAWN: String = "player_spawned"
 const EVENT_PLAYER_DIED: String = "player_died"
 
+const EVENT_MOB_SPAWN: String = "mob_spawned"
+const EVENT_MOB_DIED: String = "mob_died"
+
 const CMD_START_GAME: String = "start"
 const CMD_EXIT_APP: String = "exit"
 const CMD_GOTO_TITLE: String = "gototitle"
@@ -53,11 +56,9 @@ func calc_yaw_degrees3D(v3:Vector3):
 func calc_euler_degrees(v: Vector3):
 	# yaw
 	var yawRadians = atan2(-v.x, -v.z)
-	#yawRadians = -yawRadians
 	# pitch
 	var flat = Vector3(v.x, 0, v.z)
 	var flatMagnitude = flat.length()
 	var pitchRadians = atan2(v.y, flatMagnitude)
 	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
-	print(str(globals.frameNumber) + " Rot from " + str(v) + "?? Pitch " + str(result.x) + " yaw: " + str(result.y))
 	return result
