@@ -17,12 +17,15 @@ var game_root = null
 var _observers = []
 var _txtCommands = []
 
+var frameNumber = 0
+
 func _ready():
 	print("Globals init")
 	build_global_commands()
 
 func _process(_delta: float):
 	debugText = str(Engine.get_frames_per_second())
+	frameNumber += 1
 
 ###########################################################################
 # Global event system

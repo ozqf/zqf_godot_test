@@ -1,14 +1,21 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://fx/fx_one_shot.gd" type="Script" id=1]
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.181818 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
 
 [sub_resource type="ParticlesMaterial" id=1]
 direction = Vector3( 0, 0, -1 )
 spread = 31.35
-initial_velocity = 7.63
+initial_velocity = 15.0
 angular_velocity = -54.96
 angular_velocity_random = 1.0
 scale = 0.25
+scale_curve = SubResource( 5 )
 
 [sub_resource type="SpatialMaterial" id=2]
 flags_unshaded = true
@@ -29,6 +36,7 @@ script = ExtResource( 1 )
 cast_shadow = 0
 emitting = false
 amount = 16
+lifetime = 0.2
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource( 1 )

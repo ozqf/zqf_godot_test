@@ -14,7 +14,7 @@ var m_visibilityTick: float = 0.02
 var m_active: bool = true
 
 func _ready():
-	print("Point prj ready")
+	#print("Point prj ready")
 	mesh.hide()
 
 func _move_as_ray(delta: float):
@@ -30,8 +30,16 @@ func _move_as_ray(delta: float):
 		# hit
 		var impact = factory.create_fx_bullet_impact()
 		factory.add_to_scene_root(impact, result.position)
-		var lookPos = result.position + result.normal
-		impact.look_at(lookPos, Vector3.UP)
+		#impact.rotation_degrees = Vector3(0, 0, 0)
+		impact.rotation_degrees = common.calc_euler_degrees(result.normal)
+		#var pitch = common.calc_pitch_degrees3D(result.normal)
+		#var yaw = common.calc_pitch_degrees3D(result.normal)
+		#var rot: Vector3 = Vector3(pitch, yaw, 0)
+		# var lookPos = result.position + result.normal
+		# var lookPosUp: Vector3 = Vector3()
+		# lookPosUp.x = lookPos.y
+		# lookPosUp.y = -lookPos.x
+		# impact.look_at(lookPos, Vector3.UP)
 		return true
 	else:
 		# continue

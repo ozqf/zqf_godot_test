@@ -35,10 +35,29 @@ func dot_product(x0: float, y0: float, x1: float, y1: float):
 	return x0 * x1 + y0 * y1
 
 func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2):
-
 	var vx: float = lineOrigin.x - p.x
 	var vy: float = lineOrigin.y - p.y
 	var lineNormalX: float = lineSize.y
 	var lineNormalY: float = -lineSize.x
 	var dp: float = dot_product(vx, vy, lineNormalX, lineNormalY)
 	return (dp > 0)
+
+func calc_pitch_degrees3D(v3:Vector3):
+	var radians = atan2(v3.y, v3.x)
+	return radians * RAD2DEG
+
+func calc_yaw_degrees3D(v3:Vector3):
+	var radians = atan2(v3.z, v3.x)
+	return radians * RAD2DEG
+
+func calc_euler_degrees(v: Vector3):
+	# yaw
+	var yawRadians = atan2(-v.x, -v.z)
+	#yawRadians = -yawRadians
+	# pitch
+	var flat = Vector3(v.x, 0, v.z)
+	var flatMagnitude = flat.length()
+	var pitchRadians = atan2(v.y, flatMagnitude)
+	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
+	print(str(globals.frameNumber) + " Rot from " + str(v) + "?? Pitch " + str(result.x) + " yaw: " + str(result.y))
+	return result
