@@ -35,21 +35,22 @@ func _process(_delta: float):
 # a public int called 'event_mask' which selects which events to receive
 # a function: observe_event(msg: String, params)
 # 	where obj is some type (or null) based on the msg
-func add_observer(obj):
-	_observers.push_back(obj)
-	var txt = "Added observer (flags "
-	txt += str(obj.event_mask)
-	txt += ") total observers: " + str(_observers.size())
-	print(txt)
 #
 # Observers must be manually cleaned up if a listener is removed from the node tree:
 # EG:
 #func _notification(what):
 # 	if what == NOTIFICATION_PREDELETE:
 # 		# destructor logic
-# 		print("Game scene destructor")
 # 		globals.remove_observer(self)
 # 		pass
+
+func add_observer(obj):
+	_observers.push_back(obj)
+	var txt = "Added observer (flags "
+	txt += str(obj.event_mask)
+	txt += ") total observers: " + str(_observers.size())
+	print(txt)
+
 func remove_observer(obj):
 	var i:int = _observers.find(obj)
 	_observers.remove(i)

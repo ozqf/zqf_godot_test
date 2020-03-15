@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
 [ext_resource path="res://ents/weapon.gd" type="Script" id=2]
 [ext_resource path="res://world/default_world_env.tres" type="Environment" id=3]
 [ext_resource path="res://ents/z_health.gd" type="Script" id=4]
+[ext_resource path="res://ents/ent.gd" type="Script" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.6
@@ -66,3 +67,7 @@ far = 1000.0
 
 [node name="health" type="Node" parent="."]
 script = ExtResource( 4 )
+
+[node name="ent" type="Node" parent="."]
+script = ExtResource( 5 )
+isPlayer = true

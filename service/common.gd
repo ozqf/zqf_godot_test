@@ -1,8 +1,10 @@
 extends Node
 
+# Categories of event that can be masked
 const EVENT_BIT_GAME_STATE: int = (1 << 0)
 const EVENT_BIT_ENTITY_SPAWN: int = (1 << 1)
 
+# Types of event
 const EVENT_LEVEL_LOADING: String = "level_loading" # The level is changing - cleanup
 # Level has loaded, gameplay begins shortly
 # the intention of prestart is to allow further load steps to broadcast that they are working

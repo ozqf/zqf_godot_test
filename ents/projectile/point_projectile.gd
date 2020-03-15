@@ -28,10 +28,16 @@ func _move_as_ray(delta: float):
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	if result:
 		# hit
+		# spawn fx
 		var impact = factory.create_fx_bullet_impact()
 		factory.add_to_scene_root(impact, result.position)
-		#impact.rotation_degrees = Vector3(0, 0, 0)
 		impact.rotation_degrees = common.calc_euler_degrees(result.normal)
+		# damage target
+		#print("pp hit collider: " + str(result.collider))
+		if result.collider && result.collider.has_node("health"):
+			var hp:Node = result.collider.get_node("health")
+			hp.take_hit(m_damage, m_teamId, m_velocity.normalized())
+		#impact.rotation_degrees = Vector3(0, 0, 0)
 		#var pitch = common.calc_pitch_degrees3D(result.normal)
 		#var yaw = common.calc_pitch_degrees3D(result.normal)
 		#var rot: Vector3 = Vector3(pitch, yaw, 0)

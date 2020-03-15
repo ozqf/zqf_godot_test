@@ -50,7 +50,7 @@ func check_los_to_target(_tar):
 
 func check_target():
 	target = g_ents.get_enemy_target(target, self.global_transform.origin)
-	return !(target == null)
+	return (target != null)
 
 ###################################################################
 # State changes
@@ -79,6 +79,7 @@ func _process(_delta:float):
 
 func test_tick_motor(_delta:float):
 	if check_target() == false:
+		print("mob has no target")
 		return
 	var move: Vector3 = motor.tick(_delta, self, target.transform.origin)
 	move *= MOVE_SPEED
