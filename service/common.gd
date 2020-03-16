@@ -19,6 +19,8 @@ const EVENT_PLAYER_DIED: String = "player_died"
 const EVENT_MOB_SPAWN: String = "mob_spawned"
 const EVENT_MOB_DIED: String = "mob_died"
 
+const EVENT_ENTITY_TRIGGER: String = "ent_trigger"
+
 const CMD_START_GAME: String = "start"
 const CMD_EXIT_APP: String = "exit"
 const CMD_GOTO_TITLE: String = "gototitle"

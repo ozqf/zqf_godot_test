@@ -4,9 +4,11 @@ var event_mask = common.EVENT_BIT_ENTITY_SPAWN
 
 var m_spawnTime: float = 2
 var m_spawnTick: float = 0.5
+var m_active: bool = false
 
 var m_max_children: int = 3
 var m_children: PoolIntArray = []
+onready var m_ent = $ent
 
 func _ready():
 	globals.add_observer(self)
@@ -17,8 +19,17 @@ func _notification(what):
 		globals.remove_observer(self)
 		pass
 
-func observer_event(_msg: String, _params):
-	pass
+func observe_event(_msg: String, _params):
+	if _msg == common.EVENT_MOB_DIED:
+		var numChildren = m_children.size()
+		for i in range(0, numChildren):
+			if int(m_children[i]) == int(_params.id):
+				m_children.remove(i)
+				return
+		pass
+	if _msg == common.EVENT_ENTITY_TRIGGER:
+		if m_ent.entName == _params:
+			m_active = true
 
 func tock():
 	var mob = factory.create_mob()
@@ -30,6 +41,8 @@ func tock():
 	#print("Spawn mob " + str(ent.id) + " at " + str(pos))
 
 func _process(_delta: float):
+	if !m_active:
+		return
 	if m_children.size() >= m_max_children:
 		return
 	if m_spawnTick <= 0:

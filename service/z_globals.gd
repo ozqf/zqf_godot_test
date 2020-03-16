@@ -57,6 +57,7 @@ func remove_observer(obj):
 	print("Remove observer, total observers: " + str(_observers.size()))
 
 func broadcast(txt: String, obj, event_bit: int):
+	print("Broadcast " + txt + ": " + str(obj))
 	for observer in _observers:
 		if (observer.event_mask & event_bit) != 0:
 			observer.observe_event(txt, obj)
