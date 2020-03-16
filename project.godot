@@ -76,6 +76,7 @@ attack_1={
 3d_physics/layer_2="fence"
 3d_physics/layer_3="ents"
 3d_physics/layer_4="projectiles"
+3d_physics/layer_5="triggers"
 
 [rendering]
 

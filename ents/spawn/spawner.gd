@@ -1,6 +1,6 @@
 extends Spatial
 
-var event_mask = common.EVENT_BIT_ENTITY_SPAWN
+var event_mask = common.EVENT_BIT_ENTITY_SPAWN | common.EVENT_BIT_ENTITY_TRIGGER
 
 var m_spawnTime: float = 2
 var m_spawnTick: float = 0.5
@@ -28,7 +28,8 @@ func observe_event(_msg: String, _params):
 				return
 		pass
 	if _msg == common.EVENT_ENTITY_TRIGGER:
-		if m_ent.entName == _params:
+		if m_ent.entName == _params && m_active == false:
+			print("Spawner " + m_ent.entName + " triggered")
 			m_active = true
 
 func tock():

@@ -46,15 +46,10 @@ func _process(_delta: float):
 
 func add_observer(obj):
 	_observers.push_back(obj)
-	var txt = "Added observer (flags "
-	txt += str(obj.event_mask)
-	txt += ") total observers: " + str(_observers.size())
-	print(txt)
 
 func remove_observer(obj):
 	var i:int = _observers.find(obj)
 	_observers.remove(i)
-	print("Remove observer, total observers: " + str(_observers.size()))
 
 func broadcast(txt: String, obj, event_bit: int):
 	print("Broadcast " + txt + ": " + str(obj))
@@ -63,7 +58,6 @@ func broadcast(txt: String, obj, event_bit: int):
 			observer.observe_event(txt, obj)
 
 func load_scene(path: String):
-	#broadcast("level_loading", null, common.EVENT_BIT_GAME_STATE)
 	var _foo = get_tree().change_scene(path)
 	var _b:Node = get_tree().get_root()
 	print("New scene root name: " + _b.name)
@@ -112,7 +106,7 @@ func cmd_sys(_tokens: PoolStringArray):
 	pass
 
 func cmd_help(_tokens: PoolStringArray):
-	print("Help - list text commands:")
+	print("=== list text commands ===")
 	for i in range(0, _txtCommands.size()):
 		print(_txtCommands[i].name)
 
@@ -124,6 +118,13 @@ func cmd_test(_tokens: PoolStringArray):
 	print("Num tokens: " + str(_tokens.size()))
 	print("Result: " + str(flag))
 
+func cmd_observer(_tokens: PoolStringArray):
+	print("=== Global Observers ===")
+	for i in range(0, _observers.size()):
+		var ob = _observers[i]
+		print(str(i) + ": mask " + str(ob.event_mask) + " - " + str(ob))
+
+	
 func load_map(name: String):
 	var path = "res://maps/" + name + ".tscn"
 	print("Globals - load map " + path)
@@ -153,9 +154,9 @@ func check_token_signature(tokens: PoolStringArray, sig: String):
 			return false
 	return true
 
-# I'm not very good at writing tokenise functions...
+# TODO Maybe tidy this up... I'm not very good at writing tokenise functions...
 func tokenise(_text:String):
-	print("Tokenise " + _text)
+	#print("Tokenise " + _text)
 	var tokens: PoolStringArray = []
 	var _len:int = _text.length()
 	if _len == 0:
@@ -180,7 +181,7 @@ func tokenise(_text:String):
 				readingToken = false
 				var token:String = _text.substr(_tokenStart, _charsInToken)
 				tokens.push_back(token)
-				print('"' + token + '"')
+				#print('"' + token + '"')
 			else:
 				# increment token length
 				_charsInToken += 1
@@ -214,6 +215,7 @@ func build_global_commands():
 	register_text_command(common.CMD_SYSTEM_INFO, self, "cmd_sys")
 	register_text_command("help", self, "cmd_help")
 	register_text_command("test", self, "cmd_test")
+	register_text_command("observer", self, "cmd_observer")
 
 func execute(command: String):
 	var tokens: PoolStringArray = tokenise(command)

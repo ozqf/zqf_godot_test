@@ -8,7 +8,7 @@ var event_mask: int = 0
 
 # general entity fields
 var id: int = 0
-var obj = get_parent()
+var rootNode = get_parent()
 
 ########################################
 # Entity Triggering
@@ -17,6 +17,9 @@ func ent_trigger():
 	pass
 
 func ent_trigger_targets():
+	for i in range(0, targets.size()):
+		var tarName: String = targets[i]
+		globals.broadcast(common.EVENT_ENTITY_TRIGGER, tarName, common.EVENT_BIT_ENTITY_TRIGGER)
 	pass
 
 ########################################
@@ -26,11 +29,12 @@ func ent_trigger_targets():
 func _init():
 	id = g_ents.register_remote_ent(self)
 	globals.add_observer(self)
-	print("Ent init id " + str(id))
+	#print("Ent init id " + str(id))
 
 func _ready():
 	pass
 
+# customer destructor stuff
 func ent_destroy():
 	pass
 
@@ -54,3 +58,4 @@ func _notification(what):
 		# clean up
 		globals.remove_observer(self)
 		g_ents.deregister_ent(self)
+		ent_destroy()
