@@ -101,6 +101,23 @@ root
 		- ents
 		- ...etc
 
+## Entity Node layouts
+
+ent
+    body (kinematic)
+        health - needs link to ent for relaying damage events
+        CollisionShape
+        display
+            body_mesh
+            head
+                weapon_right
+                weapon_left
+                weapon_centre
+                weapon_right_mesh
+                weapon_left_mesh
+                head_mesh
+                camera
+--
 
 ## GUI
 

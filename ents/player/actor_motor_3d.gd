@@ -21,12 +21,12 @@ var _velocity: Vector3 = Vector3()
 var yaw: float = 0
 var pitch: float = 0
 
-onready var head:Spatial = $info/head
-onready var weapon_right = $info/head/weapon_right
-onready var weapon_left = $info/head/weapon_left
+onready var head:Spatial = $display/head
+onready var weapon_right = $display/head/weapon_right
+onready var weapon_left = $display/head/weapon_left
 onready var hp = $health
-onready var bodyMesh = $info/body_mesh
-onready var headMesh = $info/head/head_mesh
+onready var bodyMesh = $display/body_mesh
+onready var headMesh = $display/head/head_mesh
 
 var MOUSE_SENSITIVITY: float = 0.15
 var MOVE_SPEED: float = 12

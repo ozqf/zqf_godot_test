@@ -2,6 +2,7 @@ extends Node
 
 export var m_hp: int = 100
 export var m_team = 0
+var ent = null
 
 # Returns true if a hit was accepted, false if not
 func take_hit(_dmg: int, _attackerTeamId: int, _dir: Vector3):

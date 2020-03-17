@@ -22,6 +22,9 @@ func ent_trigger_targets():
 		globals.broadcast(common.EVENT_ENTITY_TRIGGER, tarName, common.EVENT_BIT_ENTITY_TRIGGER)
 	pass
 
+func on_health_death():
+	pass
+
 ########################################
 # Life cycle
 ########################################
@@ -32,6 +35,7 @@ func _init():
 	#print("Ent init id " + str(id))
 
 func _ready():
+	print("Ent type " + str(self) + " ready")
 	pass
 
 # customer destructor stuff
