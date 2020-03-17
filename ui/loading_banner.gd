@@ -5,10 +5,10 @@ onready var text = $load_percent
 
 func _ready():
 	self.hide()
-	globals.add_observer(self)
+	sys.add_observer(self)
 
 func _process(_delta: float):
-	var percent = globals.load_percent
+	var percent = sys.load_percent
 	text.text = "Loading (" + str(percent) + "%)"
 	pass
 

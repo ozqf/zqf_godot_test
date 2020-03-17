@@ -22,7 +22,7 @@ func ent_trigger():
 func ent_trigger_targets():
 	for i in range(0, targets.size()):
 		var tarName: String = targets[i]
-		globals.broadcast(common.EVENT_ENTITY_TRIGGER, tarName, common.EVENT_BIT_ENTITY_TRIGGER)
+		sys.broadcast(common.EVENT_ENTITY_TRIGGER, tarName, common.EVENT_BIT_ENTITY_TRIGGER)
 	pass
 
 ########################################
@@ -31,7 +31,7 @@ func ent_trigger_targets():
 
 func _init():
 	id = g_ents.register_remote_ent(self)
-	globals.add_observer(self)
+	sys.add_observer(self)
 	#print("Ent init id " + str(id))
 
 func _ready():
@@ -58,8 +58,8 @@ func _notification(what):
 		var eventType = common.EVENT_MOB_DIED
 		if isPlayer:
 			eventType = common.EVENT_PLAYER_DIED
-		globals.broadcast(eventType, self, common.EVENT_BIT_ENTITY_SPAWN)
+		sys.broadcast(eventType, self, common.EVENT_BIT_ENTITY_SPAWN)
 		# clean up
-		globals.remove_observer(self)
+		sys.remove_observer(self)
 		g_ents.deregister_ent(self)
 		on_ent_destroy()

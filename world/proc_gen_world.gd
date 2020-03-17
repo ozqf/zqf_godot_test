@@ -175,7 +175,7 @@ func read_tile_char():
 func tick_load():
 	#print("Tick proc gen")
 	# spawn a few tiles per tick
-	globals.load_percent = int(float(_cursor) / float(_length) * 100)
+	sys.load_percent = int(float(_cursor) / float(_length) * 100)
 	for _i in range(0, TILES_PER_FRAME):
 		read_tile_char()
 		if _cursor >= _length:

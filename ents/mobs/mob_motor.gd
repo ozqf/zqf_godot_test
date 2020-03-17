@@ -98,7 +98,7 @@ func no_avoid_tick(_delta:float, _self: Spatial, _targetPos: Vector3):
 	#output = output + "DP " + str(dp) + "\n"
 	output = output + "IsLeft: " + str(bTarIsOnLeft) + "\n"
 	output = output + "Result: " + str(move) + "\n"
-	globals.mobDebugText = output
+	sys.mobDebugText = output
 
 	return move
 

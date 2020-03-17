@@ -22,7 +22,8 @@ config/icon="res://icon.png"
 [autoload]
 
 common="*res://service/common.tscn"
-globals="*res://service/globals.tscn"
+console="*res://service/console.tscn"
+sys="*res://service/sys.tscn"
 factory="*res://service/factory.tscn"
 g_ents="*res://service/entity_service.tscn"
 

@@ -4,104 +4,15 @@ class TextCommand:
 	var name: String
 	var callback:FuncRef
 
-var load_percent: float = 0
-
-var debugText: String = ""
-var playerDebugText: String = ""
-var mobDebugText: String = ""
-var debugCamPos: String = ""
-var bGameInputActive: bool = false
-
-var game_root = null
-
-var _observers = []
 var _txtCommands = []
 
-var frameNumber = 0
-
 func _ready():
-	print("Globals init")
 	build_global_commands()
-
-func _process(_delta: float):
-	debugText = str(Engine.get_frames_per_second())
-	frameNumber += 1
-
-###########################################################################
-# Global event system
-###########################################################################
-
-# Observers must have this signature:
-# a public int called 'event_mask' which selects which events to receive
-# a function: observe_event(msg: String, params)
-# 	where obj is some type (or null) based on the msg
-#
-# Observers must be manually cleaned up if a listener is removed from the node tree:
-# EG:
-#func _notification(what):
-# 	if what == NOTIFICATION_PREDELETE:
-# 		# destructor logic
-# 		globals.remove_observer(self)
-# 		pass
-
-func add_observer(obj):
-	_observers.push_back(obj)
-
-func remove_observer(obj):
-	var i:int = _observers.find(obj)
-	_observers.remove(i)
-
-func broadcast(txt: String, obj, event_bit: int):
-	print("Broadcast " + txt + ": " + str(obj))
-	for observer in _observers:
-		if (observer.event_mask & event_bit) != 0:
-			observer.observe_event(txt, obj)
-
-func load_scene(path: String):
-	var _foo = get_tree().change_scene(path)
-	var _b:Node = get_tree().get_root()
-	print("New scene root name: " + _b.name)
-
-###########################################################################
-# root menu commands
-###########################################################################
-func start_game():
-	print("Globals - start game")
-	broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
-	load_scene("res://world/game_scene.tscn")
-
-func goto_title():
-	print("Globals - goto title")
-	broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
-	load_scene("res://world/intermission_scene.tscn")
-
-func quit_game():
-	get_tree().quit()
-
-func load_map(name: String):
-	var path = "res://maps/" + name + ".tscn"
-	print("Globals - load map " + path)
-	broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
-	load_scene(path)
+	pass
 
 ###########################################################################
 # text commands
 ###########################################################################
-
-func cmd_map(tokens: PoolStringArray):
-	if tokens.size() < 2:
-		print("No map specified")
-		return true
-	load_map(tokens[1])
-
-func cmd_exit(_tokens: PoolStringArray):
-	quit_game()
-
-func cmd_start_game(_tokens: PoolStringArray):
-	start_game()
-
-func cmd_goto_title(_tokens: PoolStringArray):
-	goto_title()
 
 func cmd_sys(_tokens: PoolStringArray):
 	print("=== System info ===")
@@ -125,12 +36,6 @@ func cmd_test(_tokens: PoolStringArray):
 	print("Check against signature " + sig + ": " + str(sig.length()))
 	print("Num tokens: " + str(_tokens.size()))
 	print("Result: " + str(flag))
-
-func cmd_observer(_tokens: PoolStringArray):
-	print("=== Global Observers ===")
-	for i in range(0, _observers.size()):
-		var ob = _observers[i]
-		print(str(i) + ": mask " + str(ob.event_mask) + " - " + str(ob))
 
 ###########################################################################
 # text command system
@@ -158,7 +63,7 @@ func check_token_signature(tokens: PoolStringArray, sig: String):
 
 # TODO Maybe tidy this up... I'm not very good at writing tokenise functions...
 func tokenise(_text:String):
-	#print("Tokenise " + _text)
+	print("Tokenise " + _text)
 	var tokens: PoolStringArray = []
 	var _len:int = _text.length()
 	if _len == 0:
@@ -183,7 +88,7 @@ func tokenise(_text:String):
 				readingToken = false
 				var token:String = _text.substr(_tokenStart, _charsInToken)
 				tokens.push_back(token)
-				#print('"' + token + '"')
+				print('"' + token + '"')
 			else:
 				# increment token length
 				_charsInToken += 1
@@ -210,14 +115,9 @@ func register_text_command(name:String, obj, funcName):
 	_txtCommands.push_back(cmd)
 
 func build_global_commands():
-	register_text_command(common.CMD_EXIT_APP, self, "cmd_exit")
-	register_text_command(common.CMD_START_GAME, self, "cmd_start_game")
-	register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title")
-	register_text_command("map", self, "cmd_map")
 	register_text_command(common.CMD_SYSTEM_INFO, self, "cmd_sys")
 	register_text_command("help", self, "cmd_help")
 	register_text_command("test", self, "cmd_test")
-	register_text_command("observer", self, "cmd_observer")
 
 func execute(command: String):
 	var tokens: PoolStringArray = tokenise(command)

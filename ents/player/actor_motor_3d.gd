@@ -48,16 +48,16 @@ func _ready():
 	prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
 	weapon_left.projectile_def = prj_def
-	globals.broadcast(common.EVENT_PLAYER_SPAWN, self, common.EVENT_BIT_ENTITY_SPAWN)
+	sys.broadcast(common.EVENT_PLAYER_SPAWN, self, common.EVENT_BIT_ENTITY_SPAWN)
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# destructor logic
-		globals.broadcast(common.EVENT_PLAYER_DIED, self, common.EVENT_BIT_ENTITY_SPAWN)
+		sys.broadcast(common.EVENT_PLAYER_DIED, self, common.EVENT_BIT_ENTITY_SPAWN)
 		pass
 
 func _process(_delta: float):
-	if globals.bGameInputActive == true and Input.is_action_pressed("attack_1"):
+	if sys.bGameInputActive == true and Input.is_action_pressed("attack_1"):
 		weapon_right.on = true
 		weapon_left.on = true
 	else:
@@ -69,7 +69,7 @@ func process_input(_delta: float):
 
 func process_movement(_input, _delta: float):
 	var _inputDir: Vector3 = Vector3()
-	if globals.bGameInputActive == true:
+	if sys.bGameInputActive == true:
 		if Input.is_action_pressed("move_forward"):
 			_inputDir.z -= 1
 		if Input.is_action_pressed("move_backward"):
@@ -116,8 +116,8 @@ func _move_vehicle(_delta: float):
 		dp = 0
 	pushMultiplier += dp
 	pushMultiplier /= 2
-	globals.debugText = "Speed: " + str(speed) + " Mul: " + str(pushMultiplier) + " dp: " + str(dp)
-	if globals.bGameInputActive == true:
+	sys.debugText = "Speed: " + str(speed) + " Mul: " + str(pushMultiplier) + " dp: " + str(dp)
+	if sys.bGameInputActive == true:
 		if Input.is_action_pressed("move_forward"):
 			#_inputDir.z -= 1
 			var push: Vector3 = (-transform.basis.z * DRIVE_ACCEL) * pushMultiplier
@@ -144,7 +144,7 @@ func _physics_process(_delta: float):
 func _input(_event: InputEvent):
 	if move_mode != 1:
 		return
-	if _event is InputEventMouseMotion and globals.bGameInputActive == true:
+	if _event is InputEventMouseMotion and sys.bGameInputActive == true:
 		# scale inputs by this ratio or mouse sensitivity is based on resolution!
 		var scrSizeRatio: Vector2 = common.get_window_to_screen_ratio()
 		# Horizontal
@@ -165,5 +165,5 @@ func _input(_event: InputEvent):
 		rotate_y(rotY)
 		# weapons are attached to head and don't need to be rotated themselves
 		head.rotation_degrees = camRot
-		globals.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
+		sys.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
 	pass

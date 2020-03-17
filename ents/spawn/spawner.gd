@@ -9,12 +9,12 @@ var m_children: PoolIntArray = []
 
 func _ready():
 	event_mask = common.EVENT_BIT_ENTITY_SPAWN | common.EVENT_BIT_ENTITY_TRIGGER
-	globals.add_observer(self)
+	sys.add_observer(self)
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# destructor logic
-		globals.remove_observer(self)
+		sys.remove_observer(self)
 		pass
 
 func observe_event(_msg: String, _params):

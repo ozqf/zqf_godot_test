@@ -10,7 +10,7 @@ var _consoleText: LineEdit = null
 
 func _ready():
 	_root = get_node("root")
-	globals.add_observer(self)
+	sys.add_observer(self)
 	_consoleText = get_node("root/console/console_text")
 	off()
 
@@ -18,7 +18,7 @@ func on():
 	_on = true
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	globals.bGameInputActive = false
+	sys.bGameInputActive = false
 	_consoleText.grab_focus()
 	_root.show()
 
@@ -26,7 +26,7 @@ func off():
 	_on = false
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	globals.bGameInputActive = true
+	sys.bGameInputActive = true
 	_root.hide()
 
 func toggle_menu_on():
@@ -42,17 +42,17 @@ func _process(_delta):
 	if Input.is_action_just_released("ui_accept"):
 		var command = _consoleText.text
 		_consoleText.text = ""
-		globals.execute(command)
+		console.execute(command)
 		pass
 
 func _on_start_pressed():
-	globals.execute(common.CMD_START_GAME)
+	console.execute(common.CMD_START_GAME)
 
 func _on_quit_pressed():
-	globals.execute(common.CMD_EXIT_APP)
+	console.execute(common.CMD_EXIT_APP)
 
 func _on_title_pressed():
-	globals.execute(common.CMD_GOTO_TITLE)
+	console.execute(common.CMD_GOTO_TITLE)
 	
 func observe_event(msg: String, _obj):
 	if msg == common.EVENT_LEVEL_LOADING:

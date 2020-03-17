@@ -4,8 +4,8 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(_delta):
-	var txt = globals.debugText + "\n" + globals.debugCamPos + "\n"
-	txt = txt + globals.playerDebugText + "\n"
-	txt = txt + globals.mobDebugText + "\n"
+	var txt = sys.debugText + "\n" + sys.debugCamPos + "\n"
+	txt = txt + sys.playerDebugText + "\n"
+	txt = txt + sys.mobDebugText + "\n"
 	self.text = txt
 	pass

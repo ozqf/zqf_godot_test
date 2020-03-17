@@ -5,7 +5,7 @@ var event_mask: int = common.EVENT_BIT_GAME_STATE
 
 func _ready():
 	container.hide()
-	globals.add_observer(self)
+	sys.add_observer(self)
 
 func observe_event(msg: String, _obj):
 	if msg == "level_complete":

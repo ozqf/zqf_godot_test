@@ -5,5 +5,5 @@ onready var m_playerStatus = $player_status
 
 func _process(_delta):
 	# let debug text control itself
-	#m_debugText.text = globals.debugText + "\n" + globals.debugCamPos
+	#m_debugText.text = sys.debugText + "\n" + sys.debugCamPos
 	pass

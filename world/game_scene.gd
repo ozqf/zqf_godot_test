@@ -41,25 +41,25 @@ func on_world_loaded(msg: String, obj):
 	# TODO: Ensure player camera takes over when spawned
 	$load_camera.current = false
 	print("Scene - world loaded: " + msg)
-	globals.debugText = "World pos step: " + str(obj._positionStep)
-	globals.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+	sys.debugText = "World pos step: " + str(obj._positionStep)
+	sys.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
 	pass
 
 func _start_game():
-	globals.game_root = self
+	sys.game_root = self
 	if proc_gen == null:
 		print("Start game - no proc gen")
-		globals.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+		sys.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
 		return
 	var errCode: int = proc_gen.connect("load_state", self, "on_world_loaded")
 	print("Connect err: " + str(errCode))
-	globals.debugText = "Make world"
-	globals.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
+	sys.debugText = "Make world"
+	sys.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
 	proc_gen.begin_load(proc_gen.asci)
 
 func _ready():
 	print("Game scene constructor")
-	globals.add_observer(self)
+	sys.add_observer(self)
 	_start_game()
 	pass
 
@@ -84,7 +84,7 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# destructor logic
 		print("Game scene destructor")
-		if globals.game_root == self:
-			globals.game_root = null
-		globals.remove_observer(self)
+		if sys.game_root == self:
+			sys.game_root = null
+		sys.remove_observer(self)
 		pass
