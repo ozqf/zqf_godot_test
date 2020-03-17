@@ -1,4 +1,7 @@
-extends Node
+# Base class for all game objects in world
+# eg player, mobs, items, projectiles, triggers
+# 
+extends Spatial
 
 export var isPlayer: bool = false
 export var entName: String = ""
@@ -22,9 +25,6 @@ func ent_trigger_targets():
 		globals.broadcast(common.EVENT_ENTITY_TRIGGER, tarName, common.EVENT_BIT_ENTITY_TRIGGER)
 	pass
 
-func on_health_death():
-	pass
-
 ########################################
 # Life cycle
 ########################################
@@ -39,7 +39,7 @@ func _ready():
 	pass
 
 # customer destructor stuff
-func ent_destroy():
+func on_ent_destroy():
 	pass
 
 ########################################
@@ -62,4 +62,4 @@ func _notification(what):
 		# clean up
 		globals.remove_observer(self)
 		g_ents.deregister_ent(self)
-		ent_destroy()
+		on_ent_destroy()

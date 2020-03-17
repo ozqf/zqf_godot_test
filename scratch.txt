@@ -1,0 +1,80 @@
+
+func _tick_ai_stack(_delta: float):
+	var stackLength:int = stack.size()
+	# check we have an ai state
+	if stack.size() == 0:
+		push_state(AI_STATE_IDLE)
+		stackLength = 1
+	var currentState:int = stack[stackLength - 1]
+	
+	if currentState == AI_STATE_IDLE:
+		tick_idle(_delta)
+	elif currentState == AI_STATE_MOVE:
+		tick_move(_delta)
+	elif currentState == AI_STATE_ATTACK:
+		tick_attack(_delta)
+	elif currentState == AI_STATE_STUN:
+		tick_stun(_delta)
+	else:
+		# unknown state...
+		print("Unknown state " + str(currentState) + " on mob")
+		pop_state()
+	pass
+
+func tick_idle(_delta: float):
+	if (thinkTick <= 0):
+		thinkTick = 0.2
+		if check_target() == false:
+			return
+		# have target
+		push_state(AI_STATE_MOVE)
+	else:
+		thinkTick -= _delta
+
+func tick_move(_delta: float):
+	if check_target() == false:
+		pop_state()
+	
+	if thinkTick <= 0:
+		thinkTick = 2
+		if check_los_to_target(target) == true:
+			thinkTick = 1
+			push_state(AI_STATE_ATTACK)
+	else:
+		thinkTick -= _delta
+		#motor.tick(_delta, self.transform.origin, target.transform.origin)
+		move_to_attack_target(_delta)
+
+func tick_attack(_delta:float):
+	if check_target() == false:
+		pop_state()
+	look_at_target()
+	if thinkTick <= 0:
+		weapon.shoot()
+		thinkTick = 2
+		pop_state()
+	else:
+		thinkTick -= _delta
+
+func tick_stun(_delta:float):
+	if thinkTick <= 0:
+		pop_state()
+	else:
+		thinkTick -= _delta
+
+###################################################################
+# Specific AI actions
+###################################################################
+func move_to_attack_target(_delta: float):
+	look_at_target()
+	var forward:Vector3 = -self.transform.basis.z
+	var move = forward * MOVE_SPEED
+	var _moveResult: Vector3 = m_body.move_and_slide(move)
+
+func look_at_target():
+	if target == null:
+		return
+	if check_los_to_target(target) == true:
+		lastTargetPos = target.transform.origin
+	lastTargetPos.y = self.transform.origin.y
+	m_body.look_at(lastTargetPos, Vector3.UP)

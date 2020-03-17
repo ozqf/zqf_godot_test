@@ -1,4 +1,4 @@
-extends KinematicBody
+extends "../ent.gd"
 
 const AI_STATE_IDLE:int = 0
 const AI_STATE_MOVE:int = 1
@@ -7,9 +7,10 @@ const AI_STATE_STUN:int = 3
 
 var MOVE_SPEED: float = 4
 
-onready var hp = $health
-onready var weapon = $weapon
-onready var motor = $motor
+onready var m_body = $body
+onready var hp = $body/health
+onready var weapon = $body/weapon
+onready var motor = $body/motor
 #onready var leftSensor = $sensors/left
 #onready var rightSensor = $sensors/right
 
@@ -24,6 +25,7 @@ var thinkTick: float = 0
 func _ready():
 	# force set team
 	hp.m_team = common.TEAM_MOBS
+	hp.connect("signal_death", self, "onDeath")
 
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 15
@@ -33,16 +35,23 @@ func _ready():
 	weapon.attackRefireTime = 2
 
 ###################################################################
+# Signals
+###################################################################
+func onDeath():
+	queue_free()
+	pass
+
+###################################################################
 # Validation
 ###################################################################
 func check_los_to_target(_tar):
-	var space = get_world().direct_space_state
-	var origin = self.global_transform.origin
+	var space = m_body.get_world().direct_space_state
+	var origin = m_body.global_transform.origin
 	origin.y += 2
 	var dest = _tar.global_transform.origin
 	dest.y += 2
 	var mask = 1
-	var result = space.intersect_ray(origin, dest, [self], mask)
+	var result = space.intersect_ray(origin, dest, [m_body], mask)
 	if result:
 		return false
 	else:
@@ -81,86 +90,6 @@ func test_tick_motor(_delta:float):
 	if check_target() == false:
 		print("mob has no target")
 		return
-	var move: Vector3 = motor.tick(_delta, self, target.transform.origin)
+	var move: Vector3 = motor.tick(_delta, m_body, target.global_transform.origin)
 	move *= MOVE_SPEED
-	var _moveResult = move_and_slide(move)
-
-func _tick_ai_stack(_delta: float):
-	var stackLength:int = stack.size()
-	# check we have an ai state
-	if stack.size() == 0:
-		push_state(AI_STATE_IDLE)
-		stackLength = 1
-	var currentState:int = stack[stackLength - 1]
-	
-	if currentState == AI_STATE_IDLE:
-		tick_idle(_delta)
-	elif currentState == AI_STATE_MOVE:
-		tick_move(_delta)
-	elif currentState == AI_STATE_ATTACK:
-		tick_attack(_delta)
-	elif currentState == AI_STATE_STUN:
-		tick_stun(_delta)
-	else:
-		# unknown state...
-		print("Unknown state " + str(currentState) + " on mob")
-		pop_state()
-	pass
-
-func tick_idle(_delta: float):
-	if (thinkTick <= 0):
-		thinkTick = 0.2
-		if check_target() == false:
-			return
-		# have target
-		push_state(AI_STATE_MOVE)
-	else:
-		thinkTick -= _delta
-
-func tick_move(_delta: float):
-	if check_target() == false:
-		pop_state()
-	
-	if thinkTick <= 0:
-		thinkTick = 2
-		if check_los_to_target(target) == true:
-			thinkTick = 1
-			push_state(AI_STATE_ATTACK)
-	else:
-		thinkTick -= _delta
-		#motor.tick(_delta, self.transform.origin, target.transform.origin)
-		move_to_attack_target(_delta)
-
-func tick_attack(_delta:float):
-	if check_target() == false:
-		pop_state()
-	look_at_target()
-	if thinkTick <= 0:
-		weapon.shoot()
-		thinkTick = 2
-		pop_state()
-	else:
-		thinkTick -= _delta
-
-func tick_stun(_delta:float):
-	if thinkTick <= 0:
-		pop_state()
-	else:
-		thinkTick -= _delta
-
-###################################################################
-# Specific AI actions
-###################################################################
-func move_to_attack_target(_delta: float):
-	look_at_target()
-	var forward:Vector3 = -self.transform.basis.z
-	var move = forward * MOVE_SPEED
-	var _moveResult: Vector3 = move_and_slide(move)
-
-func look_at_target():
-	if target == null:
-		return
-	if check_los_to_target(target) == true:
-		lastTargetPos = target.transform.origin
-	lastTargetPos.y = self.transform.origin.y
-	look_at(lastTargetPos, Vector3.UP)
+	var _moveResult = m_body.move_and_slide(move)

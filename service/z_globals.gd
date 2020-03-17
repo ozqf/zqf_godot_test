@@ -67,14 +67,22 @@ func load_scene(path: String):
 ###########################################################################
 func start_game():
 	print("Globals - start game")
+	broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
 	load_scene("res://world/game_scene.tscn")
 
 func goto_title():
 	print("Globals - goto title")
+	broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
 	load_scene("res://world/intermission_scene.tscn")
 
 func quit_game():
 	get_tree().quit()
+
+func load_map(name: String):
+	var path = "res://maps/" + name + ".tscn"
+	print("Globals - load map " + path)
+	broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
+	load_scene(path)
 
 ###########################################################################
 # text commands
@@ -123,12 +131,6 @@ func cmd_observer(_tokens: PoolStringArray):
 	for i in range(0, _observers.size()):
 		var ob = _observers[i]
 		print(str(i) + ": mask " + str(ob.event_mask) + " - " + str(ob))
-
-	
-func load_map(name: String):
-	var path = "res://maps/" + name + ".tscn"
-	print("Globals - load map " + path)
-	load_scene(path)
 
 ###########################################################################
 # text command system

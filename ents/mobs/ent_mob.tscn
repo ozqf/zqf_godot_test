@@ -1,11 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ents/mobs/mob.gd" type="Script" id=1]
 [ext_resource path="res://ents/z_health.gd" type="Script" id=2]
 [ext_resource path="res://ents/weapon.gd" type="Script" id=3]
 [ext_resource path="res://ents/sensor/overlap_sensor.gd" type="Script" id=4]
 [ext_resource path="res://ents/mobs/mob_motor.gd" type="Script" id=5]
-[ext_resource path="res://ents/ent.gd" type="Script" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.6
@@ -19,62 +18,61 @@ extents = Vector3( 0.1, 1.3, 0.1 )
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.1, 1.3, 0.1 )
 
-[node name="ent_mob" type="KinematicBody"]
-collision_mask = 3
+[node name="ent_mob" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="body" type="KinematicBody" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="body"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.4, 0 )
 shape = SubResource( 1 )
 
-[node name="Models" type="Spatial" parent="."]
+[node name="health" type="Node" parent="body"]
+script = ExtResource( 2 )
+
+[node name="display" type="Spatial" parent="body"]
 transform = Transform( 0.5, 0, 0, 0, 1.4, 0, 0, 0, 0.5, 0, 1.4, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Models"]
+[node name="MeshInstance" type="MeshInstance" parent="body/display"]
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="health" type="Node" parent="."]
-script = ExtResource( 2 )
-
-[node name="weapon" type="Spatial" parent="."]
+[node name="weapon" type="Spatial" parent="body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.7, -0.4 )
 script = ExtResource( 3 )
 
-[node name="MeshInstance3" type="MeshInstance" parent="weapon"]
+[node name="MeshInstance3" type="MeshInstance" parent="body/weapon"]
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="sensors" type="Spatial" parent="."]
+[node name="sensors" type="Spatial" parent="body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0 )
 
-[node name="left" type="Area" parent="sensors"]
+[node name="left" type="Area" parent="body/sensors"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6 )
 collision_layer = 16
 collision_mask = 3
 script = ExtResource( 4 )
 
-[node name="CollisionShape" type="CollisionShape" parent="sensors/left"]
+[node name="CollisionShape" type="CollisionShape" parent="body/sensors/left"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, 0 )
 shape = SubResource( 3 )
 
-[node name="right" type="Area" parent="sensors"]
+[node name="right" type="Area" parent="body/sensors"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 0 )
 collision_layer = 16
 collision_mask = 3
 script = ExtResource( 4 )
 
-[node name="CollisionShape" type="CollisionShape" parent="sensors/right"]
+[node name="CollisionShape" type="CollisionShape" parent="body/sensors/right"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, -0.6 )
 shape = SubResource( 4 )
 
-[node name="motor" type="Spatial" parent="."]
+[node name="motor" type="Spatial" parent="body"]
 script = ExtResource( 5 )
-
-[node name="ent" type="Node" parent="."]
-script = ExtResource( 6 )
-[connection signal="body_entered" from="sensors/left" to="sensors/left" method="_on_Area_body_entered"]
-[connection signal="body_exited" from="sensors/left" to="sensors/left" method="_on_Area_body_exited"]
-[connection signal="body_entered" from="sensors/right" to="sensors/right" method="_on_Area_body_entered"]
-[connection signal="body_exited" from="sensors/right" to="sensors/right" method="_on_Area_body_exited"]
+[connection signal="body_entered" from="body/sensors/left" to="body/sensors/left" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="body/sensors/left" to="body/sensors/left" method="_on_Area_body_exited"]
+[connection signal="body_entered" from="body/sensors/right" to="body/sensors/right" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="body/sensors/right" to="body/sensors/right" method="_on_Area_body_exited"]

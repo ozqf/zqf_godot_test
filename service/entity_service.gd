@@ -60,6 +60,8 @@ func deregister_ent(ent):
 ###########################################################################
 func observe_event(msg: String, _params):
 	if msg == common.EVENT_LEVEL_LOADING:
+		for i in range(0, ents.size()):
+			ents[i].queue_free()
 		pass
 	elif msg == common.EVENT_LEVEL_START:
 		pass

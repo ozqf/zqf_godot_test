@@ -1,8 +1,11 @@
 extends "res://ents/ent.gd"
 
+onready var m_displayNode = $display
+
 func _ready():
-	var _foo = get_parent().connect("area_entered", self, "on_area_entered")
-	_foo = get_parent().connect("body_entered", self, "on_body_entered")
+	m_displayNode.hide()
+	var _foo = self.connect("area_entered", self, "on_area_entered")
+	_foo = self.connect("body_entered", self, "on_body_entered")
 	pass
 
 func on_body_entered(_body):

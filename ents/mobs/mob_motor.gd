@@ -20,7 +20,7 @@ var MOVE_SPEED: float = 4
 
 onready var leftSensor = get_parent().get_node("sensors").get_node("left")
 onready var rightSensor = get_parent().get_node("sensors").get_node("right")
-onready var parent:KinematicBody = get_parent()
+#onready var parent:KinematicBody = get_parent()
 
 var m_currentDegrees: float = 0
 
@@ -29,21 +29,25 @@ var m_toTargetDegrees: float = 0
 var m_turnRateDegrees: float = 180
 
 func no_avoid_tick(_delta:float, _self: Spatial, _targetPos: Vector3):
+	var t = _self.global_transform
 	var output = "== Mob avoid info ==\n"
+	output = output + "SelfPos: " + str(t.origin) + "\n"
+	output = output + "TarPos: " + str(_targetPos) + "\n"
 	##############################################################
 	# Turning function
 	# apply a rotation in order to face a position
 	##############################################################
 
 	# update self angle
-	var forward: Vector3 = _self.transform.basis.z
+	
+	var forward: Vector3 = t.basis.z
 	var selfRadians = atan2(forward.z, forward.x)
 	m_currentDegrees = rad2deg(selfRadians)
 	# projected forward motion
 	var moveLine: Vector2 = Vector2(cos(selfRadians), sin(selfRadians))
 
 	# to target degrees
-	var _selfPos: Vector3 = _self.transform.origin
+	var _selfPos: Vector3 = t.origin
 	var dx: float = _targetPos.x - _selfPos.x
 	var dz: float = _targetPos.z - _selfPos.z
 	var radiansToTar: float = atan2(dz, dx)
@@ -92,7 +96,8 @@ func no_avoid_tick(_delta:float, _self: Spatial, _targetPos: Vector3):
 	output = output + "Current deg: " + str(m_currentDegrees) + "\n"
 	output = output + "Degrees to tar " + str(m_toTargetDegrees) + "\n"
 	#output = output + "DP " + str(dp) + "\n"
-	output = output + "IsLeft: " + str(bTarIsOnLeft)
+	output = output + "IsLeft: " + str(bTarIsOnLeft) + "\n"
+	output = output + "Result: " + str(move) + "\n"
 	globals.mobDebugText = output
 
 	return move
