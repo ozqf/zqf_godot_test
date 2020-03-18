@@ -17,7 +17,7 @@ var frameNumber = 0
 
 func _ready():
 	print("Globals init")
-	console.register_text_command("observer", self, "cmd_observer")
+	console.register_text_command("observer", self, "cmd_observer", "", "List global event observers")
 
 func _process(_delta: float):
 	debugText = str(Engine.get_frames_per_second())

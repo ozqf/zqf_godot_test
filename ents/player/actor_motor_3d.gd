@@ -48,14 +48,7 @@ func _ready():
 	prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
 	weapon_left.projectile_def = prj_def
-	sys.broadcast(common.EVENT_PLAYER_SPAWN, self, common.EVENT_BIT_ENTITY_SPAWN)
-
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		# destructor logic
-		sys.broadcast(common.EVENT_PLAYER_DIED, self, common.EVENT_BIT_ENTITY_SPAWN)
-		pass
-
+	
 func _process(_delta: float):
 	if sys.bGameInputActive == true and Input.is_action_pressed("attack_1"):
 		weapon_right.on = true

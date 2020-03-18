@@ -67,3 +67,10 @@ func calc_euler_degrees(v: Vector3):
 	var pitchRadians = atan2(v.y, flatMagnitude)
 	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
 	return result
+
+func strNullOrEmpty(txt: String):
+	if txt == null:
+		return true
+	elif txt.length() == 0:
+		return true
+	return false

@@ -60,9 +60,14 @@ func deregister_ent(ent):
 ###########################################################################
 func observe_event(msg: String, _params):
 	if msg == common.EVENT_LEVEL_LOADING:
-		# print("ENTS - freeing " + str(ents.size()) + " ents")
-		# for i in range(0, ents.size()):
-		# 	ents[i].queue_free()
+		var l: int = ents.size()
+		print("ENTS - freeing " + str(l) + " ents")
+		var i: int = l - 1
+		while i >= 0:
+			ents[i].culled = true
+			ents[i].free()
+			i -= 1
+		ents.clear()
 		pass
 	elif msg == common.EVENT_LEVEL_START:
 		pass

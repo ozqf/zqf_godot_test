@@ -7,6 +7,9 @@ export var isPlayer: bool = false
 export var entName: String = ""
 export var targets: PoolStringArray = []
 
+# if true, do not broadcast death events
+var culled: bool = false
+
 var event_mask: int = 0
 
 # general entity fields
@@ -55,10 +58,11 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# destructor logic
 		# inform interested parties
-		var eventType = common.EVENT_MOB_DIED
-		if isPlayer:
-			eventType = common.EVENT_PLAYER_DIED
-		sys.broadcast(eventType, self, common.EVENT_BIT_ENTITY_SPAWN)
+		if !culled:
+			var eventType = common.EVENT_MOB_DIED
+			if isPlayer:
+				eventType = common.EVENT_PLAYER_DIED
+			sys.broadcast(eventType, self, common.EVENT_BIT_ENTITY_SPAWN)
 		# clean up
 		sys.remove_observer(self)
 		g_ents.deregister_ent(self)
