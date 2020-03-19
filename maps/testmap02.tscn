@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ents/mobs/ent_mob.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ents/player/ent_actor_3d.tscn" type="PackedScene" id=2]
@@ -6,8 +6,6 @@
 [ext_resource path="res://world/tiles/ent_floor_3d.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ents/spawn/spawner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ents/info/ent_trigger.tscn" type="PackedScene" id=6]
-
-[sub_resource type="NavigationMesh" id=1]
 
 [node name="testmap" type="Spatial"]
 
@@ -84,14 +82,3 @@ entName = "spawner01"
 
 [node name="ent_mob" parent="actors" instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.38419e-07, 0, -3 )
-
-[node name="nav" type="Spatial" parent="."]
-
-[node name="Navigation" type="Navigation" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-
-[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="nav/Navigation"]
-navmesh = SubResource( 1 )
-
-[node name="Navigation2" type="Navigation" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4 )

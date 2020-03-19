@@ -17,6 +17,18 @@ func foo:
     add_child(obj)
 ```
 
+### Toggling Node states
+```
+# visibility
+node.show()
+node.hide()
+
+# script calls
+set_process(false)
+set_physics_process(false)
+set_process_input(false)
+```
+
 ### Array
 ```
 # declare
@@ -101,13 +113,15 @@ root
 		- ents
 		- ...etc
 
-## Entity Node layouts
+## Node layouts
+
+### Entity
 
 ent
     body (kinematic)
         health - needs link to ent for relaying damage events
         CollisionShape
-        display
+        display - child of body to share its rotation
             body_mesh
             head
                 weapon_right
@@ -118,6 +132,10 @@ ent
                 head_mesh
                 camera
 --
+
+### Application
+root:
+
 
 ## GUI
 
@@ -170,6 +188,13 @@ http://docs.godotengine.org/en/latest/classes/class_kinematiccollision2d.html
 
 ### Pausing
 https://docs.godotengine.org/en/3.2/tutorials/misc/pausing_games.html
+
+### Singleton/Autoload (with example of a static scene loader)
+https://docs.godotengine.org/en/3.2/getting_started/step_by_step/singletons_autoload.html
+
+### Data Saving
+https://docs.godotengine.org/en/3.2/classes/class_configfile.html#class-configfile
+https://docs.godotengine.org/en/3.2/tutorials/io/saving_games.html
 
 ### GDNative
 https://stackedboxes.org/2017/08/20/trying-out-gdnative/

@@ -9,22 +9,13 @@ class TextCommand:
 var _txtCommands = []
 
 func _ready():
-	build_global_commands()
+	register_text_command("help", self, "cmd_help", "", "Print command list")
+	register_text_command("test", self, "cmd_test", "", "Test tokenisation and signature checking")
 	pass
 
 ###########################################################################
 # text commands
 ###########################################################################
-
-func cmd_sys(_tokens: PoolStringArray):
-	print("=== System info ===")
-	var real: Vector2 = OS.get_real_window_size()
-	var scr: Vector2 = OS.get_screen_size()
-	print("Real Window size " + str(real.x) + ", " + str(real.y))
-	print("Screen size " + str(scr.x) + ", " + str(scr.y))
-	var ratio = common.get_window_to_screen_ratio()
-	print("Ratio: " + str(ratio.x) + ", " + str(ratio.y))
-	pass
 
 func cmd_help(_tokens: PoolStringArray):
 	print("=== list text commands ===")
@@ -141,11 +132,6 @@ func register_text_command(name:String, obj, funcName, signature: String, descri
 	cmd.signature = signature
 	cmd.description = description
 	_txtCommands.push_back(cmd)
-
-func build_global_commands():
-	register_text_command(common.CMD_SYSTEM_INFO, self, "cmd_sys", "", "Print system info")
-	register_text_command("help", self, "cmd_help", "", "Print command list")
-	register_text_command("test", self, "cmd_test", "", "Test tokenisation and signature checking")
 
 func _get_command(name: String):
 	for i in range(0, _txtCommands.size()):

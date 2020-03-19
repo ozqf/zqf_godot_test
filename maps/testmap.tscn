@@ -1,10 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ents/player/ent_actor_3d.tscn" type="PackedScene" id=1]
 [ext_resource path="res://world/tiles/ent_floor_3d.tscn" type="PackedScene" id=2]
 [ext_resource path="res://world/tiles/ent_tile_3d.tscn" type="PackedScene" id=3]
-
-[sub_resource type="NavigationMesh" id=1]
 
 [node name="testmap" type="Spatial"]
 
@@ -43,14 +41,3 @@ light_energy = 0.2
 
 [node name="ent_actor_3d" parent="actors" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
-
-[node name="nav" type="Spatial" parent="."]
-
-[node name="Navigation" type="Navigation" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-
-[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="nav/Navigation"]
-navmesh = SubResource( 1 )
-
-[node name="Navigation2" type="Navigation" parent="nav"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4 )
