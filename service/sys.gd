@@ -8,8 +8,6 @@ var mobDebugText: String = ""
 var debugCamPos: String = ""
 var bGameInputActive: bool = false
 
-var game_root = null
-
 var _observers = []
 var _eventBlockMask = 0
 
@@ -84,3 +82,7 @@ func block_event_type(bitFlag: int):
 func unblock_event_type(bitFlag: int):
 	_eventBlockMask = _eventBlockMask & ~bitFlag
 	
+	
+###########################################################################
+# Scene loader
+###########################################################################
