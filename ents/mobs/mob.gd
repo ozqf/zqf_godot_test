@@ -11,8 +11,6 @@ onready var m_body = $body
 onready var hp = $body/health
 onready var weapon = $body/weapon
 onready var motor = $body/motor
-#onready var leftSensor = $sensors/left
-#onready var rightSensor = $sensors/right
 
 var stack = []
 var target = null
@@ -26,6 +24,7 @@ func _ready():
 	# force set team
 	hp.m_team = common.TEAM_MOBS
 	hp.connect("signal_death", self, "onDeath")
+	hp.connect("signal_hit", self, "onHit")
 
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 15
@@ -41,6 +40,10 @@ func onDeath():
 	queue_free()
 	pass
 
+func onHit():
+	
+	pass
+	
 ###################################################################
 # Validation
 ###################################################################
@@ -80,16 +83,40 @@ func pop_state():
 ###################################################################
 # AI Ticks
 ###################################################################
-func _process(_delta:float):
-	test_tick_motor(_delta)
-	
-	#_tick_ai_stack(_delta)
-	pass
 
 func test_tick_motor(_delta:float):
 	if check_target() == false:
 		print("mob has no target")
 		return
-	var move: Vector3 = motor.tick(_delta, m_body, target.global_transform.origin)
+	var move: Vector3 = motor.tick(_delta, m_body, target.get_world_position())
 	move *= MOVE_SPEED
 	var _moveResult = m_body.move_and_slide(move)
+
+func tick_ai_stack(_delta: float):
+	var stackSize = stack.size()
+	if stackSize == 0:
+		push_state(AI_STATE_IDLE)
+		stackSize += 1
+	
+	var current:int = stack[stackSize - 1]
+	if current == AI_STATE_MOVE:
+		test_tick_motor(_delta)
+		pass
+	elif current == AI_STATE_ATTACK:
+		pass
+	elif current == AI_STATE_STUN:
+		pass
+	elif current == AI_STATE_IDLE:
+		pass
+	else:
+		print("Unknown AI state " + str(current))
+		pop_state()
+
+###################################################################
+# Frame
+###################################################################
+func _process(_delta:float):
+	test_tick_motor(_delta)
+	
+	#_tick_ai_stack(_delta)
+	pass

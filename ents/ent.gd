@@ -67,3 +67,10 @@ func _notification(what):
 		sys.remove_observer(self)
 		g_ents.deregister_ent(self)
 		on_ent_destroy()
+
+########################################
+# Query
+########################################
+# override this if the entity's position is a child node!
+func get_world_position():
+	return global_transform.origin

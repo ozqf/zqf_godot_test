@@ -158,5 +158,5 @@ func _input(_event: InputEvent):
 		rotate_y(rotY)
 		# weapons are attached to head and don't need to be rotated themselves
 		head.rotation_degrees = camRot
-		sys.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
+		#sys.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
 	pass
