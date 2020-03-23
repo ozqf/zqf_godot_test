@@ -4,7 +4,7 @@ var m_spawnTime: float = 2
 var m_spawnTick: float = 0.5
 var m_active: bool = false
 
-var m_max_children: int = 3
+var m_max_children: int = 1
 var m_children: PoolIntArray = []
 
 func _ready():

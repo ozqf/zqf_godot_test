@@ -17,4 +17,4 @@ func _process(_delta:float):
 	pass
 
 func get_world_position():
-	return self.body.transform.origin
+	return self.body.global_transform.origin
