@@ -50,15 +50,15 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="weapon_centre" type="Spatial" parent="body/display/head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, -0.2, -0.65 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0, -0.65 )
 script = ExtResource( 2 )
 
 [node name="weapon_right" type="Spatial" parent="body/display/head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.2, -0.65 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0, -0.65 )
 script = ExtResource( 2 )
 
 [node name="weapon_left" type="Spatial" parent="body/display/head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, -0.2, -0.65 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0, -0.65 )
 script = ExtResource( 2 )
 
 [node name="head_mesh" type="MeshInstance" parent="body/display/head"]
