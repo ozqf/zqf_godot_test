@@ -1,8 +1,10 @@
 extends Node
 
 var m_isLoading: bool = false
-var m_loadTickMax: float = 1
+var m_loadTickMax: float = 0.1
 var m_loadTick: float = 1
+var m_loadJobsTotal: int = 0
+var m_loadJobsCompleted: int = 0
 
 var m_current_level = null;
 
@@ -10,6 +12,7 @@ func _ready():
 	print("Globals init")
 	console.register_text_command(common.CMD_EXIT_APP, self, "cmd_exit", "", "Close the application")
 	console.register_text_command(common.CMD_START_GAME, self, "cmd_start_game", "", "Start a new game")
+	console.register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title", "", "Go to the title screen")
 	console.register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title", "", "Go to the title screen")
 	console.register_text_command("map", self, "cmd_map", "tt", "Load the provided map scene. No file extension. Must be in the maps directory")
 	
@@ -20,10 +23,15 @@ func _process(_delta: float):
 	
 	m_loadTick -= _delta
 	if (m_loadTick <= 0):
-		m_isLoading = false
-		m_loadTick = m_loadTickMax
-		# tell the world
-		sys.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+		# Check load jobs
+		if m_loadJobsCompleted >= m_loadJobsCompleted:
+			# Done
+			m_isLoading = false
+			m_loadTick = m_loadTickMax
+			# tell the world
+			sys.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+			pass
+		pass
 	pass
 
 func load_scene(path: String):
@@ -60,11 +68,6 @@ func make_map_path(mapName: String):
 func start_game():
 	print("Globals - start game")
 	load_scene("res://world/game_scene.tscn")
-
-func goto_title():
-	print("Globals - goto title")
-	#sys.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
-	
 
 ###########################################################################
 # text commands

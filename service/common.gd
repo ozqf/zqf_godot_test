@@ -25,6 +25,7 @@ const EVENT_ENTITY_TRIGGER: String = "ent_trigger"
 const CMD_START_GAME: String = "start"
 const CMD_EXIT_APP: String = "exit"
 const CMD_GOTO_TITLE: String = "gototitle"
+const CMD_GOTO_DEVMAP: String = "gotodev"
 const CMD_SYSTEM_INFO: String = "sys"
 
 const TEAM_PLAYER: int =  0

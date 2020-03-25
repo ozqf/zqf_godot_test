@@ -202,6 +202,15 @@ https://www.josephcatrambone.com/?p=1056#setup
 https://github.com/godotengine/godot/issues/14856
 https://godotengine.org/qa/57254/gdnative-vs-godot-engine-module-whats-the-best-for-codebase
 
+> GDNative works on desktop and mobile. Web isn't supported but it's being worked on. It is easier to share and update separately (so it's nice for plugins). By its nature and state, GDNative is a bit more unsafe than modules, some issues were reported about crashes and memory leaks so if it works it doesn't necessarily mean it works correctly. Watch out for these and report/fix if you can. Also, GDNative behaves like scripts, so the same limitations apply. Watch out for the version of Godot as well, your bindings must always be up to date, even for minor versions (they are said to be forward compatible but sometimes an ABI incompatibility can sneak through, while API remains compatible).
+
+> A module, on the other hand, is much simpler in terms of setup (no bindings, no C++to-C-to-C++ backend), and works everywhere as long as your C++ code doesn't call into APIs not found on some platforms. It also allows you to define your own built-in classes and benefit from tighter access to the engine. Although, for a module you have to compile the entire engine together. The simplicity makes it a more stable option but it can be a burden to share or waiting for it to compile, and you have to use SCons.
+
+> In both cases you have to compile for all platforms you want to support, and you have to interface with the engine while it's possible to make your logic part not depend too much on it.
+
+> I can't give a personal preference because I'd be biased, I haven't used GDNative for a very long time, only worked using modules. If GDNative works for you so far I'd say keep going, and if you have problems it may help improving the bindings.
+
+
 ### Godot Engine Internals
 https://godotengine.org/article/godot-3-renderer-design-explained
 

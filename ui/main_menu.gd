@@ -53,10 +53,13 @@ func _on_quit_pressed():
 
 func _on_title_pressed():
 	console.execute(common.CMD_GOTO_TITLE)
-	
+
 func observe_event(msg: String, _obj):
 	if msg == common.EVENT_LEVEL_LOADING:
 		set_process(false)
 		off()
 	elif msg == common.EVENT_LEVEL_START:
 		set_process(true)
+
+func _on_map02_pressed():
+	console.execute("map testmap02")
