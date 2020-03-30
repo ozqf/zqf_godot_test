@@ -14,12 +14,19 @@ const KEYS_BIT_RIGHT = (1 << 3)
 
 const PITCH_CAP_DEGREES = 89
 
+const KEYBOARD_TURN_DEGREES_PER_SECOND = 135
+
+const GRAVITY_METRES_PER_SECOND = 20
+const JUMP_METRES_PER_SECOND = 20
+
 var move_mode: int = 1
 var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
 var _velocity: Vector3 = Vector3()
 var yaw: float = 0
 var pitch: float = 0
+var grounded:bool = false
+var groundCollider = null
 
 onready var head:Spatial = $display/head
 onready var weapon_right = $display/head/weapon_right
@@ -48,8 +55,31 @@ func _ready():
 	prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
 	weapon_left.projectile_def = prj_def
+
+func get_ground_check_msg():
+	var txt = "Grounded: " + str(grounded) + "\n"
+	if grounded:
+		txt = txt + "Self " + str(self) + " vs obj " + str(groundCollider) + "\n"
+		txt = txt + "Self " + self.name + " vs obj " + groundCollider.name + "\n"
+	return txt
+
+func _ground_check():
+	var origin = self.transform.origin
+	var dest = origin
+	dest.y -= 0.2
+	var mask = common.LAYER_WORLD
+	var space = get_world().direct_space_state
+	var result = space.intersect_ray(origin, dest, [self], mask)
+	if result:
+		groundCollider = result.collider
+		return true
+	else:
+		groundCollider = null
+		return false
+	pass
 	
 func _process(_delta: float):
+	grounded = _ground_check()
 	if sys.bGameInputActive == true and Input.is_action_pressed("attack_1"):
 		weapon_right.on = true
 		weapon_left.on = true
@@ -74,26 +104,50 @@ func process_movement(_input, _delta: float):
 	# ----
 	var mMoveX: float = 0
 	if Input.is_action_pressed("ui_left"):
-		mMoveX = 135
+		mMoveX = KEYBOARD_TURN_DEGREES_PER_SECOND
 	if Input.is_action_pressed("ui_right"):
-		mMoveX = -135
+		mMoveX = -KEYBOARD_TURN_DEGREES_PER_SECOND
 	var rotY: float = (mMoveX * common.DEG2RAD) * _delta
 	rotate_y(rotY)
 	# ----
 	var _forward: Vector3 = global_transform.basis.z
 	var _left: Vector3 = global_transform.basis.x
 
-	_velocity = Vector3()
-	_velocity.x += _forward.x * _inputDir.z
-	_velocity.y += _forward.y * _inputDir.z
-	_velocity.z += _forward.z * _inputDir.z
+	var gravity: Vector3 = Vector3(0, -GRAVITY_METRES_PER_SECOND, 0)
 
-	_velocity.x += _left.x * _inputDir.x
-	_velocity.y += _left.y * _inputDir.x
-	_velocity.z += _left.z * _inputDir.x
+	# clear horizontal movement
+	var horiVelocity = Vector3()
+	#var vertVelocity = Vector3()
+	#vertVelocity.y = _velocity.y
+	#_velocity.x = 0
+	#_velocity.z = 0
 
-	_velocity = _velocity.normalized()
-	_velocity *= MOVE_SPEED
+	# apply input forces
+	horiVelocity.x += _forward.x * _inputDir.z
+	#horiVelocity.y += _forward.y * _inputDir.z
+	horiVelocity.z += _forward.z * _inputDir.z
+
+	horiVelocity.x += _left.x * _inputDir.x
+	#horiVelocity.y += _left.y * _inputDir.x
+	horiVelocity.z += _left.z * _inputDir.x
+	
+	horiVelocity = horiVelocity.normalized()
+	horiVelocity.x *= MOVE_SPEED
+	horiVelocity.z *= MOVE_SPEED
+
+	_velocity.x = horiVelocity.x
+	_velocity.z = horiVelocity.z
+
+	if grounded:
+		# apply jumping if required. Stop movement into floor
+		if Input.is_action_pressed("ui_select") && _velocity.y <= 0:
+			_velocity.y = JUMP_METRES_PER_SECOND
+		if _velocity.y < 0:
+			_velocity.y = 0
+	else:
+		# apply gravity
+		_velocity.y += gravity.y * _delta
+	
 	# TODO: No use of delta so movement is framerate sensitive?
 	#_velocity *= _delta
 	var _moveResult: Vector3 = move_and_slide(_velocity)

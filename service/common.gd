@@ -1,5 +1,11 @@
 extends Node
 
+const LAYER_WORLD: int = (1 << 0)
+const LAYER_FENCE: int = (1 << 1)
+const LAYER_ENTITIES: int = (1 << 2)
+const LAYER_PROJECTILES: int = (1 << 3)
+const LAYER_TRIGGERS: int = (1 << 4)
+
 # Categories of event that can be masked
 const EVENT_BIT_GAME_STATE: int = (1 << 0)
 const EVENT_BIT_ENTITY_SPAWN: int = (1 << 1)

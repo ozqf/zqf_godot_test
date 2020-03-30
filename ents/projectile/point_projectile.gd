@@ -10,7 +10,7 @@ var m_teamId: int = 0
 var m_damage: int = 20
 
 var m_visibilityTick: float = 0.02
-
+ 
 var m_active: bool = true
 
 func _ready():
