@@ -13,13 +13,34 @@
 [node name="arena_hull" type="Spatial" parent="world"]
 
 [node name="tile_3d" parent="world/arena_hull" instance=ExtResource( 2 )]
-transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 30, -0.0353775, -0.999999, 0.0952091 )
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 30, 0, -1, 0 )
+
+[node name="tile_3d2" parent="world/arena_hull" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 16, 26, 1, 0 )
+
+[node name="tile_3d3" parent="world/arena_hull" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 0.92388, 1.53073, 0, -0.382683, 3.69552, 26, -0.462171, -19.3181 )
+
+[node name="tile_3d4" parent="world/arena_hull" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 0.92388, -1.53073, 0, 0.382683, 3.69552, 26, -0.462171, 19.3233 )
+
+[node name="tile_3d11" parent="world/arena_hull" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 16, -26, 1, 0 )
+
+[node name="tile_3d10" parent="world/arena_hull" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 0.92388, 1.53073, 0, -0.382683, 3.69552, -26, -0.462171, -19.3181 )
+
+[node name="tile_3d5" parent="world/arena_hull" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 0.92388, -1.53073, 0, 0.382683, 3.69552, -26, -0.462171, 19.3233 )
 
 [node name="tile_3d6" parent="world/arena_hull" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 30, -31, 4, 0 )
 
 [node name="tile_3d7" parent="world/arena_hull" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 30, 31, 4, 0 )
+
+[node name="tile_3d12" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 0 )
 
 [node name="tile_3d8" parent="world/arena_hull" instance=ExtResource( 3 )]
 transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 31 )
@@ -41,3 +62,6 @@ light_energy = 0.2
 
 [node name="ent_actor_3d" parent="actors" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
+
+[node name="Spatial" type="Spatial" parent="actors"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18 )

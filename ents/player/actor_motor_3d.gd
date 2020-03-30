@@ -17,7 +17,7 @@ const PITCH_CAP_DEGREES = 89
 const KEYBOARD_TURN_DEGREES_PER_SECOND = 135
 
 const GRAVITY_METRES_PER_SECOND = 30
-const JUMP_METRES_PER_SECOND = 12
+const JUMP_METRES_PER_SECOND = 10
 
 var move_mode: int = 1
 var lastMouseSample: Vector2 = Vector2(0, 0)
@@ -36,7 +36,7 @@ onready var bodyMesh = $display/body_mesh
 onready var headMesh = $display/head/head_mesh
 
 var MOUSE_SENSITIVITY: float = 0.15
-var MOVE_SPEED: float = 12
+var MOVE_SPEED: float = 15
 var DRIVE_SPEED: float = 20
 var DRIVE_ACCEL: float = 100
 var TURN_RATE: float = 135
@@ -64,7 +64,7 @@ func get_ground_check_msg():
 	return txt
 
 func _ground_check():
-	var origin = self.transform.origin
+	var origin = self.get_global_transform().origin
 	var dest = origin
 	dest.y -= 0.2
 	var mask = common.LAYER_WORLD
