@@ -16,8 +16,8 @@ const PITCH_CAP_DEGREES = 89
 
 const KEYBOARD_TURN_DEGREES_PER_SECOND = 135
 
-const GRAVITY_METRES_PER_SECOND = 20
-const JUMP_METRES_PER_SECOND = 20
+const GRAVITY_METRES_PER_SECOND = 30
+const JUMP_METRES_PER_SECOND = 12
 
 var move_mode: int = 1
 var lastMouseSample: Vector2 = Vector2(0, 0)
