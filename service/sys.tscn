@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://service/sys.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu.tscn" type="PackedScene" id=2]
@@ -7,10 +7,14 @@
 [ext_resource path="res://ui/loading_banner.gd" type="Script" id=5]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=6]
 [ext_resource path="res://service/maps.gd" type="Script" id=7]
+[ext_resource path="res://service/debug_draw.gd" type="Script" id=8]
 
 [node name="globals" type="Node"]
 pause_mode = 2
 script = ExtResource( 1 )
+
+[node name="debug_draw" type="ImmediateGeometry" parent="."]
+script = ExtResource( 8 )
 
 [node name="maps" type="Node" parent="."]
 script = ExtResource( 7 )
