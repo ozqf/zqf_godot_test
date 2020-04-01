@@ -45,9 +45,6 @@ func _ready():
 	print("Player 3D ready")
 	hp.m_team = common.TEAM_PLAYER
 
-	bodyMesh.hide()
-	headMesh.hide()
-
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
 	weapon_right.projectile_def = prj_def

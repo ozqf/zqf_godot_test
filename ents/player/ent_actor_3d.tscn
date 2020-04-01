@@ -72,5 +72,11 @@ environment = ExtResource( 3 )
 fov = 80.0
 far = 1000.0
 
+[node name="camera2" type="Camera" parent="body/display/head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5.1 )
+environment = ExtResource( 3 )
+fov = 80.0
+far = 1000.0
+
 [node name="Spatial" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
