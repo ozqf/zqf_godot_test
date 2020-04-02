@@ -28,6 +28,9 @@ var pitch: float = 0
 var grounded:bool = false
 var groundCollider = null
 
+var writeDebug: bool = true
+var calcVelTxt: String = ""
+
 onready var head:Spatial = $display/head
 onready var weapon_right = $display/head/weapon_right
 onready var weapon_left = $display/head/weapon_left
@@ -36,7 +39,8 @@ onready var bodyMesh = $display/body_mesh
 onready var headMesh = $display/head/head_mesh
 
 var MOUSE_SENSITIVITY: float = 0.15
-var MOVE_SPEED: float = 15
+var MOVE_SPEED: float = 3; #15
+var MOVE_PUSH_STRENGTH: float = 0.2 #2
 var DRIVE_SPEED: float = 20
 var DRIVE_ACCEL: float = 100
 var TURN_RATE: float = 135
@@ -62,11 +66,13 @@ func get_ground_check_msg():
 
 func _ground_check():
 	var origin = self.get_global_transform().origin
+	origin.y += 0.1
 	var dest = origin
-	dest.y -= 0.2
+	dest.y -= 0.15
 	var mask = common.LAYER_WORLD
 	var space = get_world().direct_space_state
 	var result = space.intersect_ray(origin, dest, [self], mask)
+	sys.debugDraw.add_line(origin, dest)
 	if result:
 		groundCollider = result.collider
 		return true
@@ -86,6 +92,52 @@ func _process(_delta: float):
 
 func process_input(_delta: float):
 	pass
+
+# Combine current velocity with desired input
+func calc_final_velocity(_current: Vector3, _inputPush: Vector3, _maxPushMag: float):
+	
+	# dot product - tells us to what degree the input 
+	# push is with or against current velocity
+	#var dp: float = _current.dot(_inputPush)
+	var maxDP = _maxPushMag * _maxPushMag
+	var dp: float = _inputPush.dot(_current)
+	var pushScalar = (1 - (dp / maxDP))
+	var scaledPush = _inputPush * pushScalar
+
+	# var currentSpeed: float = _current.length()
+	# var ratio: float = currentSpeed / _maxPushMag
+	# if ratio < 0:
+	# 	ratio = 0
+	# elif ratio > 1:
+	# 	ratio = 1
+	# _inputPush *= ratio
+	
+	# if writeDebug:
+	# 	calcVelTxt += "Ratio " + str(ratio) + "\n"
+	
+	var pushMag = _inputPush.length()
+	
+	var result:Vector3 = _current + scaledPush
+
+	var printFullVectors: bool = false
+
+	if writeDebug:
+		calcVelTxt = "-- Calc Velocity --\n"
+		if printFullVectors:
+			calcVelTxt += "Current " + str(_velocity.length()) + ": " + str(_current) + "\n"
+			calcVelTxt += "Push " + str(_inputPush.length()) + ":" + str(_inputPush) + "\n"
+			calcVelTxt += "Final Push " + str(scaledPush.length()) + ":" + str(scaledPush) + "\n"
+		else:
+			calcVelTxt += "Current " + str(_velocity.length()) + "\n"
+			calcVelTxt += "Push " + str(_inputPush.length()) + "\n"
+			calcVelTxt += "Final Push " + str(scaledPush.length()) + "\n"
+		
+		
+		calcVelTxt += "Max push " + str(_maxPushMag) + " max DP: " + str(maxDP) + "\n"
+		calcVelTxt += "DP " + str(dp) + "\n"
+		calcVelTxt += "Push scalar " + str(pushScalar) + "\n"
+		calcVelTxt += "Final Vel: " + str(result) + "\n"
+	return result
 
 func process_movement(_input, _delta: float):
 	var _inputDir: Vector3 = Vector3()
@@ -113,27 +165,34 @@ func process_movement(_input, _delta: float):
 	var gravity: Vector3 = Vector3(0, -GRAVITY_METRES_PER_SECOND, 0)
 
 	# clear horizontal movement
-	var horiVelocity = Vector3()
+	var runPush = Vector3()
 	#var vertVelocity = Vector3()
 	#vertVelocity.y = _velocity.y
 	#_velocity.x = 0
 	#_velocity.z = 0
 
 	# apply input forces
-	horiVelocity.x += _forward.x * _inputDir.z
-	#horiVelocity.y += _forward.y * _inputDir.z
-	horiVelocity.z += _forward.z * _inputDir.z
+	runPush.x += _forward.x * _inputDir.z
+	#runPush.y += _forward.y * _inputDir.z
+	runPush.z += _forward.z * _inputDir.z
 
-	horiVelocity.x += _left.x * _inputDir.x
-	#horiVelocity.y += _left.y * _inputDir.x
-	horiVelocity.z += _left.z * _inputDir.x
+	runPush.x += _left.x * _inputDir.x
+	#runPush.y += _left.y * _inputDir.x
+	runPush.z += _left.z * _inputDir.x
 	
-	horiVelocity = horiVelocity.normalized()
-	horiVelocity.x *= MOVE_SPEED
-	horiVelocity.z *= MOVE_SPEED
+	runPush = runPush.normalized()
+	# runPush.x *= MOVE_SPEED
+	# runPush.z *= MOVE_SPEED
+	runPush.x *= MOVE_PUSH_STRENGTH
+	runPush.z *= MOVE_PUSH_STRENGTH
 
-	_velocity.x = horiVelocity.x
-	_velocity.z = horiVelocity.z
+	var final: Vector3 = calc_final_velocity(_velocity, runPush, MOVE_SPEED)
+
+	_velocity.x = final.x
+	_velocity.z = final.z
+
+	# _velocity.x = runPush.x
+	# _velocity.z = runPush.z
 
 	if grounded:
 		# apply jumping if required. Stop movement into floor

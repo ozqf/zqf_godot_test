@@ -48,8 +48,8 @@ func _process(_delta:float):
 	#if body.groundCollider != null:
 	#	txt = txt + "Ground Obj: " + str(body.name) + "\n"
 	txt = txt + "Player ent pos " + str(selfPos) + "\nPlayer body pos: " + str(bodyPos) + "\n"
-	txt = txt + "Velocity " + str(body._velocity) + "\n"
-
+	txt += "Velocity " + str(body._velocity) + "\n"
+	txt += body.calcVelTxt
 	sys.playerDebugText = txt
 	pass
 

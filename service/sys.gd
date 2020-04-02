@@ -8,6 +8,8 @@ var mobDebugText: String = ""
 var debugCamPos: String = ""
 var bGameInputActive: bool = false
 
+onready var debugDraw = $debug_draw
+
 var _observers = []
 var _eventBlockMask = 0
 
