@@ -33,6 +33,7 @@ const CMD_EXIT_APP: String = "exit"
 const CMD_GOTO_TITLE: String = "gototitle"
 const CMD_GOTO_DEVMAP: String = "gotodev"
 const CMD_SYSTEM_INFO: String = "sys"
+const CMD_TRIGGER_ENTS: String = "trigger"
 
 const TEAM_PLAYER: int =  0
 const TEAM_MOBS: int = 1

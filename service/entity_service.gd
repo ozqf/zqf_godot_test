@@ -19,6 +19,21 @@ var ents = []
 func _ready():
 	print("Global entity server init")
 	sys.add_observer(self)
+	console.register_text_command(common.CMD_TRIGGER_ENTS, self, "cmd_trigger", "", "Trigger specified entity names")
+	pass
+
+
+
+func cmd_trigger(tokens: PoolStringArray):
+	var numTokens = tokens.size()
+	if numTokens <= 1:
+		print("Must specify entity names to trigger\neg trigger ent1 ent2 ent3")
+		return
+	print("Triggering " + str(numTokens - 1) + "entities")
+	# skip first token natch.
+	for i in range(1, numTokens):
+		print("Force triggering of " + tokens[i])
+		trigger_entity(tokens[i])
 	pass
 
 ###########################################################################
@@ -54,6 +69,16 @@ func deregister_ent(ent):
 	var i = ents.find(ent)
 	if i >= 0:
 		ents.remove(i)
+
+###########################################################################
+# Broadcast triggering
+###########################################################################
+func trigger_entity(entName: String):
+	sys.broadcast(common.EVENT_ENTITY_TRIGGER, entName, common.EVENT_BIT_ENTITY_TRIGGER)
+
+func trigger_entities(targets: PoolStringArray):
+	for i in range(0, targets.size()):
+		trigger_entity(targets[i])
 
 ###########################################################################
 # Event response

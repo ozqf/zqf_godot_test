@@ -23,10 +23,7 @@ func ent_trigger():
 	pass
 
 func ent_trigger_targets():
-	for i in range(0, targets.size()):
-		var tarName: String = targets[i]
-		sys.broadcast(common.EVENT_ENTITY_TRIGGER, tarName, common.EVENT_BIT_ENTITY_TRIGGER)
-	pass
+	g_ents.trigger_entities(targets)
 
 ########################################
 # Life cycle
