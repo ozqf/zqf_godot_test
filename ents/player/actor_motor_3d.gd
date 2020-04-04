@@ -43,6 +43,8 @@ var nextThrowVelocity: Vector3 = Vector3()
 var yaw: float = 0
 var pitch: float = 0
 var grounded:bool = false
+var airJumps: int = 1
+var maxAirJumps: int = 1
 var groundCollider = null
 
 var writeDebug: bool = true
@@ -108,6 +110,8 @@ func interaction_throw(_throwVelocityPerSecond: Vector3):
 	# Add the throw to be applied during the next tick
 	#nextPushVelocity += _throwVelocityPerSecond
 	nextThrowVelocity = _throwVelocityPerSecond
+	# reset air jumps
+	airJumps = maxAirJumps
 	pass
 
 # Combine current velocity with desired input
@@ -245,11 +249,18 @@ func process_movement(_input, _delta: float):
 	# _velocity.z = runPush.z
 
 	if grounded:
+		# reset air jumps
+		airJumps = maxAirJumps
 		# apply jumping if required. Stop movement into floor
-		if Input.is_action_pressed("ui_select") && _velocity.y <= 0:
+		if Input.is_action_just_pressed("ui_select") && _velocity.y <= 0:
 			_velocity.y = JUMP_METRES_PER_SECOND
-		if _velocity.y < 0:
-			_velocity.y = 0
+		# if _velocity.y < 0:
+		# 	_velocity.y = 0
+	# check for air jump
+	elif airJumps > 0 && Input.is_action_just_pressed("ui_select"):
+			print("Air jump!")
+			_velocity.y = JUMP_METRES_PER_SECOND
+			airJumps -= 1
 	else:
 		# apply gravity
 		_velocity.y += gravity.y * _delta
