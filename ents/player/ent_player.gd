@@ -21,7 +21,6 @@ func _ready():
 	bodyMesh.hide()
 	headMesh.hide()
 
-
 func toggle_cameras():
 	if cam1.current == true:
 		#switch to third person cam

@@ -21,9 +21,10 @@ const JUMP_METRES_PER_SECOND = 10.0
 
 const MOUSE_SENSITIVITY: float = 0.15
 const MOVE_SPEED: float = 17.0
-const MOVE_ACCELERATION: float = 100.0
+const MOVE_ACCELERATION: float = 200.0
 const MOVE_PUSH_STRENGTH: float = 0.2
 const GROUND_FRICTION: float = 8.0
+const MOVE_AIR_MULTIPLIER: float = 0.3
 
 const DRIVE_SPEED: float = 20.0
 const DRIVE_ACCEL: float = 100.0
@@ -36,6 +37,8 @@ var physTick: float = 0
 var _velocity: Vector3 = Vector3()
 var lastMove: Vector3 = Vector3()
 var lastDelta: float = 1 / 60
+var nextPushVelocity: Vector3 = Vector3()
+var nextThrowVelocity: Vector3 = Vector3()
 
 var yaw: float = 0
 var pitch: float = 0
@@ -100,6 +103,13 @@ func _process(_delta: float):
 func process_input(_delta: float):
 	pass
 
+func interaction_throw(_throwVelocityPerSecond: Vector3):
+	#print("Throw actor3D - " + str(_throwVelocityPerSecond))
+	# Add the throw to be applied during the next tick
+	#nextPushVelocity += _throwVelocityPerSecond
+	nextThrowVelocity = _throwVelocityPerSecond
+	pass
+
 # Combine current velocity with desired input
 func calc_final_velocity(
 	_current: Vector3,
@@ -126,6 +136,7 @@ func calc_final_velocity(
 		previousVelocity.y = 0
 	else:
 		previousVelocity = Vector3()
+	
 	var previousSpeed: float = previousVelocity.length()
 	# Stop dead if slow enough
 	if previousSpeed < 0.001:
@@ -141,7 +152,7 @@ func calc_final_velocity(
 		previousVelocity.z *= frictionScalar
 
 	if !_onGround:
-		acceleration *= 0.2
+		acceleration *= MOVE_AIR_MULTIPLIER
 
 	# Check applying this push would not exceed the maximum run speed
 	# If necessary truncale the velocity so the vector projection does not
@@ -225,10 +236,10 @@ func process_movement(_input, _delta: float):
 	#runPush.x *= MOVE_PUSH_STRENGTH
 	#runPush.z *= MOVE_PUSH_STRENGTH
 
-	var final: Vector3 = calc_final_velocity(_velocity, runPush, MOVE_SPEED, _delta, grounded)
-
-	_velocity.x = final.x
-	_velocity.z = final.z
+	var horizontal: Vector3 = calc_final_velocity(_velocity, runPush, MOVE_SPEED, _delta, grounded)
+	
+	_velocity.x = horizontal.x
+	_velocity.z = horizontal.z
 
 	# _velocity.x = runPush.x
 	# _velocity.z = runPush.z
@@ -242,6 +253,18 @@ func process_movement(_input, _delta: float):
 	else:
 		# apply gravity
 		_velocity.y += gravity.y * _delta
+	
+	if nextThrowVelocity.length_squared() > 0:
+		_velocity = nextThrowVelocity
+		print("Apply throw - " + str(_velocity))
+		nextThrowVelocity = Vector3()
+	# Apply and then clear any saved throw interactions
+	if nextPushVelocity.length_squared() > 0:
+		_velocity += nextPushVelocity
+		print("Apply push - " + str(_velocity))
+		nextPushVelocity = Vector3()
+		if _velocity.y > 0:
+			grounded = false
 	
 	# TODO: No use of delta so movement is framerate sensitive?
 	#_velocity *= _delta
