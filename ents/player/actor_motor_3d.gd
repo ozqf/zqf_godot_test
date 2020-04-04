@@ -16,13 +16,27 @@ const PITCH_CAP_DEGREES = 89
 
 const KEYBOARD_TURN_DEGREES_PER_SECOND = 135
 
-const GRAVITY_METRES_PER_SECOND = 30
-const JUMP_METRES_PER_SECOND = 10
+const GRAVITY_METRES_PER_SECOND = 30.0
+const JUMP_METRES_PER_SECOND = 10.0
+
+const MOUSE_SENSITIVITY: float = 0.15
+const MOVE_SPEED: float = 17.0
+const MOVE_ACCELERATION: float = 100.0
+const MOVE_PUSH_STRENGTH: float = 0.2
+const GROUND_FRICTION: float = 8.0
+
+const DRIVE_SPEED: float = 20.0
+const DRIVE_ACCEL: float = 100.0
+const TURN_RATE: float = 135.0
 
 var move_mode: int = 1
 var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
+
 var _velocity: Vector3 = Vector3()
+var lastMove: Vector3 = Vector3()
+var lastDelta: float = 1 / 60
+
 var yaw: float = 0
 var pitch: float = 0
 var grounded:bool = false
@@ -37,13 +51,6 @@ onready var weapon_left = $display/head/weapon_left
 onready var hp = $health
 onready var bodyMesh = $display/body_mesh
 onready var headMesh = $display/head/head_mesh
-
-var MOUSE_SENSITIVITY: float = 0.15
-var MOVE_SPEED: float = 3; #15
-var MOVE_PUSH_STRENGTH: float = 0.2 #2
-var DRIVE_SPEED: float = 20
-var DRIVE_ACCEL: float = 100
-var TURN_RATE: float = 135
 
 func _ready():
 	print("Player 3D ready")
@@ -94,48 +101,80 @@ func process_input(_delta: float):
 	pass
 
 # Combine current velocity with desired input
-func calc_final_velocity(_current: Vector3, _inputPush: Vector3, _maxPushMag: float):
-	
-	# dot product - tells us to what degree the input 
-	# push is with or against current velocity
-	#var dp: float = _current.dot(_inputPush)
-	var maxDP = _maxPushMag * _maxPushMag
-	var dp: float = _inputPush.dot(_current)
-	var pushScalar = (1 - (dp / maxDP))
-	var scaledPush = _inputPush * pushScalar
+func calc_final_velocity(
+	_current: Vector3,
+	accelDir: Vector3,
+	_maxMoveSpeed: float,
+	_delta: float,
+	_onGround:bool):
 
-	# var currentSpeed: float = _current.length()
-	# var ratio: float = currentSpeed / _maxPushMag
-	# if ratio < 0:
-	# 	ratio = 0
-	# elif ratio > 1:
-	# 	ratio = 1
-	# _inputPush *= ratio
+	var result:Vector3 = Vector3()
+	var inputOn: bool = (accelDir.length() > 0)
 	
-	# if writeDebug:
-	# 	calcVelTxt += "Ratio " + str(ratio) + "\n"
-	
-	var pushMag = _inputPush.length()
-	
-	var result:Vector3 = _current + scaledPush
+	###############################################################
+	# Quake style
 
-	var printFullVectors: bool = false
+	# Calculate current velocity per second,
+	# (after avoiding divide by zero...)
+	# reconstruct it by taking the last position change
+	# scaled back by last delta. Appears to be accurate to
+	# 4 decimal places.
+	var previousVelocity: Vector3
+	if lastDelta != 0:
+		previousVelocity = lastMove * (1 / lastDelta)
+		# clear vertical movement, it is handled separately via gravity!
+		previousVelocity.y = 0
+	else:
+		previousVelocity = Vector3()
+	var previousSpeed: float = previousVelocity.length()
+	# Stop dead if slow enough
+	if previousSpeed < 0.001:
+		previousVelocity = Vector3()
+		previousSpeed = 0
+	
+	var acceleration:float = MOVE_ACCELERATION
+	# friction
+	if _onGround && previousSpeed > 0 && (inputOn == false || previousSpeed > _maxMoveSpeed):
+		var drop: float = previousSpeed * GROUND_FRICTION * _delta
+		var frictionScalar: float = max(previousSpeed - drop, 0) / previousSpeed
+		previousVelocity.x *= frictionScalar
+		previousVelocity.z *= frictionScalar
 
+	if !_onGround:
+		acceleration *= 0.2
+
+	# Check applying this push would not exceed the maximum run speed
+	# If necessary truncale the velocity so the vector projection does not
+	# exceed maximum run speed
+	var projectionVelocityDot: float = accelDir.dot(previousVelocity)
+	#var projectionVelocityDot: float = previousVelocity.dot(accelDir)
+	var accelerationMagnitude: float = acceleration * _delta
+
+	if projectionVelocityDot + accelerationMagnitude > _maxMoveSpeed:
+		accelerationMagnitude = _maxMoveSpeed - projectionVelocityDot
+	
+	# accelerationMagnitude can be pushed into negative
+	# so Avoid actively reducing speed!
+	if accelerationMagnitude < 0:
+		accelerationMagnitude = 0
+	
+	# apply scaled acceleration
+	result.x = previousVelocity.x + (accelDir.x * accelerationMagnitude)
+	result.z = previousVelocity.z + (accelDir.z * accelerationMagnitude)
+	
+	var printFullVectors: bool = true
+	
 	if writeDebug:
 		calcVelTxt = "-- Calc Velocity --\n"
 		if printFullVectors:
-			calcVelTxt += "Current " + str(_velocity.length()) + ": " + str(_current) + "\n"
-			calcVelTxt += "Push " + str(_inputPush.length()) + ":" + str(_inputPush) + "\n"
-			calcVelTxt += "Final Push " + str(scaledPush.length()) + ":" + str(scaledPush) + "\n"
+			calcVelTxt += "Last velocity " + str(previousVelocity.length()) + ": " + str(previousVelocity) + "\n"
+			calcVelTxt += "Push " + str(accelDir.length()) + ":" + str(accelDir) + "\n"
 		else:
-			calcVelTxt += "Current " + str(_velocity.length()) + "\n"
-			calcVelTxt += "Push " + str(_inputPush.length()) + "\n"
-			calcVelTxt += "Final Push " + str(scaledPush.length()) + "\n"
-		
-		
-		calcVelTxt += "Max push " + str(_maxPushMag) + " max DP: " + str(maxDP) + "\n"
-		calcVelTxt += "DP " + str(dp) + "\n"
-		calcVelTxt += "Push scalar " + str(pushScalar) + "\n"
+			calcVelTxt += "Last move " + str(previousVelocity.length()) + "\n"
+			calcVelTxt += "Push " + str(accelDir.length()) + "\n"
+		calcVelTxt += "Last DT " + str(lastDelta) + "\n"
+		calcVelTxt += "ProjectionVel Dot: " + str(projectionVelocityDot) + "\n"
+		calcVelTxt += "Accel mag: " + str(accelerationMagnitude) + "\n"
 		calcVelTxt += "Final Vel: " + str(result) + "\n"
 	return result
 
@@ -183,10 +222,10 @@ func process_movement(_input, _delta: float):
 	runPush = runPush.normalized()
 	# runPush.x *= MOVE_SPEED
 	# runPush.z *= MOVE_SPEED
-	runPush.x *= MOVE_PUSH_STRENGTH
-	runPush.z *= MOVE_PUSH_STRENGTH
+	#runPush.x *= MOVE_PUSH_STRENGTH
+	#runPush.z *= MOVE_PUSH_STRENGTH
 
-	var final: Vector3 = calc_final_velocity(_velocity, runPush, MOVE_SPEED)
+	var final: Vector3 = calc_final_velocity(_velocity, runPush, MOVE_SPEED, _delta, grounded)
 
 	_velocity.x = final.x
 	_velocity.z = final.z
@@ -206,7 +245,10 @@ func process_movement(_input, _delta: float):
 	
 	# TODO: No use of delta so movement is framerate sensitive?
 	#_velocity *= _delta
+	var prevPosition: Vector3 = self.get_global_transform().origin
 	var _moveResult: Vector3 = move_and_slide(_velocity)
+	lastMove = self.get_global_transform().origin - prevPosition
+	lastDelta = _delta
 
 func _move_vehicle(_delta: float):
 	var _velNormal = _velocity.normalized()
