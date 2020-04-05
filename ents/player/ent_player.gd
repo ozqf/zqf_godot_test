@@ -21,6 +21,9 @@ func _ready():
 	bodyMesh.hide()
 	headMesh.hide()
 
+	# attach to body for physical interactions
+	body.interactionParent = self
+
 func toggle_cameras():
 	if cam1.current == true:
 		#switch to third person cam
@@ -54,3 +57,14 @@ func _process(_delta:float):
 
 func get_world_position():
 	return self.body.global_transform.origin
+
+########################################
+# Interactions functions
+########################################
+func interaction_throw(_throwVelocityPerSecond: Vector3):
+	#print("Throw player!")
+	body.throw(_throwVelocityPerSecond)
+
+func interaction_teleport(_pos: Vector3):
+	#print("Teleport player!")
+	body.teleport(_pos)

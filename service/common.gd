@@ -82,3 +82,10 @@ func strNullOrEmpty(txt: String):
 	elif txt.length() == 0:
 		return true
 	return false
+
+# safely search and retrieve an interactor from a node
+func extract_interactor(obj):
+	if !obj.has_method("get_interactor"):
+		return null
+	return obj.get_interactor()
+	

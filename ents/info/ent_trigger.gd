@@ -16,16 +16,30 @@ func on_body_entered(_body):
 	#print("TRIGGER: body entered")
 	if triggerType == 1:
 		# throw target
-		if !_body.has_method("interaction_throw"):
-			print("Trigger - object has no throw function")
+		var interactor = common.extract_interactor(_body)
+		if !interactor:
 			return
-		_body.interaction_throw(throwVelocity)
+		interactor.interaction_throw(throwVelocity)
+
+		pass
+		# old
+		# if !_body.has_method("interaction_throw"):
+		# 	print("Trigger - object has no throw function")
+		# 	return
+		# _body.interaction_throw(throwVelocity)
 		pass
 	elif triggerType == 2:
-		if !_body.has_method("interaction_teleport"):
-			print("Trigger - object has no teleport function")
+		pass
+		var interactor = common.extract_interactor(_body)
+		if !interactor:
 			return
-		_body.interaction_teleport(throwVelocity)
+		interactor.interaction_teleport(throwVelocity)
+
+		# old
+		# if !_body.has_method("interaction_teleport"):
+		# 	print("Trigger - object has no teleport function")
+		# 	return
+		# _body.interaction_teleport(throwVelocity)
 	else:
 		ent_trigger_targets()
 	pass
@@ -34,7 +48,6 @@ func on_area_entered(_area):
 	#print("TRIGGER: area entered")
 	if triggerType == 1:
 		# throw target
-		print("Trigger - throw object!")
 		pass
 	else:
 		ent_trigger_targets()

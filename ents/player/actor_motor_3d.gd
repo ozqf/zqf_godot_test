@@ -39,6 +39,10 @@ const DRIVE_SPEED: float = 20.0
 const DRIVE_ACCEL: float = 100.0
 const TURN_RATE: float = 135.0
 
+# Set from external source
+# will be passed around for interactions
+var interactionParent = null;
+
 var move_mode: int = 1
 var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
@@ -128,7 +132,7 @@ func _process(_delta: float):
 func process_input(_delta: float):
 	pass
 
-func interaction_throw(_throwVelocityPerSecond: Vector3):
+func throw(_throwVelocityPerSecond: Vector3):
 	#print("Throw actor3D - " + str(_throwVelocityPerSecond))
 	# Add the throw to be applied during the next tick
 	#nextPushVelocity += _throwVelocityPerSecond
@@ -136,11 +140,14 @@ func interaction_throw(_throwVelocityPerSecond: Vector3):
 	# reset air jumps
 	airJumps = maxAirJumps
 
-func interaction_teleport(pos: Vector3):
-	print("Actor teleport - " + str(pos))
+func teleport(pos: Vector3):
+	#print("Actor teleport - " + str(pos))
 	transform.origin = pos
 	lastMove = Vector3()
 
+func get_interactor():
+	return interactionParent
+	
 # Combine current velocity with desired input
 func calc_final_velocity(
 	_current: Vector3,

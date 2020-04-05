@@ -71,3 +71,16 @@ func _notification(what):
 # override this if the entity's position is a child node!
 func get_world_position():
 	return global_transform.origin
+
+########################################
+# Interactions functions
+########################################
+
+func get_interactor():
+	return self
+
+func interaction_throw(_throwVelocityPerSecond: Vector3):
+	pass
+
+func interaction_teleport(_pos: Vector3):
+	pass
