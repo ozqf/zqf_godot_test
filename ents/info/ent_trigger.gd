@@ -2,7 +2,7 @@ extends "res://ents/ent.gd"
 
 onready var m_displayNode = $display
 
-export(int, "TriggerTargets", "ThrowObject") var triggerType: int = 0
+export(int, "TriggerTargets", "ThrowObject", "TeleportObject" ) var triggerType: int = 0
 
 export var throwVelocity: Vector3 = Vector3(0, 16, 0)
 
@@ -17,10 +17,15 @@ func on_body_entered(_body):
 	if triggerType == 1:
 		# throw target
 		if !_body.has_method("interaction_throw"):
-			print("Trigger - throw object is not an entity!")
+			print("Trigger - object has no throw function")
 			return
 		_body.interaction_throw(throwVelocity)
 		pass
+	elif triggerType == 2:
+		if !_body.has_method("interaction_teleport"):
+			print("Trigger - object has no teleport function")
+			return
+		_body.interaction_teleport(throwVelocity)
 	else:
 		ent_trigger_targets()
 	pass

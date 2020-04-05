@@ -46,6 +46,21 @@ transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 30, 31, 4, 0 )
 [node name="tile_3d12" parent="world/arena_hull" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 0 )
 
+[node name="tile_3d13" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, -9 )
+
+[node name="tile_3d14" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 10 )
+
+[node name="tile_3d16" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, -9 )
+
+[node name="tile_3d17" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -9 )
+
+[node name="tile_3d15" parent="world/arena_hull" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, 10 )
+
 [node name="tile_3d8" parent="world/arena_hull" instance=ExtResource( 3 )]
 transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, 31 )
 
@@ -56,7 +71,7 @@ transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 4, -31 )
 transform = Transform( 30, 0, 0, 0, 10, 0, 0, 0, 1, 0, 18, -31 )
 
 [node name="clip_volume2" parent="world/arena_hull" instance=ExtResource( 5 )]
-transform = Transform( 30, 0, 0, 0, 10, 0, 0, 0, 1, 0, 18, 31 )
+transform = Transform( 30, 0, 0, 0, 10, 0, 0, 0, 1, 0, 18, 45 )
 
 [node name="clip_volume3" parent="world/arena_hull" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 30, -31, 18, 0 )
@@ -101,3 +116,8 @@ throwVelocity = Vector3( 0, 32, -16 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
 triggerType = 1
 throwVelocity = Vector3( 0, 32, 0 )
+
+[node name="trigger3" parent="actors" instance=ExtResource( 4 )]
+transform = Transform( 300, 0, 0, 0, 1, 0, 0, 0, 300, 0, -12, 0 )
+triggerType = 2
+throwVelocity = Vector3( 0, 0, 8 )

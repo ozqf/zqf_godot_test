@@ -16,14 +16,14 @@ const PITCH_CAP_DEGREES = 89
 
 const KEYBOARD_TURN_DEGREES_PER_SECOND = 135
 
-const GRAVITY_METRES_PER_SECOND = 30.0
-const JUMP_METRES_PER_SECOND = 10.0
+const GRAVITY_METRES_PER_SECOND = 10.0 # 30.0
+const JUMP_METRES_PER_SECOND = 6 #10.0
 
 const MOUSE_SENSITIVITY: float = 0.15
-const MOVE_SPEED: float = 17.0
-const MOVE_ACCELERATION: float = 200.0
+const MOVE_SPEED: float = 10.0 #17.0
+const MOVE_ACCELERATION: float = 50.0 # 200.0
 const MOVE_PUSH_STRENGTH: float = 0.2
-const GROUND_FRICTION: float = 8.0
+const GROUND_FRICTION: float = 4.0 #8.0
 const MOVE_AIR_MULTIPLIER: float = 0.3
 
 const DRIVE_SPEED: float = 20.0
@@ -76,8 +76,8 @@ func get_ground_check_msg():
 		txt = txt + "Self " + self.name + " vs obj " + groundCollider.name + "\n"
 	return txt
 
-func _ground_check():
-	var origin = self.get_global_transform().origin
+func _cast_ground_ray(origin: Vector3):
+	#var origin = self.get_global_transform().origin
 	origin.y += 0.1
 	var dest = origin
 	dest.y -= 0.15
@@ -91,7 +91,21 @@ func _ground_check():
 	else:
 		groundCollider = null
 		return false
-	pass
+
+func _ground_check():
+	var p = self.get_global_transform().origin
+	#if _cast_ground_ray(p):
+	#	return true
+	if _cast_ground_ray(Vector3(p.x - 0.4, p.y, p.z)):
+		return true
+	if _cast_ground_ray(Vector3(p.x + 0.4, p.y, p.z)):
+		return true
+	
+	if _cast_ground_ray(Vector3(p.x, p.y, p.z - 0.4)):
+		return true
+	if _cast_ground_ray(Vector3(p.x, p.y, p.z + 0.4)):
+		return true
+	return false
 	
 func _process(_delta: float):
 	grounded = _ground_check()
@@ -112,7 +126,11 @@ func interaction_throw(_throwVelocityPerSecond: Vector3):
 	nextThrowVelocity = _throwVelocityPerSecond
 	# reset air jumps
 	airJumps = maxAirJumps
-	pass
+
+func interaction_teleport(pos: Vector3):
+	print("Actor teleport - " + str(pos))
+	transform.origin = pos
+	lastMove = Vector3()
 
 # Combine current velocity with desired input
 func calc_final_velocity(
@@ -182,15 +200,17 @@ func calc_final_velocity(
 	if writeDebug:
 		calcVelTxt = "-- Calc Velocity --\n"
 		if printFullVectors:
+			calcVelTxt += "Last Move " + str(lastMove.length()) + ": " + str(lastMove) + "\n"
 			calcVelTxt += "Last velocity " + str(previousVelocity.length()) + ": " + str(previousVelocity) + "\n"
 			calcVelTxt += "Push " + str(accelDir.length()) + ":" + str(accelDir) + "\n"
 		else:
-			calcVelTxt += "Last move " + str(previousVelocity.length()) + "\n"
+			calcVelTxt += "Last Move " + str(lastMove) + "\n"
+			calcVelTxt += "Last velocity " + str(previousVelocity.length()) + "\n"
 			calcVelTxt += "Push " + str(accelDir.length()) + "\n"
 		calcVelTxt += "Last DT " + str(lastDelta) + "\n"
 		calcVelTxt += "ProjectionVel Dot: " + str(projectionVelocityDot) + "\n"
 		calcVelTxt += "Accel mag: " + str(accelerationMagnitude) + "\n"
-		calcVelTxt += "Final Vel: " + str(result) + "\n"
+		calcVelTxt += "Final Horizontal move: " + str(result) + "\n"
 	return result
 
 func process_movement(_input, _delta: float):
@@ -249,13 +269,14 @@ func process_movement(_input, _delta: float):
 	# _velocity.z = runPush.z
 
 	if grounded:
+		# Clear any negative speed
+		if _velocity.y < 0:
+			_velocity.y = 0
 		# reset air jumps
 		airJumps = maxAirJumps
 		# apply jumping if required. Stop movement into floor
 		if Input.is_action_just_pressed("ui_select") && _velocity.y <= 0:
 			_velocity.y = JUMP_METRES_PER_SECOND
-		# if _velocity.y < 0:
-		# 	_velocity.y = 0
 	# check for air jump
 	elif airJumps > 0 && Input.is_action_just_pressed("ui_select"):
 			print("Air jump!")
@@ -281,6 +302,7 @@ func process_movement(_input, _delta: float):
 	#_velocity *= _delta
 	var prevPosition: Vector3 = self.get_global_transform().origin
 	var _moveResult: Vector3 = move_and_slide(_velocity)
+	calcVelTxt += "Final Velocity " + str(_velocity.length()) + ": " + str(_velocity) + "\n"
 	lastMove = self.get_global_transform().origin - prevPosition
 	lastDelta = _delta
 
