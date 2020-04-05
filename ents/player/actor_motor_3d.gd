@@ -16,15 +16,24 @@ const PITCH_CAP_DEGREES = 89
 
 const KEYBOARD_TURN_DEGREES_PER_SECOND = 135
 
-const GRAVITY_METRES_PER_SECOND = 10.0 # 30.0
-const JUMP_METRES_PER_SECOND = 6 #10.0
-
 const MOUSE_SENSITIVITY: float = 0.15
-const MOVE_SPEED: float = 10.0 #17.0
-const MOVE_ACCELERATION: float = 50.0 # 200.0
+const MOVE_SPEED: float = 15.0
+const MOVE_ACCELERATION: float = 150.0
 const MOVE_PUSH_STRENGTH: float = 0.2
-const GROUND_FRICTION: float = 4.0 #8.0
+const GROUND_FRICTION: float = 10.0
 const MOVE_AIR_MULTIPLIER: float = 0.3
+const GRAVITY_METRES_PER_SECOND = 25.0
+const JUMP_METRES_PER_SECOND = 10.0
+
+# Slower movement for testing
+#const MOUSE_SENSITIVITY: float = 0.15
+#const MOVE_SPEED: float = 10.0 #17.0
+#const MOVE_ACCELERATION: float = 50.0 # 200.0
+#const MOVE_PUSH_STRENGTH: float = 0.2
+#const GROUND_FRICTION: float = 4.0 #8.0
+#const MOVE_AIR_MULTIPLIER: float = 0.3
+# const GRAVITY_METRES_PER_SECOND = 10.0 # 30.0
+# const JUMP_METRES_PER_SECOND = 6 #10.0
 
 const DRIVE_SPEED: float = 20.0
 const DRIVE_ACCEL: float = 100.0
