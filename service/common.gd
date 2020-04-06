@@ -34,12 +34,15 @@ const CMD_GOTO_TITLE: String = "gototitle"
 const CMD_GOTO_DEVMAP: String = "gotodev"
 const CMD_SYSTEM_INFO: String = "sys"
 const CMD_TRIGGER_ENTS: String = "trigger"
+const CMD_SPAWN: String = "spawn"
 
 const TEAM_PLAYER: int =  0
 const TEAM_MOBS: int = 1
 
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
+
+var debugSpawnPosition: Vector3 = Vector3()
 
 func get_window_to_screen_ratio():
 	var real: Vector2 = OS.get_real_window_size()

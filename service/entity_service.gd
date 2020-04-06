@@ -20,9 +20,28 @@ func _ready():
 	print("Global entity server init")
 	sys.add_observer(self)
 	console.register_text_command(common.CMD_TRIGGER_ENTS, self, "cmd_trigger", "", "Trigger specified entity names")
+	console.register_text_command(common.CMD_SPAWN, self, "cmd_spawn", "", "Spawn specified entity type at aim position")
 	pass
 
-
+func cmd_spawn(tokens: PoolStringArray):
+	var numTokens = tokens.size()
+	if numTokens <= 1:
+		print("Must specify an entity type \neg 'mob'")
+		return
+	var typeName = tokens[1]
+	var result: Spatial = null
+	# Grab debug position global
+	var pos = common.debugSpawnPosition
+	# spawn
+	if typeName == "mob":
+		result = factory.create_mob()
+	else:
+		print("Unrecognised spawn type '" + typeName + "'")
+		return
+	# add to scene
+	factory.add_to_scene_root(result, pos)
+	result.transform.origin = pos
+	pass
 
 func cmd_trigger(tokens: PoolStringArray):
 	var numTokens = tokens.size()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
 [ext_resource path="res://ents/weapon.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://ents/z_health.gd" type="Script" id=4]
 [ext_resource path="res://ents/player/ent_player.gd" type="Script" id=5]
 [ext_resource path="res://ents/ground_sensor.tscn" type="PackedScene" id=6]
+[ext_resource path="res://fx/laser_dot.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -40,6 +41,9 @@ material/0 = null
 
 [node name="head" type="Spatial" parent="body/display"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0 )
+
+[node name="laser_dot" parent="body/display/head" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.89665 )
 
 [node name="weapon_right_mesh" type="MeshInstance" parent="body/display/head"]
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, 0.35, -0.8, -0.75 )

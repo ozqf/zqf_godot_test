@@ -13,7 +13,6 @@ func _ready():
 	console.register_text_command(common.CMD_EXIT_APP, self, "cmd_exit", "", "Close the application")
 	console.register_text_command(common.CMD_START_GAME, self, "cmd_start_game", "", "Start a new game")
 	console.register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title", "", "Go to the title screen")
-	console.register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title", "", "Go to the title screen")
 	console.register_text_command("map", self, "cmd_map", "tt", "Load the provided map scene. No file extension. Must be in the maps directory")
 	
 
