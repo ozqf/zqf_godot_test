@@ -1,6 +1,6 @@
 
 # Godot-specific ignores
-.import/
+# .import/ # fs this is necessary!
 export.cfg
 export_presets.cfg
 
