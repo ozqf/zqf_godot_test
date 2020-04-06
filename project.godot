@@ -85,6 +85,7 @@ toggle_camera={
 3d_physics/layer_3="ents"
 3d_physics/layer_4="projectiles"
 3d_physics/layer_5="triggers"
+3d_physics/layer_6="items"
 
 [rendering]
 

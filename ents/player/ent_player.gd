@@ -68,3 +68,7 @@ func interaction_throw(_throwVelocityPerSecond: Vector3):
 func interaction_teleport(_pos: Vector3):
 	#print("Teleport player!")
 	body.teleport(_pos)
+
+func interaction_give(_itemName: String, _amount: int):
+	print("Player taking " + str(_amount) + " of damage powerup")
+	return _amount

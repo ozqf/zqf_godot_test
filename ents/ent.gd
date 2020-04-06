@@ -84,3 +84,7 @@ func interaction_throw(_throwVelocityPerSecond: Vector3):
 
 func interaction_teleport(_pos: Vector3):
 	pass
+
+# Returns the quantity taken. Returns 0 if nothing can be taken
+func interaction_give(_itemName: String, _amount: int):
+	return 0

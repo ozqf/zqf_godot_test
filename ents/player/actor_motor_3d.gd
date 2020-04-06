@@ -295,7 +295,7 @@ func process_movement(_input, _delta: float):
 			_velocity.y = JUMP_METRES_PER_SECOND
 	# check for air jump
 	elif airJumps > 0 && Input.is_action_just_pressed("ui_select"):
-			print("Air jump!")
+			#print("Air jump!")
 			_velocity.y = JUMP_METRES_PER_SECOND
 			airJumps -= 1
 	else:
