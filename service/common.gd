@@ -10,6 +10,7 @@ const LAYER_TRIGGERS: int = (1 << 4)
 const EVENT_BIT_GAME_STATE: int = (1 << 0)
 const EVENT_BIT_ENTITY_SPAWN: int = (1 << 1)
 const EVENT_BIT_ENTITY_TRIGGER: int = (1 << 2)
+const EVENT_BIT_UI: int = (1 << 3)
 
 # Types of event
 const EVENT_LEVEL_LOADING: String = "level_loading" # The level is changing - cleanup
@@ -22,6 +23,8 @@ const EVENT_LEVEL_COMPLETE: String = "level_complete" # a game end condition has
 
 const EVENT_PLAYER_SPAWN: String = "player_spawned"
 const EVENT_PLAYER_DIED: String = "player_died"
+
+const EVENT_PLAYER_GAINED_POWER: String = "player_gained_power"
 
 const EVENT_MOB_SPAWN: String = "mob_spawned"
 const EVENT_MOB_DIED: String = "mob_died"

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://ui/debug_text.gd" type="Script" id=1]
 [ext_resource path="res://ui/HUD.gd" type="Script" id=2]
 [ext_resource path="res://assets/crosshair01.png" type="Texture" id=3]
+[ext_resource path="res://ui/power_up_list.gd" type="Script" id=4]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -17,13 +18,14 @@ __meta__ = {
 }
 
 [node name="player_status" type="VBoxContainer" parent="."]
-anchor_top = 0.875
-anchor_right = 0.181
-anchor_bottom = 1.002
-margin_left = 1.0
-margin_top = 36.9999
-margin_right = -0.344009
-margin_bottom = -0.200073
+anchor_left = 0.001
+anchor_top = 0.937
+anchor_right = 0.001
+anchor_bottom = 0.937
+margin_left = -0.024
+margin_top = -0.200134
+margin_right = 183.976
+margin_bottom = 38.7999
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -85,3 +87,22 @@ texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="power_up_list" type="VBoxContainer" parent="."]
+anchor_left = 0.891
+anchor_top = 0.402
+anchor_right = 0.891
+anchor_bottom = 0.402
+margin_left = -111.384
+margin_top = -241.2
+margin_right = 110.616
+margin_bottom = 240.8
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Powerups" type="Label" parent="power_up_list"]
+margin_right = 222.0
+margin_bottom = 14.0
+text = "Powerups"

@@ -70,5 +70,8 @@ func interaction_teleport(_pos: Vector3):
 	body.teleport(_pos)
 
 func interaction_give(_itemName: String, _amount: int):
-	print("Player taking " + str(_amount) + " of damage powerup")
-	return _amount
+	if _itemName == "damage":
+		print("Player taking " + str(_amount) + " of damage powerup")
+		sys.broadcast(common.EVENT_PLAYER_GAINED_POWER, _amount, common.EVENT_BIT_UI)
+		return _amount
+	return 0
