@@ -16,6 +16,12 @@ var _eventBlockMask = 0
 var frameNumber = 0
 
 func _ready():
+	# HACK - larger window for my desktop machine (:
+	var scrSize: Vector2 = OS.get_screen_size()
+	if scrSize.y >= 1080:
+		OS.set_window_size(Vector2(1600, 900))
+		OS.center_window()
+	
 	print("Globals init")
 	console.register_text_command("observers", self, "cmd_observers", "", "List global event observers")
 	console.register_text_command(common.CMD_SYSTEM_INFO, self, "cmd_sys", "", "Print system info")

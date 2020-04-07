@@ -60,7 +60,7 @@ var airJumps: int = 1
 var maxAirJumps: int = 1
 var groundCollider = null
 
-var writeDebug: bool = true
+var writeDebug: bool = false
 var calcVelTxt: String = ""
 
 onready var head:Spatial = $display/head
@@ -291,7 +291,7 @@ func process_movement(_input, _delta: float):
 		# reset air jumps
 		airJumps = maxAirJumps
 		# apply jumping if required. Stop movement into floor
-		if Input.is_action_just_pressed("ui_select") && _velocity.y <= 0:
+		if Input.is_action_pressed("ui_select") && _velocity.y <= 0:
 			_velocity.y = JUMP_METRES_PER_SECOND
 	# check for air jump
 	elif airJumps > 0 && Input.is_action_just_pressed("ui_select"):
@@ -304,12 +304,12 @@ func process_movement(_input, _delta: float):
 	
 	if nextThrowVelocity.length_squared() > 0:
 		_velocity = nextThrowVelocity
-		print("Apply throw - " + str(_velocity))
+		#print("Apply throw - " + str(_velocity))
 		nextThrowVelocity = Vector3()
 	# Apply and then clear any saved throw interactions
 	if nextPushVelocity.length_squared() > 0:
 		_velocity += nextPushVelocity
-		print("Apply push - " + str(_velocity))
+		#print("Apply push - " + str(_velocity))
 		nextPushVelocity = Vector3()
 		if _velocity.y > 0:
 			grounded = false
@@ -318,7 +318,9 @@ func process_movement(_input, _delta: float):
 	#_velocity *= _delta
 	var prevPosition: Vector3 = self.get_global_transform().origin
 	var _moveResult: Vector3 = move_and_slide(_velocity)
-	calcVelTxt += "Final Velocity " + str(_velocity.length()) + ": " + str(_velocity) + "\n"
+	if writeDebug:
+		# NOTE: Assumes that calcVelTxt was reset earlier this frame above
+		calcVelTxt += "Final Velocity " + str(_velocity.length()) + ": " + str(_velocity) + "\n"
 	lastMove = self.get_global_transform().origin - prevPosition
 	lastDelta = _delta
 

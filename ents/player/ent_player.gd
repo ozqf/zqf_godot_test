@@ -9,6 +9,7 @@ onready var cam2 = $body/display/head/camera2
 onready var bodyMesh = $body/display/body_mesh
 onready var headMesh = $body/display/head/head_mesh
 
+var writeDebug: bool = false
 
 func _ready():
 	# base class call
@@ -42,17 +43,18 @@ func _process(_delta:float):
 	if Input.is_action_just_pressed("toggle_camera"):
 		toggle_cameras()
 
-	var selfPos = global_transform.origin
-	var bodyPos = body.global_transform.origin
-	#var onGround = body.get_ground_check_msg()
-	var txt = body.get_ground_check_msg()
-	# var txt = body.get_ground "Grounded " + str(onGround) + "\n"
-	#if body.groundCollider != null:
-	#	txt = txt + "Ground Obj: " + str(body.name) + "\n"
-	txt = txt + "Player ent pos " + str(selfPos) + "\nPlayer body pos: " + str(bodyPos) + "\n"
-	txt += "Velocity " + str(body._velocity) + "\n"
-	txt += body.calcVelTxt
-	sys.playerDebugText = txt
+	if writeDebug:
+		var selfPos = global_transform.origin
+		var bodyPos = body.global_transform.origin
+		#var onGround = body.get_ground_check_msg()
+		var txt = body.get_ground_check_msg()
+		# var txt = body.get_ground "Grounded " + str(onGround) + "\n"
+		#if body.groundCollider != null:
+		#	txt = txt + "Ground Obj: " + str(body.name) + "\n"
+		txt = txt + "Player ent pos " + str(selfPos) + "\nPlayer body pos: " + str(bodyPos) + "\n"
+		txt += "Velocity " + str(body._velocity) + "\n"
+		txt += body.calcVelTxt
+		sys.playerDebugText = txt
 	pass
 
 func get_world_position():
