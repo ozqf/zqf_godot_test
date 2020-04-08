@@ -54,7 +54,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="weapon_centre" type="Spatial" parent="body/display/head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0, -0.65 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.65 )
 script = ExtResource( 2 )
 
 [node name="weapon_right" type="Spatial" parent="body/display/head"]
@@ -70,17 +70,23 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="camera" type="Camera" parent="body/display/head"]
+[node name="fps_camera_mount" type="Spatial" parent="body/display/head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
+
+[node name="camera" type="Camera" parent="body/display/head/fps_camera_mount"]
 environment = ExtResource( 3 )
 fov = 80.0
 far = 1000.0
 
-[node name="camera2" type="Camera" parent="body/display/head"]
+[node name="debug_camera_mount" type="Spatial" parent="body/display/head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 4.5 )
+
+[node name="camera" type="Camera" parent="body/display/head/debug_camera_mount"]
 environment = ExtResource( 3 )
 fov = 80.0
 far = 1000.0
 
-[node name="Spatial" type="Spatial" parent="."]
+[node name="foot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
+
+[node name="inventory" type="Node" parent="."]
