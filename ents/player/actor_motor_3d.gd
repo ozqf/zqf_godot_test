@@ -122,12 +122,12 @@ func _ground_check():
 	
 func _process(_delta: float):
 	grounded = _ground_check()
-	if sys.bGameInputActive == true and Input.is_action_pressed("attack_1"):
-		weapon_right.on = true
-		weapon_left.on = true
-	else:
-		weapon_right.on = false
-		weapon_left.on = false
+	# if sys.bGameInputActive == true and Input.is_action_pressed("attack_1"):
+	# 	weapon_right.on = true
+	# 	weapon_left.on = true
+	# else:
+	# 	weapon_right.on = false
+	# 	weapon_left.on = false
 
 func process_input(_delta: float):
 	pass

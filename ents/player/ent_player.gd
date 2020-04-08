@@ -13,20 +13,26 @@ onready var m_weaponCentre = $body/display/head/weapon_centre
 onready var m_weaponRight = $body/display/head/weapon_right
 onready var m_weaponLeft = $body/display/head/weapon_left
 
+onready var m_inventory = $inventory
+
 var writeDebug: bool = false
 
 func _ready():
 	# base class call
 	print("Ent Player type " + str(self) + " ready")
+	print("  set launch node: " + str(m_weaponCentre))
+	#m_inventory.launchNode = m_weaponCentre
+	m_inventory.init(m_weaponCentre)
 	m_hp.ent = self
 	#._ready()
-	sys.broadcast(common.EVENT_PLAYER_SPAWN, self, common.EVENT_BIT_ENTITY_SPAWN)
 	m_fpsCamera.current = true
 	m_debugCamera.current = false
 	m_bodyMesh.hide()
 	m_headMesh.hide()
 	# attach to body for physical interactions
 	m_body.interactionParent = self
+
+	sys.broadcast(common.EVENT_PLAYER_SPAWN, self, common.EVENT_BIT_ENTITY_SPAWN)
 
 func toggle_cameras():
 	if m_fpsCamera.current == true:

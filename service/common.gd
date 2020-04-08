@@ -46,6 +46,7 @@ const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
 
 var debugSpawnPosition: Vector3 = Vector3()
+var debugSpawnType: String = "mob"
 
 func get_window_to_screen_ratio():
 	var real: Vector2 = OS.get_real_window_size()
