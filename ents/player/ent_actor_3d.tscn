@@ -1,11 +1,12 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
-[ext_resource path="res://ents/weapon.gd" type="Script" id=2]
+[ext_resource path="res://ents/test_weapon.gd" type="Script" id=2]
 [ext_resource path="res://world/default_world_env.tres" type="Environment" id=3]
 [ext_resource path="res://ents/z_health.gd" type="Script" id=4]
 [ext_resource path="res://ents/player/ent_player.gd" type="Script" id=5]
 [ext_resource path="res://fx/laser_dot.tscn" type="PackedScene" id=7]
+
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5

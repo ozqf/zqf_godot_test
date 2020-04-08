@@ -49,11 +49,7 @@ func _process(_delta:float):
 	if writeDebug:
 		var selfPos = global_transform.origin
 		var bodyPos = m_body.global_transform.origin
-		#var onGround = m_body.get_ground_check_msg()
 		var txt = m_body.get_ground_check_msg()
-		# var txt = m_body.get_ground "Grounded " + str(onGround) + "\n"
-		#if m_body.groundCollider != null:
-		#	txt = txt + "Ground Obj: " + str(m_body.name) + "\n"
 		txt = txt + "Player ent pos " + str(selfPos) + "\nPlayer body pos: " + str(bodyPos) + "\n"
 		txt += "Velocity " + str(m_body._velocity) + "\n"
 		txt += m_body.calcVelTxt
