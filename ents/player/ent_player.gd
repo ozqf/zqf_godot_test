@@ -15,7 +15,7 @@ onready var m_weaponLeft = $body/display/head/weapon_left
 
 onready var m_inventory = $inventory
 
-var writeDebug: bool = false
+var writeDebug: bool = true
 
 func _ready():
 	# base class call
@@ -56,7 +56,8 @@ func _process(_delta:float):
 		var selfPos = global_transform.origin
 		var bodyPos = m_body.global_transform.origin
 		var txt = m_body.get_ground_check_msg()
-		txt = txt + "Player ent pos " + str(selfPos) + "\nPlayer body pos: " + str(bodyPos) + "\n"
+		#txt += "Player ent pos " + str(selfPos) + "\nPlayer body pos: " + str(bodyPos) + "\n"
+		txt += "Pitch " + str(m_body.pitch) + " yaw " + str(m_body.yaw) + "\n"
 		txt += "Velocity " + str(m_body._velocity) + "\n"
 		txt += m_body.calcVelTxt
 		sys.playerDebugText = txt

@@ -231,6 +231,8 @@ func calc_final_velocity(
 
 func process_movement(_input, _delta: float):
 	var _inputDir: Vector3 = Vector3()
+	# -------------------------------
+	# movement
 	if sys.bGameInputActive == true:
 		if Input.is_action_pressed("move_forward"):
 			_inputDir.z -= 1
@@ -240,14 +242,26 @@ func process_movement(_input, _delta: float):
 			_inputDir.x -= 1
 		if Input.is_action_pressed("move_right"):
 			_inputDir.x += 1
-	# ----
-	var mMoveX: float = 0
-	if Input.is_action_pressed("ui_left"):
-		mMoveX = KEYBOARD_TURN_DEGREES_PER_SECOND
-	if Input.is_action_pressed("ui_right"):
-		mMoveX = -KEYBOARD_TURN_DEGREES_PER_SECOND
-	var rotY: float = (mMoveX * common.DEG2RAD) * _delta
-	rotate_y(rotY)
+		# -------------------------------
+		# Keyboard turning
+		# Horizontal
+		var mMoveX: float = 0
+		if Input.is_action_pressed("ui_left"):
+			mMoveX = KEYBOARD_TURN_DEGREES_PER_SECOND
+		if Input.is_action_pressed("ui_right"):
+			mMoveX = -KEYBOARD_TURN_DEGREES_PER_SECOND
+		#var rotY: float = (mMoveX * common.DEG2RAD) * _delta
+		#rotate_y(rotY)
+		yaw += mMoveX * _delta
+		
+		var mMoveY: float = 0
+		# Vertical
+		if Input.is_action_pressed("ui_up"):
+			mMoveY = KEYBOARD_TURN_DEGREES_PER_SECOND
+		if Input.is_action_pressed("ui_down"):
+			mMoveY = -KEYBOARD_TURN_DEGREES_PER_SECOND
+		pitch += mMoveY * _delta
+	
 	# ----
 	var _forward: Vector3 = global_transform.basis.z
 	var _left: Vector3 = global_transform.basis.x
@@ -324,6 +338,7 @@ func process_movement(_input, _delta: float):
 	lastMove = self.get_global_transform().origin - prevPosition
 	lastDelta = _delta
 
+# TODO: Move test guff to separate class
 func _move_vehicle(_delta: float):
 	var _velNormal = _velocity.normalized()
 	var speed: float = _velocity.length()
@@ -352,8 +367,19 @@ func _move_vehicle(_delta: float):
 	var _moveResult: Vector3 = move_and_slide(_velocity)
 	pass
 
+func _apply_rotations(_delta: float):
+	var bodyRot:Vector3 = self.rotation_degrees
+	bodyRot.y = yaw
+	self.rotation_degrees = bodyRot
+
+	pitch = clamp(pitch, -PITCH_CAP_DEGREES, PITCH_CAP_DEGREES)
+	var camRot:Vector3 = head.rotation_degrees
+	camRot.x = pitch
+	head.rotation_degrees = camRot
+
 func _physics_process(_delta: float):
 	if move_mode == 1:
+		_apply_rotations(_delta)
 		process_movement(input, _delta)
 	elif move_mode == 2:
 		_move_vehicle(_delta)
@@ -364,25 +390,21 @@ func _input(_event: InputEvent):
 	if move_mode != 1:
 		return
 	if _event is InputEventMouseMotion and sys.bGameInputActive == true:
+		# NOTE: Apply input to pitch/yaw values. But do not
+		# set spatial rotations yet.
+
 		# scale inputs by this ratio or mouse sensitivity is based on resolution!
 		var scrSizeRatio: Vector2 = common.get_window_to_screen_ratio()
+
 		# Horizontal
 		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY * scrSizeRatio.x)
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
 		var rotY: float = (mMoveX * common.DEG2RAD)
-		yaw += rotY
+		yaw += mMoveX
+
 		# vertical
 		# TODO: Uninverted mouse!
 		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
-		var rotX: float = (mMoveY)
-		pitch += rotX
-		pitch = clamp(pitch, -PITCH_CAP_DEGREES, PITCH_CAP_DEGREES)
-		var camRot:Vector3 = head.rotation_degrees
-		camRot.x = pitch
-		# apply
-		rotate_y(rotY)
-		# weapons are attached to head and don't need to be rotated themselves
-		head.rotation_degrees = camRot
-		#sys.playerDebugText = "Yaw " + str(yaw) + " Pitch: " + str(pitch)
+		pitch += mMoveY
 	pass
