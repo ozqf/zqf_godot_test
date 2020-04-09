@@ -3,11 +3,7 @@
 [ext_resource path="res://assets/mesh_raw/items/item_sphere.gltf" type="PackedScene" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
-flags_transparent = true
-flags_unshaded = true
-flags_vertex_lighting = true
-flags_do_not_receive_shadows = true
-albedo_color = Color( 0, 0, 1, 1 )
+albedo_color = Color( 0.235294, 0.282353, 0.235294, 1 )
 
 [node name="item_sphere" instance=ExtResource( 1 )]
 
