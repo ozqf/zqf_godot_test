@@ -15,7 +15,7 @@ func init(_launchNode: Spatial):
 	print("Inventory launch node: " + str(_launchNode))
 
 func can_attack():
-	return attackRefireTime <= 0
+	return attackTick <= 0
 
 func shoot():
 	if !launchNode:

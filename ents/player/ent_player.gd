@@ -78,6 +78,11 @@ func _process(_delta:float):
 	if sys.bGameInputActive:
 		primaryOn = Input.is_action_pressed("attack_1")
 		secondaryOn = Input.is_action_pressed("attack_2")
+		if Input.is_action_just_pressed("next_weapon"):
+			m_inventory.select_next_weapon()
+		if Input.is_action_just_pressed("prev_weapon"):
+			m_inventory.select_prev_weapon()
+
 	m_inventory.update_inputs(primaryOn, secondaryOn)
 
 	if writeDebug:
