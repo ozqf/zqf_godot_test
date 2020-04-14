@@ -1,5 +1,8 @@
 extends "../ent.gd"
 
+###############################################
+# Component Nodes
+###############################################
 onready var m_body = $body
 onready var m_hp = $body/health
 
@@ -15,14 +18,31 @@ onready var m_weaponLeft = $body/display/head/weapon_left
 
 onready var m_inventory = $inventory
 
+###############################################
+# Members
+###############################################
 var writeDebug: bool = true
+
+
+###############################################
+# Init
+###############################################
+func _init_weapons():
+	m_inventory.add_weapon_node($inventory/blaster)
+	m_inventory.add_weapon_node($inventory/god_hand)
+
 
 func _ready():
 	# base class call
 	print("Ent Player type " + str(self) + " ready")
 	print("  set launch node: " + str(m_weaponCentre))
-	#m_inventory.launchNode = m_weaponCentre
+	
+	###############################################
+	# Init inventory
+	###############################################
 	m_inventory.init(m_weaponCentre)
+	_init_weapons()
+
 	m_hp.ent = self
 	#._ready()
 	m_fpsCamera.current = true
@@ -51,6 +71,14 @@ func toggle_cameras():
 func _process(_delta:float):
 	if Input.is_action_just_pressed("toggle_camera"):
 		toggle_cameras()
+	
+	# Update inventory inputs
+	var primaryOn: bool = false
+	var secondaryOn: bool = false
+	if sys.bGameInputActive:
+		primaryOn = Input.is_action_pressed("attack_1")
+		secondaryOn = Input.is_action_pressed("attack_2")
+	m_inventory.update_inputs(primaryOn, secondaryOn)
 
 	if writeDebug:
 		var selfPos = global_transform.origin

@@ -1,6 +1,6 @@
 extends Spatial
 
-var on: bool = false
+var primaryOn: bool = false
 
 var attackTick: float = 0
 var attackRefireTime: float = 0.1
@@ -24,5 +24,5 @@ func _process(_delta: float):
 	if attackTick > 0:
 		attackTick -= _delta
 		return
-	if on:
+	if primaryOn:
 		shoot()

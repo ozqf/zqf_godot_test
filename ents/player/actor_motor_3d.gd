@@ -123,11 +123,11 @@ func _ground_check():
 func _process(_delta: float):
 	grounded = _ground_check()
 	# if sys.bGameInputActive == true and Input.is_action_pressed("attack_1"):
-	# 	weapon_right.on = true
-	# 	weapon_left.on = true
+	# 	weapon_right.primaryOn = true
+	# 	weapon_left.primaryOn = true
 	# else:
-	# 	weapon_right.on = false
-	# 	weapon_left.on = false
+	# 	weapon_right.primaryOn = false
+	# 	weapon_left.primaryOn = false
 
 func process_input(_delta: float):
 	pass
@@ -393,7 +393,7 @@ func _input(_event: InputEvent):
 		# NOTE: Apply input to pitch/yaw values. But do not
 		# set spatial rotations yet.
 
-		# scale inputs by this ratio or mouse sensitivity is based on resolution!
+		# scale inputs by this ratio or mouse sensitivity is based primaryOn resolution!
 		var scrSizeRatio: Vector2 = common.get_window_to_screen_ratio()
 
 		# Horizontal

@@ -1,6 +1,4 @@
-extends Node
-
-var on: bool = false
+extends "res://ents/weapons/weapon.gd"
 
 var attackTick: float = 0
 var attackRefireTime: float = 0.1
@@ -8,6 +6,13 @@ var attackRefireTime: float = 0.1
 var projectile_def = null
 
 var launchNode: Spatial = null;
+
+func init(_launchNode: Spatial):
+	var prj_def = factory.create_projectile_def()
+	prj_def.speed = 75
+	self.projectile_def = prj_def
+	self.launchNode = _launchNode
+	print("Inventory launch node: " + str(_launchNode))
 
 func can_attack():
 	return attackRefireTime <= 0
@@ -29,5 +34,5 @@ func _process(_delta: float):
 	if attackTick > 0:
 		attackTick -= _delta
 		return
-	if on:
+	if primaryOn:
 		shoot()
