@@ -29,6 +29,7 @@ var writeDebug: bool = true
 ###############################################
 func _init_weapons():
 	m_inventory.add_weapon_node($inventory/blaster)
+	m_inventory.add_weapon_node($inventory/shotgun)
 	m_inventory.add_weapon_node($inventory/god_hand)
 
 func _ready():

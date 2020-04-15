@@ -66,12 +66,20 @@ func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2)
 	return (dp > 0)
 
 func calc_pitch_degrees3D(v3:Vector3):
-	var radians = atan2(v3.y, v3.x)
+	var radians = atan2(v3.y, v3.z)
 	return radians * RAD2DEG
 
 func calc_yaw_degrees3D(v3:Vector3):
-	var radians = atan2(v3.z, v3.x)
+	var radians = atan2(v3.x, v3.z)
 	return radians * RAD2DEG
+
+func calc_flat_plane_angles(dir: Vector3):
+	var flatMag: float = dir.length()
+	var result:Vector3 = Vector3()
+	# x == pitch, y == yaw
+	result.y = atan2(dir.x, dir.z)
+	result.x = atan2(dir.y, flatMag)
+	return result
 
 func calc_euler_degrees(v: Vector3):
 	# yaw
@@ -81,6 +89,34 @@ func calc_euler_degrees(v: Vector3):
 	var flatMagnitude = flat.length()
 	var pitchRadians = atan2(v.y, flatMagnitude)
 	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
+	return result
+
+func calc_euler_to_forward3D(pitchDegrees: float, yawDegrees: float):
+	# order sensitive. apply yaw then pitch
+	var pitch = pitchDegrees * DEG2RAD
+	var yaw = yawDegrees * DEG2RAD
+
+	# var pitchMatrix:Basis = Basis.IDENTITY.rotated(Vector3(-1, 0, 0), pitch)
+	# var yawMatrix:Basis = Basis.IDENTITY.rotated(Vector3(0, 1, 0), yaw)
+	
+	#var matrix: Basis = Basis.IDENTITY
+	#var matrix: Basis = Basis.IDENTITY * pitchMatrix * yawMatrix
+	#var matrix: Basis = Basis.IDENTITY * yawMatrix
+	#var matrix: Basis = Basis.IDENTITY * pitchMatrix
+	#matrix *= yawMatrix
+	#matrix *= pitchMatrix
+	# matrix = matrix.rotated(Vector3(1, 0, 0), -pitch)
+	# matrix = matrix.rotated(Vector3(0, 1, 0), yaw)
+	# var result = matrix.z
+
+	var result: Vector3 = Vector3()
+	var xzLen: float = cos(pitch)
+	result.x = xzLen * cos(yaw)
+	result.y = sin(pitch)
+	result.z = xzLen * sin(-yaw)
+	
+	print("Pitch/yaw " + str(pitchDegrees) + "/" + str(yawDegrees) + " to forward: " + str(result))
+	print("\tMag: " + str(result.length()))
 	return result
 
 func strNullOrEmpty(txt: String):
@@ -95,4 +131,3 @@ func extract_interactor(obj):
 	if !obj.has_method("get_interactor"):
 		return null
 	return obj.get_interactor()
-	

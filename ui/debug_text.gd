@@ -7,5 +7,6 @@ func _process(_delta):
 	var txt = sys.debugText + "\n" + sys.debugCamPos + "\n"
 	txt = txt + sys.playerDebugText + "\n"
 	txt = txt + sys.mobDebugText + "\n"
+	txt = txt + sys.weaponDebugText + "\n"
 	self.text = txt
 	pass

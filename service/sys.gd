@@ -4,6 +4,7 @@ var load_percent: float = 0
 
 var debugText: String = ""
 var playerDebugText: String = ""
+var weaponDebugText: String = ""
 var mobDebugText: String = ""
 var debugCamPos: String = ""
 var bGameInputActive: bool = false
@@ -15,12 +16,15 @@ var _eventBlockMask = 0
 
 var frameNumber = 0
 
+var m_debugBugWindow: bool = false
+
 func _ready():
 	# HACK - larger window for my desktop machine (:
-	var scrSize: Vector2 = OS.get_screen_size()
-	if scrSize.y >= 1080:
-		OS.set_window_size(Vector2(1600, 900))
-		OS.center_window()
+	if m_debugBugWindow:
+		var scrSize: Vector2 = OS.get_screen_size()
+		if scrSize.y >= 1080:
+			OS.set_window_size(Vector2(1600, 900))
+			OS.center_window()
 	
 	print("Globals init")
 	console.register_text_command("observers", self, "cmd_observers", "", "List global event observers")

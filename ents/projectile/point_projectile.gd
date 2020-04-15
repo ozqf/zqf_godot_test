@@ -37,15 +37,6 @@ func _move_as_ray(delta: float):
 		if result.collider && result.collider.has_node("health"):
 			var hp:Node = result.collider.get_node("health")
 			hp.take_hit(m_damage, m_teamId, m_velocity.normalized())
-		#impact.rotation_degrees = Vector3(0, 0, 0)
-		#var pitch = common.calc_pitch_degrees3D(result.normal)
-		#var yaw = common.calc_pitch_degrees3D(result.normal)
-		#var rot: Vector3 = Vector3(pitch, yaw, 0)
-		# var lookPos = result.position + result.normal
-		# var lookPosUp: Vector3 = Vector3()
-		# lookPosUp.x = lookPos.y
-		# lookPosUp.y = -lookPos.x
-		# impact.look_at(lookPos, Vector3.UP)
 		return true
 	else:
 		# continue
