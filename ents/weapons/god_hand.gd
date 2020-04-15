@@ -1,48 +1,47 @@
 extends "res://ents/weapons/weapon.gd"
 
-var attackTick: float = 0
-var attackRefireTime: float = 1
-
-var attackRefireTimeSecondary: float = 0.2
+###############################
+# Debugging weapon
+#  primary: insta-kill attack
+#  secondary: spawn monsters
+###############################
 
 var projectile_def = null
 
-var launchNode: Spatial = null;
+const MODE_DESTROY: String = "Destroy"
+const MODE_CREATE: String = "Create"
+
+var m_mode: String = "Destroy"
 
 func init(_launchNode: Spatial):
+	# call base ctor
+	.init(_launchNode)
+	
+	self.m_primaryRefireTime = 0.1
+	self.m_secondaryRefireTime = 0.5
+	
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
 	prj_def.damage = 10000
 	self.projectile_def = prj_def
-	self.launchNode = _launchNode
-	print("Inventory launch node: " + str(_launchNode))
 
-func can_attack():
-	return attackTick <= 0
-
-func shoot():
-	if !launchNode:
+func shoot_primary():
+	if !m_launchNode:
 		print("Weapon has no launch node")
 		return
 	var def = projectile_def
-	attackTick = attackRefireTime
+	self.m_tick = self.m_primaryRefireTime
 	#var prj = factory.create_projectile()
 	var prj = factory.create_point_projectile()
-	var t = launchNode.get_global_transform()
+	var t = m_launchNode.get_global_transform()
 	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
 	prj.launch(t.origin, -t.basis.z, def.speed)
 	get_tree().get_root().add_child(prj)
 
 func shoot_secondary():
-	attackTick = attackRefireTimeSecondary
+	self.m_tick = self.m_secondaryRefireTime
 	console.execute("spawn mob")
 	pass
 
 func _process(_delta: float):
-	if attackTick > 0:
-		attackTick -= _delta
-		return
-	if primaryOn:
-		shoot()
-	elif secondaryOn:
-		shoot_secondary()
+	.common_tick(_delta)

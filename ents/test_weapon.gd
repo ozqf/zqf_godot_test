@@ -2,17 +2,17 @@ extends Spatial
 
 var primaryOn: bool = false
 
-var attackTick: float = 0
-var attackRefireTime: float = 0.1
+var m_tick: float = 0
+var m_primaryRefireTime: float = 0.1
 
 var projectile_def = null
 
 func can_attack():
-	return attackRefireTime <= 0
+	return m_primaryRefireTime <= 0
 
-func shoot():
+func shoot_primary():
 	var def = projectile_def
-	attackTick = attackRefireTime
+	m_tick = m_primaryRefireTime
 	#var prj = factory.create_projectile()
 	var prj = factory.create_point_projectile()
 	var t = get_global_transform()
@@ -21,8 +21,8 @@ func shoot():
 	get_tree().get_root().add_child(prj)
 
 func _process(_delta: float):
-	if attackTick > 0:
-		attackTick -= _delta
+	if m_tick > 0:
+		m_tick -= _delta
 		return
 	if primaryOn:
-		shoot()
+		shoot_primary()

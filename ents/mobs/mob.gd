@@ -31,7 +31,7 @@ func _ready():
 	prj_def.teamId = common.TEAM_MOBS
 	prj_def.lifeTime = 3
 	weapon.projectile_def = prj_def
-	weapon.attackRefireTime = 2
+	weapon.m_primaryRefireTime = 2
 
 ###################################################################
 # Signals
