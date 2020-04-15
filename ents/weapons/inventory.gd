@@ -43,7 +43,7 @@ func _cycle_selected_weapon(indexStep: int):
 	while escape > 0:
 		var i = _step_current_weapon_index(indexStep)
 		print("Attempt to check weap index " + str(i))
-		if m_weapons[i].can_equip() && m_weapons[m_currentWeaponIndex].can_attack():
+		if m_weapons[i].can_equip():
 			m_queuedWeaponSwitch = i
 			return i
 		# escape
@@ -58,18 +58,28 @@ func select_next_weapon():
 func select_prev_weapon():
 	_cycle_selected_weapon(-1)
 
+func _get_current_weapon():
+	if m_currentWeaponIndex < 0 || m_currentWeaponIndex >= m_weapons.size():
+		return null
+	return m_weapons[m_currentWeaponIndex];
+
 # pass control inputs to the inventory.
 func update_inputs(primaryOn:bool, secondaryOn:bool):
 	if m_currentWeaponIndex < 0:
 		return
 	
+	var weap = _get_current_weapon()
 	# are we changing weapon?
-	if m_queuedWeaponSwitch >= 0:
+	if m_queuedWeaponSwitch >= 0 && m_weapons[m_currentWeaponIndex].can_attack():
+		# disable current weapon's input:
+		weap.primaryOn = false
+		weap.secondaryOn = false
 		m_currentWeaponIndex = m_queuedWeaponSwitch
 		print("Selected weapon " + str(m_weapons[m_currentWeaponIndex].name))
 		m_queuedWeaponSwitch = -1
+		# update local reference
+		weap = _get_current_weapon()
 	
 	# update current weapon
-	var weap = m_weapons[m_currentWeaponIndex]
 	weap.primaryOn = primaryOn
 	weap.secondaryOn = secondaryOn

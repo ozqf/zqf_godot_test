@@ -154,13 +154,3 @@ func execute(command: String):
 		print("FAILED " + str(tokens) + " does not match signature " + cmd.signature)
 		return
 	cmd.callback.call_func(tokens)
-	
-	# for i in range(0, _txtCommands.size()):
-	# 	if _txtCommands[i].name == tokens[0]:
-	# 		var cmd: TextCommand = _txtCommands[i]
-	# 		if cmd.signature != null && cmd.signature != "" && !check_token_signature(tokens, cmd.signature):
-	# 			print("FAILED " + str(tokens) + " does not match signature " + cmd.signature)
-	# 			return
-	# 		_txtCommands[i].callback.call_func(tokens)
-	# 	pass
-	# pass

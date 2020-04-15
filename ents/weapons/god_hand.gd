@@ -1,7 +1,9 @@
 extends "res://ents/weapons/weapon.gd"
 
 var attackTick: float = 0
-var attackRefireTime: float = 0.1
+var attackRefireTime: float = 1
+
+var attackRefireTimeSecondary: float = 0.2
 
 var projectile_def = null
 
@@ -10,6 +12,7 @@ var launchNode: Spatial = null;
 func init(_launchNode: Spatial):
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
+	prj_def.damage = 10000
 	self.projectile_def = prj_def
 	self.launchNode = _launchNode
 	print("Inventory launch node: " + str(_launchNode))
@@ -30,9 +33,16 @@ func shoot():
 	prj.launch(t.origin, -t.basis.z, def.speed)
 	get_tree().get_root().add_child(prj)
 
+func shoot_secondary():
+	attackTick = attackRefireTimeSecondary
+	console.execute("spawn mob")
+	pass
+
 func _process(_delta: float):
 	if attackTick > 0:
 		attackTick -= _delta
 		return
 	if primaryOn:
 		shoot()
+	elif secondaryOn:
+		shoot_secondary()
