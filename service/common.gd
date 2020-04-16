@@ -94,36 +94,41 @@ func calc_flat_plane_radians(dir: Vector3):
 	result.x = atan2(dir.y, sqrt((dir.x * dir.x) + (dir.z * dir.z)))
 	return result
 
-func calc_flat_plane_radians_1(dir: Vector3):
+func calc_flat_plane_radians_alt1(dir: Vector3):
 	var flatMag: float = dir.length()
 	var result:Vector3 = Vector3()
 	# x == pitch, y == yaw
 	result.y = atan2(dir.x, dir.z)
 	result.x = atan2(dir.y, flatMag)
-	# for some reason pitch result is half what it should be...?
-	#result.x *= 2
 	return result
-	
-# order sensitive. apply pitch then yaw
+
 func calc_euler_to_forward3D_1(pitchDegrees: float, yawDegrees: float):
 	var pitch = pitchDegrees * DEG2RAD
 	var yaw = yawDegrees * DEG2RAD
 	var matrix: Basis = Basis.IDENTITY
 	# inverted pitch for some reason...?
+	# order sensitive. apply pitch then yaw!
 	matrix = matrix.rotated(Vector3(1, 0, 0), -pitch)
 	matrix = matrix.rotated(Vector3(0, 1, 0), yaw)
 	return matrix.z
 
-# doesn't work
-func calc_euler_to_forward3D_2(pitchDegrees: float, yawDegrees: float):
-	var pitch = pitchDegrees * DEG2RAD
-	var yaw = yawDegrees * DEG2RAD
-	var result: Vector3 = Vector3()
-	var xzLen: float = cos(pitch)
-	result.x = xzLen * cos(yaw)
-	result.y = sin(pitch)
-	result.z = xzLen * sin(-yaw)
-	return result
+	
+func calc_forward_spread_from_basis(_origin: Vector3, _m3x3: Basis, _spreadHori: float, _spreadVert: float):
+	var forward: Vector3 = _m3x3.z
+	var up: Vector3 = _m3x3.y
+	var right: Vector3 = _m3x3.x
+
+	var end: Vector3 = VectorMA(_origin, 8192, -forward)
+	end = VectorMA(end, _spreadHori, right)
+	end = VectorMA(end, _spreadVert, up)
+	return (end - _origin).normalized()
+
+func VectorMA(start: Vector3, scale: float, dir:Vector3):
+	var dest: Vector3 = Vector3()
+	dest.x = start.x + dir.x * scale
+	dest.y = start.y + dir.y * scale
+	dest.z = start.z + dir.z * scale
+	return dest
 
 func strNullOrEmpty(txt: String):
 	if txt == null:

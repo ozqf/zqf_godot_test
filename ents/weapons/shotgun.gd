@@ -7,6 +7,8 @@ var m_numPellets: int = 12
 var m_debugForward: Vector3 = Vector3()
 var m_euler: Vector3 = Vector3()
 
+var m_debugTxt: String = ""
+
 func init(_launchNode: Spatial):
 	# call base ctor
 	.init(_launchNode)
@@ -33,6 +35,9 @@ func _process(_delta:float):
 	m_euler.x *= common.RAD2DEG
 	m_euler.y *= common.RAD2DEG
 	var launch:Vector3 = common.calc_euler_to_forward3D_1(m_euler.x, m_euler.y)
+	
+	# New technique
+	var end: Vector3 = common.calc_forward_spread_from_basis(t.origin, t.basis, 500, 500)
 
 	m_debugForward = launch
 
@@ -40,7 +45,12 @@ func _process(_delta:float):
 	sys.weaponDebugText += "Forward: " + str(sourceForward) + "\n"
 	sys.weaponDebugText += "Pitch/Yaw: " + str(pitchDegrees) + "/" + str(yawDegrees) + "\n"
 	sys.weaponDebugText += "Flat angles: " + str(m_euler) + "\n"
-	sys.weaponDebugText += "Launch: " + str(launch) + "\n"
+	sys.weaponDebugText += "Origin: " + str(t.origin) + " end: " + str(end) + "\n"
+	#sys.weaponDebugText += "Launch: " + str(launch) + "\n"
+	sys.weaponDebugText += "\nLaunch vectors:\n"
+	sys.weaponDebugText += m_debugTxt
+
+
 
 
 func shoot_primary():
@@ -53,13 +63,36 @@ func shoot_primary():
 	var t = m_launchNode.get_global_transform()
 	var launchDir: Vector3
 	var launchEuler: Vector3
-	
-	for i in range(0, m_numPellets):
-		launchEuler = m_euler
-		launchEuler.x += rand_range(-5, 5)
-		launchEuler.y += rand_range(-10, 10)
 
-		launchDir = common.calc_euler_to_forward3D_1(launchEuler.x, launchEuler.y)
+	var spreadH: float = 600
+	var spreadV: float = 300
+	var spreads = []
+	# always one straight forward
+	spreads.push_back(Vector2())
+
+	# spreads.push_back(Vector2(spread, spread))
+	# spreads.push_back(Vector2(-spread, -spread))
+	# spreads.push_back(Vector2(spread, -spread))
+	# spreads.push_back(Vector2(-spread, spread))
+
+
+	for i in range(1, m_numPellets):
+		spreads.push_back(Vector2(rand_range(-spreadH, spreadH), rand_range(-spreadV, spreadV)))
+
+	#m_debugTxt = ""
+	for i in range(0, spreads.size()):
+		launchEuler = m_euler
+		launchEuler.x += spreads[i].x
+		launchEuler.y += spreads[i].y
+		
+		# launchEuler.x += rand_range(-5, 5)
+		# launchEuler.y += rand_range(-10, 10)
+
+		#launchDir = common.calc_euler_to_forward3D_1(launchEuler.x, launchEuler.y)
+		launchDir = common.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
+
+		# m_debugTxt += str(i) + ": " + str(launchEuler) + "\n"
+		# m_debugTxt += "\tLaunch: " + str(launchDir) + "\n"
 		
 		var prj = factory.create_point_projectile()
 		prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
