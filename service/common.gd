@@ -84,6 +84,17 @@ func calc_euler_degrees(v: Vector3):
 	return result
 
 func calc_flat_plane_radians(dir: Vector3):
+	# source - C++ example
+	# implementation here has swapped Y and Z axes
+	# double yaw = Math.Atan2(ds.X, ds.Y);
+	# double pitch = Math.Atan2(ds.Z, Math.Sqrt((ds.X * ds.X) + (ds.Y * ds.Y)));
+	var result: Vector3 = Vector3()
+	# yaw
+	result.y = atan2(dir.x, dir.z)
+	result.x = atan2(dir.y, sqrt((dir.x * dir.x) + (dir.z * dir.z)))
+	return result
+
+func calc_flat_plane_radians_1(dir: Vector3):
 	var flatMag: float = dir.length()
 	var result:Vector3 = Vector3()
 	# x == pitch, y == yaw
