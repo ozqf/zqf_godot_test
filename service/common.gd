@@ -73,14 +73,6 @@ func calc_yaw_degrees3D(v3:Vector3):
 	var radians = atan2(v3.x, v3.z)
 	return radians * RAD2DEG
 
-func calc_flat_plane_angles(dir: Vector3):
-	var flatMag: float = dir.length()
-	var result:Vector3 = Vector3()
-	# x == pitch, y == yaw
-	result.y = atan2(dir.x, dir.z)
-	result.x = atan2(dir.y, flatMag)
-	return result
-
 func calc_euler_degrees(v: Vector3):
 	# yaw
 	var yawRadians = atan2(-v.x, -v.z)
@@ -91,32 +83,35 @@ func calc_euler_degrees(v: Vector3):
 	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
 	return result
 
-func calc_euler_to_forward3D(pitchDegrees: float, yawDegrees: float):
-	# order sensitive. apply yaw then pitch
+func calc_flat_plane_radians(dir: Vector3):
+	var flatMag: float = dir.length()
+	var result:Vector3 = Vector3()
+	# x == pitch, y == yaw
+	result.y = atan2(dir.x, dir.z)
+	result.x = atan2(dir.y, flatMag)
+	# for some reason pitch result is half what it should be...?
+	#result.x *= 2
+	return result
+	
+# order sensitive. apply pitch then yaw
+func calc_euler_to_forward3D_1(pitchDegrees: float, yawDegrees: float):
 	var pitch = pitchDegrees * DEG2RAD
 	var yaw = yawDegrees * DEG2RAD
+	var matrix: Basis = Basis.IDENTITY
+	# inverted pitch for some reason...?
+	matrix = matrix.rotated(Vector3(1, 0, 0), -pitch)
+	matrix = matrix.rotated(Vector3(0, 1, 0), yaw)
+	return matrix.z
 
-	# var pitchMatrix:Basis = Basis.IDENTITY.rotated(Vector3(-1, 0, 0), pitch)
-	# var yawMatrix:Basis = Basis.IDENTITY.rotated(Vector3(0, 1, 0), yaw)
-	
-	#var matrix: Basis = Basis.IDENTITY
-	#var matrix: Basis = Basis.IDENTITY * pitchMatrix * yawMatrix
-	#var matrix: Basis = Basis.IDENTITY * yawMatrix
-	#var matrix: Basis = Basis.IDENTITY * pitchMatrix
-	#matrix *= yawMatrix
-	#matrix *= pitchMatrix
-	# matrix = matrix.rotated(Vector3(1, 0, 0), -pitch)
-	# matrix = matrix.rotated(Vector3(0, 1, 0), yaw)
-	# var result = matrix.z
-
+# doesn't work
+func calc_euler_to_forward3D_2(pitchDegrees: float, yawDegrees: float):
+	var pitch = pitchDegrees * DEG2RAD
+	var yaw = yawDegrees * DEG2RAD
 	var result: Vector3 = Vector3()
 	var xzLen: float = cos(pitch)
 	result.x = xzLen * cos(yaw)
 	result.y = sin(pitch)
 	result.z = xzLen * sin(-yaw)
-	
-	print("Pitch/yaw " + str(pitchDegrees) + "/" + str(yawDegrees) + " to forward: " + str(result))
-	print("\tMag: " + str(result.length()))
 	return result
 
 func strNullOrEmpty(txt: String):
