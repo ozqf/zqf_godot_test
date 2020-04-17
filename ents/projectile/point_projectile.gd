@@ -46,7 +46,7 @@ func _move_as_ray(delta: float):
 
 func remove_self():
 	m_active = false
-	queue_free()
+	call_deferred("queue_free")
 	pass
 
 func _process(delta: float):

@@ -37,9 +37,9 @@ func shoot_stakes(_count: int):
 		launchDir = common.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
 		var prj = factory.get_free_point_projectile()
 		prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
+		get_tree().get_root().add_child(prj)
 		prj.launch(t.origin, launchDir, def.speed)
 		prj.set_scale(Vector3(1, 1, 8))
-		get_tree().get_root().add_child(prj)
 
 
 func shoot_primary():
