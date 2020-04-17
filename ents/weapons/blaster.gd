@@ -26,8 +26,8 @@ func shoot_primary():
 	var prj = factory.get_free_point_projectile()
 	var t = m_launchNode.get_global_transform()
 	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
-	prj.launch(t.origin, -t.basis.z, def.speed)
 	get_tree().get_root().add_child(prj)
+	prj.launch(t.origin, -t.basis.z, def.speed)
 
 func _process(_delta: float):
 	.common_tick(_delta)

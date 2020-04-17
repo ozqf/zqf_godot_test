@@ -28,6 +28,12 @@ func shoot_secondary():
 func get_display_name():
 	return self.name
 
+func get_loaded_ammo():
+	return -1
+
+func get_total_ammo():
+	return -1
+
 func common_tick(_delta:float):
 	if self.m_tick > 0:
 		self.m_tick -= _delta

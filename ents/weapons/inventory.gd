@@ -13,6 +13,12 @@ var m_queuedWeaponSwitch:int = -1
 func init(launchNode: Spatial):
 	m_launchNode = launchNode
 
+func get_loaded_ammo():
+	var weap = _get_current_weapon()
+	if weap == null:
+		return -1
+	return weap.get_loaded_ammo()
+
 # Call init before this!
 func add_weapon_node(_newWeapon:Node):
 	assert(_newWeapon)

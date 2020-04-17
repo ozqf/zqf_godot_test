@@ -10,6 +10,7 @@ var debugCamPos: String = ""
 var bGameInputActive: bool = false
 
 onready var debugDraw = $debug_draw
+onready var hud = $HUD
 
 var _observers = []
 var _eventBlockMask = 0

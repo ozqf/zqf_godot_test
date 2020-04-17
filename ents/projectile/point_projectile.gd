@@ -61,6 +61,7 @@ func _process(delta: float):
 	if m_tickTime <= 0:
 		#print("Spawn fx at " + str(transform.origin))
 		remove_self()
+		return
 	
 	m_visibilityTick -= delta
 	if m_visibilityTick < 0:

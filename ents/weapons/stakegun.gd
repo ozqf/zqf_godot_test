@@ -16,6 +16,9 @@ func init(_launchNode: Spatial):
 	prj_def.damage = 30
 	self.projectile_def = prj_def
 
+func get_loaded_ammo():
+	return m_ammoLoaded
+
 func shoot_stakes(_count: int):
 	print("Shoot " + str(_count) + " stakes")
 	var def = projectile_def

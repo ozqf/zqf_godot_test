@@ -96,6 +96,7 @@ func _process(_delta:float):
 		txt += m_body.calcVelTxt
 		sys.playerDebugText = txt
 	pass
+	sys.hud.check_changed("ammo", m_inventory.get_loaded_ammo())
 
 func get_world_position():
 	return self.m_body.global_transform.origin

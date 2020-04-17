@@ -78,5 +78,5 @@ func shoot_primary():
 
 		var prj = factory.get_free_point_projectile()
 		prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
-		prj.launch(t.origin, launchDir, def.speed)
 		get_tree().get_root().add_child(prj)
+		prj.launch(t.origin, launchDir, def.speed)
