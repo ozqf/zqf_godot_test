@@ -21,7 +21,7 @@ func create_projectile_def():
 func create_projectile():
 	return projectile_t.instance()
 
-func create_point_projectile():
+func get_free_point_projectile():
 	return point_projectile_t.instance()
 	
 func create_mob():

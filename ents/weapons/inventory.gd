@@ -20,7 +20,7 @@ func add_weapon_node(_newWeapon:Node):
 	print("Add weapon " + str(_newWeapon.name))
 	_newWeapon.init(m_launchNode)
 	if (m_currentWeaponIndex == -1):
-		m_currentWeaponIndex = m_weapons.size()
+		m_currentWeaponIndex = 0
 
 func select_weapon_by_index(index: int):
 	m_queuedWeaponSwitch = index

@@ -14,7 +14,7 @@ func shoot_primary():
 	var def = projectile_def
 	m_tick = m_primaryRefireTime
 	#var prj = factory.create_projectile()
-	var prj = factory.create_point_projectile()
+	var prj = factory.get_free_point_projectile()
 	var t = get_global_transform()
 	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
 	prj.launch(t.origin, -t.basis.z, def.speed)

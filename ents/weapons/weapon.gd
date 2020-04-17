@@ -33,6 +33,12 @@ func common_tick(_delta:float):
 		self.m_tick -= _delta
 		return
 	if primaryOn:
+		if !m_launchNode:
+			print(self.name + " has no launch node")
+			return
 		shoot_primary()
 	elif secondaryOn:
+		if !m_launchNode:
+			print(self.name + " has no launch node")
+			return
 		shoot_secondary()

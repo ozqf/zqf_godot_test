@@ -11,6 +11,7 @@ func init(_launchNode: Spatial):
 
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
+	prj_def.damage = 10
 	self.projectile_def = prj_def
 
 func can_attack():
@@ -22,7 +23,7 @@ func shoot_primary():
 		return
 	var def = projectile_def
 	self.m_tick = self.m_primaryRefireTime
-	var prj = factory.create_point_projectile()
+	var prj = factory.get_free_point_projectile()
 	var t = m_launchNode.get_global_transform()
 	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
 	prj.launch(t.origin, -t.basis.z, def.speed)

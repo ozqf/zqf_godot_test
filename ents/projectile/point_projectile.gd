@@ -83,8 +83,13 @@ func prepare_for_launch(teamId: int, damage: int, lifeTime: float):
 	m_tickTime = lifeTime
 
 func launch(pos: Vector3, forward: Vector3, speed: int):
+	transform.origin = Vector3();
+	# orientation
+	var lookPos: Vector3 = forward
+	self.look_at(lookPos, Vector3.UP)
+
+	# pos and movement
 	transform.origin = pos;
-	#var lookPos: Vector3 = pos + forward
-	#look_at(lookPos, Vector3.UP)
 	m_velocity = forward * speed
+
 	pass
