@@ -112,12 +112,15 @@ func calc_euler_to_forward3D_1(pitchDegrees: float, yawDegrees: float):
 	matrix = matrix.rotated(Vector3(0, 1, 0), yaw)
 	return matrix.z
 
-	
+# > Take a basis and cast a line forward from it to an endpoint
+# > Offset the endpoint right and up based on spread values
+# > return the direction toward this new endpoint
+# TODO: This function uses arbitrary units for spread as the distanced used is not scaled properly
 func calc_forward_spread_from_basis(_origin: Vector3, _m3x3: Basis, _spreadHori: float, _spreadVert: float):
 	var forward: Vector3 = _m3x3.z
 	var up: Vector3 = _m3x3.y
 	var right: Vector3 = _m3x3.x
-
+	# TODO: Magic value 8192 means spread values are not proper units like degrees
 	var end: Vector3 = VectorMA(_origin, 8192, -forward)
 	end = VectorMA(end, _spreadHori, right)
 	end = VectorMA(end, _spreadVert, up)
