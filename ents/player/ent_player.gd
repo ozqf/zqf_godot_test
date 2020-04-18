@@ -33,6 +33,8 @@ func _init_weapons():
 	m_inventory.add_weapon_node($inventory/shotgun)
 	m_inventory.add_weapon_node($inventory/god_hand)
 
+	$inventory/stakegun.attach_view($body/display/head/weapon_right_model/view_stakegun)
+
 func _ready():
 	# base class call
 	print("Ent Player type " + str(self) + " ready")

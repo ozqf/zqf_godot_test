@@ -34,10 +34,8 @@ func get_loaded_ammo():
 func get_total_ammo():
 	return -1
 
-func common_tick(_delta:float):
-	if self.m_tick > 0:
-		self.m_tick -= _delta
-		return
+# check inputs and shoot
+func check_triggers():
 	if primaryOn:
 		if !m_launchNode:
 			print(self.name + " has no launch node")
@@ -48,3 +46,10 @@ func common_tick(_delta:float):
 			print(self.name + " has no launch node")
 			return
 		shoot_secondary()
+
+# simplest update type. If ready, check input
+func common_tick(_delta:float):
+	if self.m_tick > 0:
+		self.m_tick -= _delta
+		return
+	check_triggers()

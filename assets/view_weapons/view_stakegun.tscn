@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/view_weapons/view_stakegun.gd" type="Script" id=1]
+
+[sub_resource type="CubeMesh" id=1]
+
+[node name="view_stakegun" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="rotator" type="Spatial" parent="."]
+
+[node name="stake_0" type="Spatial" parent="rotator"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="rotator/stake_0"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 1.2, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="stake_1" type="Spatial" parent="rotator"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0, 0 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="rotator/stake_1"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 1.2, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="stake_2" type="Spatial" parent="rotator"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="rotator/stake_2"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 1.2, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="stake_3" type="Spatial" parent="rotator"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="rotator/stake_3"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 1.2, 0.3, 0.3, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="rotator_mesh" type="MeshInstance" parent="rotator"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.8, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
