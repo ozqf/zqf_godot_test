@@ -1,4 +1,4 @@
-extends Spatial
+extends "res://assets/view_weapons/view_weapon.gd"
 
 onready var m_rotator = $rotator
 var m_stakes = []

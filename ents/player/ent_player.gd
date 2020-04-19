@@ -31,10 +31,23 @@ func _init_weapons():
 	m_inventory.add_weapon_node($inventory/stakegun)
 	m_inventory.add_weapon_node($inventory/blaster)
 	m_inventory.add_weapon_node($inventory/shotgun)
+	m_inventory.add_weapon_node($inventory/sword)
 	m_inventory.add_weapon_node($inventory/god_hand)
 
-	$inventory/stakegun.attach_view($body/display/head/weapon_right_model/view_stakegun)
-	$inventory/shotgun.attach_view($body/display/head/weapon_right_model/view_weapon_default)
+	var view_default = $body/display/head/weapon_right_model/view_weapon_default
+	var view_stakegun = $body/display/head/weapon_right_model/view_stakegun
+	var view_shotgun = $body/display/head/weapon_right_model/view_shotgun
+	var view_sword = $body/display/head/weapon_right_model/view_sword
+
+	view_default.hide()
+	view_stakegun.hide()
+	view_shotgun.hide()
+	view_sword.hide()
+
+	$inventory/stakegun.attach_view(view_stakegun)
+	$inventory/shotgun.attach_view(view_shotgun)
+	$inventory/sword.attach_view(view_sword)
+	$inventory/blaster.attach_view(view_default)
 
 func _ready():
 	# base class call

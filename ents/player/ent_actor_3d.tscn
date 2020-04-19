@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
 [ext_resource path="res://ents/test_weapon.gd" type="Script" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://ents/weapons/shotgun.gd" type="Script" id=10]
 [ext_resource path="res://ents/weapons/stakegun.gd" type="Script" id=11]
 [ext_resource path="res://assets/view_weapons/view_stakegun.tscn" type="PackedScene" id=12]
+[ext_resource path="res://assets/view_weapons/view_shotgun.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/view_weapons/view_sword.tscn" type="PackedScene" id=14]
+[ext_resource path="res://ents/weapons/sword.gd" type="Script" id=15]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -90,6 +93,11 @@ far = 1000.0
 [node name="weapon_right_model" type="Spatial" parent="body/display/head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, -0.8, -0.75 )
 
+[node name="view_sword" parent="body/display/head/weapon_right_model" instance=ExtResource( 14 )]
+
+[node name="view_shotgun" parent="body/display/head/weapon_right_model" instance=ExtResource( 13 )]
+visible = false
+
 [node name="view_weapon_default" type="MeshInstance" parent="body/display/head/weapon_right_model"]
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, -2.98023e-08, 0, 5.96046e-08 )
 visible = false
@@ -98,6 +106,7 @@ material/0 = null
 
 [node name="view_stakegun" parent="body/display/head/weapon_right_model" instance=ExtResource( 12 )]
 transform = Transform( 0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.1, 0, -0.7 )
+visible = false
 
 [node name="foot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
@@ -116,3 +125,6 @@ script = ExtResource( 10 )
 
 [node name="stakegun" type="Node" parent="inventory"]
 script = ExtResource( 11 )
+
+[node name="sword" type="Node" parent="inventory"]
+script = ExtResource( 15 )
