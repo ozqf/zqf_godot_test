@@ -17,6 +17,18 @@ func _ready():
 	#print("Point prj ready")
 	mesh.hide()
 
+func _explosion_scan():
+	# TODO: How does Godot want you to do single shot sphere searches...?
+
+	# seems like they don't want you to just use a query and instead use
+	# and area node that is checked for a single frame...?
+
+	# https://docs.godotengine.org/en/3.2/classes/class_physicsdirectspacestate.html#class-physicsdirectspacestate-method-intersect-shape
+	#var space = get_world().direct_space_state
+	#var shape: PhysicsShapeQueryParameters = new PhysicsShapeQueryParameters()
+	#space.intersect_shape()
+	pass
+
 func _move_as_ray(delta: float):
 	var space = get_world().direct_space_state
 	var origin = self.global_transform.origin
