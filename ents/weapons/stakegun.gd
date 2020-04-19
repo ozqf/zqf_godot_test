@@ -12,8 +12,6 @@ var m_ammoMagSize: int = 4
 var m_cycleTick: float = 0
 var m_cycleTotalTime: float = 0.3
 
-var m_view_model = null
-
 func init(_launchNode: Spatial):
 	.init(_launchNode)
 
@@ -23,13 +21,13 @@ func init(_launchNode: Spatial):
 	m_cycleTick = m_cycleTotalTime
 
 	var prj_def = factory.create_projectile_def()
-	prj_def.speed = 75
-	prj_def.damage = 30
+	prj_def.speed = 100
+	prj_def.damage = 40
 	self.projectile_def = prj_def
 
-func attach_view(view_stakegun):
-	m_view_model = view_stakegun
-	print("Stakegun got view model node " + str(m_view_model))
+# func attach_view(view_stakegun):
+# 	self.m_view_model = view_stakegun
+# 	print("Stakegun got view model node " + str(self.m_view_model))
 
 func get_loaded_ammo():
 	return m_ammoLoaded
@@ -57,7 +55,7 @@ func shoot_stakes(_count: int):
 		prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
 		get_tree().get_root().add_child(prj)
 		prj.launch(t.origin, launchDir, def.speed)
-		prj.set_scale(Vector3(1, 1, 8))
+		prj.set_scale(Vector3(1.5, 1.5, 12))
 
 
 func shoot_primary():
@@ -65,6 +63,7 @@ func shoot_primary():
 	m_ammoLoaded -= 1
 	m_tick = m_primaryRefireTime
 	m_state = State.firing
+	m_cycleTick = 0
 
 func shoot_secondary():
 	shoot_stakes(m_ammoLoaded)
@@ -74,14 +73,16 @@ func shoot_secondary():
 	# new reload time - rounds load one at a time anyway
 	m_tick = m_primaryRefireTime
 	m_state = State.firing
+	m_cycleTick = 0
 
 func _process(_delta:float):
-	if m_view_model:
-		m_view_model.set_loaded_ammo(m_ammoLoaded)
+	if self.m_view_model:
+		self.m_view_model.set_state(m_ammoLoaded, m_tick, m_primaryRefireTime, m_cycleTick, m_cycleTotalTime)
 
 	if self.m_tick > 0:
 		# cannot do anything - recovering from firing
 		self.m_tick -= _delta
+		m_cycleTick = 0
 		return
 	# check for firing if any rounds are loaded
 	if m_ammoLoaded > 0:
@@ -90,9 +91,11 @@ func _process(_delta:float):
 	if m_ammoLoaded == m_ammoMagSize:
 		return
 	# cycle a new round
-	m_cycleTick -= _delta
-	if m_cycleTick <= 0:
+	m_cycleTick += _delta
+	if m_cycleTick >= m_cycleTotalTime:
 		m_ammoLoaded += 1
-		m_cycleTick = m_cycleTotalTime
+		if m_ammoLoaded < m_ammoMagSize:
+			# begin again
+			m_cycleTick = 0
 
 		

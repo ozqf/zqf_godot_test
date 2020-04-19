@@ -393,7 +393,7 @@ func _input(_event: InputEvent):
 		# NOTE: Apply input to pitch/yaw values. But do not
 		# set spatial rotations yet.
 
-		# scale inputs by this ratio or mouse sensitivity is based primaryOn resolution!
+		# scale inputs by this ratio or mouse sensitivity is based on resolution!
 		var scrSizeRatio: Vector2 = common.get_window_to_screen_ratio()
 
 		# Horizontal

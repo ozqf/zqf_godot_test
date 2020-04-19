@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/view_weapons/view_stakegun.gd" type="Script" id=1]
 
 [sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="CylinderMesh" id=2]
 
 [node name="view_stakegun" type="Spatial"]
 script = ExtResource( 1 )
@@ -44,4 +46,11 @@ material/0 = null
 [node name="rotator_mesh" type="MeshInstance" parent="rotator"]
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.8, 0, 0, 0 )
 mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Spatial" type="Spatial" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 2.04891e-08, 0.5, 0, -1, 4.09782e-08, 0, 0, 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Spatial"]
+mesh = SubResource( 2 )
 material/0 = null

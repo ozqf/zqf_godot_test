@@ -9,9 +9,24 @@ var m_tick: float = 0
 var m_primaryRefireTime: float = 0
 var m_secondaryRefireTime: float = 0
 
+var m_view_model = null
+var m_isEquiped = null
+
 func init(_launchNode: Spatial):
 	m_launchNode = _launchNode
 	pass
+
+func attach_view(view_model_node):
+	self.m_view_model = view_model_node
+
+func set_equipped(flag: bool):
+	m_isEquiped = flag
+	
+	if m_view_model:
+		if m_isEquiped:
+			m_view_model.show()
+		else:
+			m_view_model.hide()
 
 func can_attack():
 	return self.m_tick <= 0

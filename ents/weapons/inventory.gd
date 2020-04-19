@@ -75,16 +75,21 @@ func update_inputs(primaryOn:bool, secondaryOn:bool):
 		return
 	
 	var weap = _get_current_weapon()
+	if !weap:
+		return
 	# are we changing weapon?
 	if m_queuedWeaponSwitch >= 0 && m_weapons[m_currentWeaponIndex].can_attack():
 		# disable current weapon's input:
 		weap.primaryOn = false
 		weap.secondaryOn = false
+		# deequip:
+		weap.set_equipped(false)
 		m_currentWeaponIndex = m_queuedWeaponSwitch
 		print("Selected weapon " + str(m_weapons[m_currentWeaponIndex].name))
 		m_queuedWeaponSwitch = -1
 		# update local reference
 		weap = _get_current_weapon()
+		weap.set_equipped(true)
 	
 	# update current weapon
 	weap.primaryOn = primaryOn

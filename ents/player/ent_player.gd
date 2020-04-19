@@ -34,6 +34,7 @@ func _init_weapons():
 	m_inventory.add_weapon_node($inventory/god_hand)
 
 	$inventory/stakegun.attach_view($body/display/head/weapon_right_model/view_stakegun)
+	$inventory/shotgun.attach_view($body/display/head/weapon_right_model/view_weapon_default)
 
 func _ready():
 	# base class call
