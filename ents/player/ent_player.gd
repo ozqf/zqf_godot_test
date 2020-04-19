@@ -28,12 +28,16 @@ var writeDebug: bool = true
 # Init
 ###############################################
 func _init_weapons():
-	m_inventory.add_weapon_node($inventory/stakegun)
-	m_inventory.add_weapon_node($inventory/blaster)
-	m_inventory.add_weapon_node($inventory/shotgun)
+	# must be added in slot order
 	m_inventory.add_weapon_node($inventory/sword)
+	m_inventory.add_weapon_node($inventory/stakegun)
+	m_inventory.add_weapon_node($inventory/shotgun)
+	m_inventory.add_weapon_node($inventory/blaster)	
 	m_inventory.add_weapon_node($inventory/god_hand)
 
+	m_inventory.select_weapon_by_index(0)
+
+	# link up weapons and their display models:
 	var view_default = $body/display/head/weapon_right_model/view_weapon_default
 	var view_stakegun = $body/display/head/weapon_right_model/view_stakegun
 	var view_shotgun = $body/display/head/weapon_right_model/view_shotgun
@@ -99,6 +103,16 @@ func _process(_delta:float):
 			m_inventory.select_next_weapon()
 		if Input.is_action_just_pressed("prev_weapon"):
 			m_inventory.select_prev_weapon()
+		if Input.is_action_just_pressed("slot_1"):
+			m_inventory.select_weapon_by_index(0)
+		if Input.is_action_just_pressed("slot_2"):
+			m_inventory.select_weapon_by_index(1)
+		if Input.is_action_just_pressed("slot_3"):
+			m_inventory.select_weapon_by_index(2)
+		if Input.is_action_just_pressed("slot_4"):
+			m_inventory.select_weapon_by_index(3)
+		if Input.is_action_just_pressed("slot_5"):
+			m_inventory.select_weapon_by_index(4)
 
 	m_inventory.update_inputs(primaryOn, secondaryOn)
 
