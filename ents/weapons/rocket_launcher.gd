@@ -25,7 +25,7 @@ func shoot_primary():
 	self.m_tick = self.m_primaryRefireTime
 	var prj = factory.get_free_point_projectile()
 	var t = m_launchNode.get_global_transform()
-	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
+	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime, ownerId)
 	get_tree().get_root().add_child(prj)
 	prj.launch(t.origin, -t.basis.z, def.speed)
 

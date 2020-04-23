@@ -52,7 +52,7 @@ func shoot_stakes(_count: int):
 	for i in range(0, _count):
 		launchDir = common.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
 		var prj = factory.get_free_point_projectile()
-		prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime)
+		prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime, ownerId)
 		get_tree().get_root().add_child(prj)
 		prj.launch(t.origin, launchDir, def.speed)
 		prj.set_scale(Vector3(1.5, 1.5, 12))

@@ -29,6 +29,7 @@ func add_weapon_node(_newWeapon:Node):
 	m_weapons.push_back(_newWeapon)
 	print("Add weapon " + str(_newWeapon.name))
 	_newWeapon.init(m_launchNode)
+	_newWeapon.ownerId = m_ownerId
 	if (m_currentWeaponIndex == -1):
 		m_currentWeaponIndex = 0
 

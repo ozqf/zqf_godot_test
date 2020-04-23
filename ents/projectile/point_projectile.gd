@@ -8,6 +8,7 @@ var m_velocity: Vector3 = Vector3()
 var m_tickTime: float = 1
 var m_teamId: int = 0
 var m_damage: int = 20
+var m_sourceEntId: int = 0
 
 var m_visibilityTick: float = 0.02
  
@@ -90,10 +91,11 @@ func _on_projectile_body_entered(body):
 		#print("Prj hit but no hp")
 		m_tickTime = 0
 
-func prepare_for_launch(teamId: int, damage: int, lifeTime: float):
+func prepare_for_launch(teamId: int, damage: int, lifeTime: float, sourceEntId: int):
 	m_teamId = teamId
 	m_damage = damage
 	m_tickTime = lifeTime
+	m_sourceEntId = sourceEntId
 
 func launch(pos: Vector3, forward: Vector3, speed: int):
 	transform.origin = Vector3();

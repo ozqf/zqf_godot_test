@@ -16,7 +16,6 @@ var m_isEquiped = null
 
 func init(_launchNode: Spatial):
 	m_launchNode = _launchNode
-	pass
 
 func attach_view(view_model_node):
 	self.m_view_model = view_model_node
