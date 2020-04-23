@@ -61,7 +61,7 @@ func cmd_trigger(tokens: PoolStringArray):
 		trigger_entity(tokens[i])
 	pass
 
-func cmd_ents(tokens: PoolStringArray):
+func cmd_ents(_tokens: PoolStringArray):
 	var numEnts = ents.size()
 	print("--- List Entities (" + str(numEnts) + ") ---")
 	for i in range(0, numEnts):

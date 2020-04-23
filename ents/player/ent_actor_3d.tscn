@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
 [ext_resource path="res://ents/test_weapon.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://assets/view_weapons/view_shotgun.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/view_weapons/view_sword.tscn" type="PackedScene" id=14]
 [ext_resource path="res://ents/weapons/sword.gd" type="Script" id=15]
+[ext_resource path="res://ents/weapons/rocket_launcher.gd" type="Script" id=16]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -128,3 +129,6 @@ script = ExtResource( 11 )
 
 [node name="sword" type="Node" parent="inventory"]
 script = ExtResource( 15 )
+
+[node name="rocket_launcher" type="Node" parent="inventory"]
+script = ExtResource( 16 )

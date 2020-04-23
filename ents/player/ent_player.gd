@@ -28,11 +28,12 @@ var writeDebug: bool = true
 # Init
 ###############################################
 func _init_weapons():
-	# must be added in slot order
+	# must be added in slot order!
 	m_inventory.add_weapon_node($inventory/sword)
 	m_inventory.add_weapon_node($inventory/stakegun)
 	m_inventory.add_weapon_node($inventory/shotgun)
-	m_inventory.add_weapon_node($inventory/blaster)	
+	m_inventory.add_weapon_node($inventory/blaster)
+	m_inventory.add_weapon_node($inventory/rocket_launcher)
 	m_inventory.add_weapon_node($inventory/god_hand)
 
 	m_inventory.select_weapon_by_index(0)
@@ -52,6 +53,7 @@ func _init_weapons():
 	$inventory/shotgun.attach_view(view_shotgun)
 	$inventory/sword.attach_view(view_sword)
 	$inventory/blaster.attach_view(view_default)
+	$inventory/rocket_launcher.attach_view(view_default)
 
 func _ready():
 	# base class call
@@ -61,7 +63,9 @@ func _ready():
 	###############################################
 	# Init inventory
 	###############################################
-	m_inventory.init(m_weaponCentre)
+
+	# Assuming Id is already set here!
+	m_inventory.init(m_weaponCentre, self.id)
 	_init_weapons()
 
 	m_hp.ent = self

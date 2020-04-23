@@ -10,8 +10,12 @@ var m_launchNode: Spatial = null
 # if not -1, attempt to switch to this index next frame
 var m_queuedWeaponSwitch:int = -1
 
-func init(launchNode: Spatial):
+var m_ownerId: int = 0
+
+func init(launchNode: Spatial, ownerId: int):
 	m_launchNode = launchNode
+	m_ownerId = ownerId
+	print("Init inventory for ent Id " + str(ownerId))
 
 func get_loaded_ammo():
 	var weap = _get_current_weapon()

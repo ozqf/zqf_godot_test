@@ -29,6 +29,7 @@ func ent_trigger_targets():
 # Life cycle
 ########################################
 
+# constructor
 func _init():
 	# TODO: Replace id allocation/assignment with calls in factory.
 	id = g_ents.allocate_ids(1, false)

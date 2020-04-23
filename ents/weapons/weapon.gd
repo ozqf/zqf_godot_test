@@ -3,6 +3,8 @@ extends Node
 var primaryOn: bool = false
 var secondaryOn: bool = false
 
+var ownerId: int = 0
+
 var m_launchNode: Spatial = null;
 
 var m_tick: float = 0
