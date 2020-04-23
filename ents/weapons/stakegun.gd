@@ -10,13 +10,13 @@ var m_ammoLoaded: int = 4
 var m_ammoMagSize: int = 4
 
 var m_cycleTick: float = 0
-var m_cycleTotalTime: float = 0.3
+var m_cycleTotalTime: float = 0.35
 
 func init(_launchNode: Spatial):
 	.init(_launchNode)
 
-	self.m_primaryRefireTime = 0.3
-	self.m_secondaryRefireTime = 0.3
+	self.m_primaryRefireTime = 0.2
+	self.m_secondaryRefireTime = 0.2
 
 	m_cycleTick = m_cycleTotalTime
 

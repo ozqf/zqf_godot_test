@@ -25,11 +25,21 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="position_1" type="Spatial" parent="."]
-transform = Transform( -0.819152, -0.573576, -9.34475e-08, 5.30863e-14, 1.62921e-07, -1, 0.573576, -0.819152, -1.33457e-07, -0.95, 0, 0 )
+transform = Transform( -0.999577, -0.0290844, -4.73844e-09, 5.30863e-14, 1.62921e-07, -1, 0.0290844, -0.999577, -1.62852e-07, -0.386581, 0, 0 )
 
 [node name="Spatial" type="Spatial" parent="position_1"]
 
 [node name="MeshInstance" type="MeshInstance" parent="position_1/Spatial"]
+transform = Transform( 0.05, 2.98023e-08, -4.44089e-16, -1.86265e-09, 1, -1.77636e-15, 0, 7.10543e-15, 0.05, -1.19209e-07, 0.8, 1.42109e-14 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="position_2" type="Spatial" parent="."]
+transform = Transform( -0.819152, -0.573576, -9.34475e-08, 5.30863e-14, 1.62921e-07, -1, 0.573576, -0.819152, -1.33457e-07, -0.95, 0, 0 )
+
+[node name="Spatial" type="Spatial" parent="position_2"]
+
+[node name="MeshInstance" type="MeshInstance" parent="position_2/Spatial"]
 transform = Transform( 0.05, 2.98023e-08, -4.44089e-16, -1.86265e-09, 1, -1.77636e-15, 0, 7.10543e-15, 0.05, -1.19209e-07, 0.8, 1.42109e-14 )
 mesh = SubResource( 1 )
 material/0 = null
