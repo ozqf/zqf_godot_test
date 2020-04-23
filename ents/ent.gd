@@ -30,7 +30,9 @@ func ent_trigger_targets():
 ########################################
 
 func _init():
-	id = g_ents.register_remote_ent(self)
+	# TODO: Replace id allocation/assignment with calls in factory.
+	id = g_ents.allocate_ids(1, false)
+	g_ents.register_remote_ent(self, id)
 	sys.add_observer(self)
 	#print("Ent init id " + str(id))
 

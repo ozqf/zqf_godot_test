@@ -53,7 +53,7 @@ func cmd_observers(_tokens: PoolStringArray):
 	print("=== Global Observers ===")
 	for i in range(0, _observers.size()):
 		var ob = _observers[i]
-		print(str(i) + ": mask " + str(ob.event_mask) + " - " + str(ob))
+		print(str(i) + ": mask " + str(ob.event_mask) + " - " + ob.name)
 	
 ###########################################################################
 # Global event system
