@@ -14,7 +14,8 @@ func _ready():
 	console.register_text_command(common.CMD_START_GAME, self, "cmd_start_game", "", "Start a new game")
 	console.register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title", "", "Go to the title screen")
 	console.register_text_command("map", self, "cmd_map", "tt", "Load the provided map scene. No file extension. Must be in the maps directory")
-	
+	console.register_text_command("complete", self, "cmd_complete_map", "", "Complete the current level")
+	console.register_text_command("gameover", self, "cmd_game_over", "", "Enter game over state")
 
 func _process(_delta: float):
 	if !m_isLoading:
@@ -48,9 +49,11 @@ func load_scene(path: String):
 func change_level_deferred(fullPath):
 	m_isLoading = true
 	sys.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
+	# clean up
 	if m_current_level:
 		m_current_level.free()
 		m_current_level = null
+	# load new
 	var scene_class = ResourceLoader.load(fullPath)
 	m_current_level = scene_class.instance()
 	get_tree().get_root().add_child(m_current_level)
@@ -89,3 +92,10 @@ func cmd_start_game(_tokens: PoolStringArray):
 
 func cmd_goto_title(_tokens: PoolStringArray):
 	change_level("res://world/intermission_scene.tscn")
+
+func cmd_complete_map(_tokens: PoolStringArray):
+	print("Complete Map")
+	
+func cmd_game_over(_tokens: PoolStringArray):
+	print("Game Over")
+	

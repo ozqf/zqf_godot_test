@@ -9,6 +9,8 @@ var event_mask = common.EVENT_BIT_GAME_STATE | common.EVENT_BIT_ENTITY_SPAWN
 var players = []
 var player = null
 
+var m_starts = []
+
 # Id sequence for replicated, server side entities. Range 1, 2, 3...
 var nextRemoteId: int = 1
 # Id sequence for non-replicated, client side only entities. Range -1, -2, -3...
@@ -82,6 +84,10 @@ func deregister_player(_plyr):
 	player = null
 	#print("Deregistered player")
 
+func register_start(_start):
+	print("Ents register start " + _start.name)
+	m_starts.push_back(_start)
+
 ###########################################################################
 # Entity list
 ###########################################################################
@@ -145,6 +151,7 @@ func observe_event(msg: String, _params):
 			ents[i].free()
 			i -= 1
 		ents.clear()
+		m_starts.clear()
 		pass
 	elif msg == common.EVENT_LEVEL_START:
 		pass

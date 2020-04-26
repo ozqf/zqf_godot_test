@@ -8,7 +8,7 @@ const AI_STATE_STUN:int = 4
 
 const AI_MOVE_THINK_TIME: float = 0.5
 
-var MOVE_SPEED: float = 4
+var MOVE_SPEED: float = 0.5 #4
 
 onready var m_body = $body
 onready var hp = $body/health

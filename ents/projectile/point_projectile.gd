@@ -30,6 +30,17 @@ func _explosion_scan():
 	#space.intersect_shape()
 	pass
 
+# returns false if target was not valid to hit
+func try_hit(collider):
+	if collider.has_node("health"):
+		var hp:Node = collider.get_node("health")
+		if !hp.take_hit(m_damage, m_teamId, m_velocity.normalized()):
+			# teams mismatch, ignore collision
+			return false
+	else:
+		print("PointPrj - no health to hit")
+	return true
+
 func _move_as_ray(delta: float):
 	var space = get_world().direct_space_state
 	var origin = self.global_transform.origin
@@ -37,25 +48,32 @@ func _move_as_ray(delta: float):
 	#move *= delta
 	var dest = origin + (m_velocity * delta)
 	transform.origin = dest
-	var mask = 1
+	# reminder -1 == all bits on!
+	var mask = -1
+	mask &= ~common.LAYER_FENCE
+	mask &= ~common.LAYER_ITEMS
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	if result:
-		# hit
-		# spawn fx
-		var impact = factory.create_fx_bullet_impact()
-		factory.add_to_scene_root(impact, result.position)
-		impact.rotation_degrees = common.calc_euler_degrees(result.normal)
+		# try and hit it
+		if (try_hit(result.collider)):
+			# hit! Spawn fx and die
+			var impact = factory.create_fx_bullet_impact()
+			factory.add_to_scene_root(impact, result.position)
+			impact.rotation_degrees = common.calc_euler_degrees(result.normal)
+			return true
 		# damage target
 		#print("pp hit collider: " + str(result.collider))
-		if result.collider && result.collider.has_node("health"):
-			var hp:Node = result.collider.get_node("health")
-			hp.take_hit(m_damage, m_teamId, m_velocity.normalized())
-		return true
-	else:
-		# continue
-		transform.origin = dest
-		return false
-	pass
+		# if result.collider:
+		# 	if result.collider.has_node("health"):
+		# 		var hp:Node = result.collider.get_node("health")
+		# 		if !hp.take_hit(m_damage, m_teamId, m_velocity.normalized()):
+		# 			return false
+		# 	else:
+		# 		print("PointPrj - no health to hit")
+		# return true
+	# if fell threw continue
+	transform.origin = dest
+	return false
 
 func remove_self():
 	m_active = false
@@ -81,15 +99,15 @@ func _process(delta: float):
 		m_visibilityTick = 9999999
 		mesh.show()
 
-func _on_projectile_body_entered(body):
-	if body.has_node("health"):
-		var hp: Node = body.get_node("health")
-		var hitDir: Vector3 = Vector3(0, 1, 0)
-		if hp.take_hit(m_damage, m_teamId, hitDir):
-			m_tickTime = 0
-	else:
-		#print("Prj hit but no hp")
-		m_tickTime = 0
+# func _on_projectile_body_entered(body):
+# 	if body.has_node("health"):
+# 		var hp: Node = body.get_node("health")
+# 		var hitDir: Vector3 = Vector3(0, 1, 0)
+# 		if hp.take_hit(m_damage, m_teamId, hitDir):
+# 			m_tickTime = 0
+# 	else:
+# 		#print("Prj hit but no hp")
+# 		m_tickTime = 0
 
 func prepare_for_launch(teamId: int, damage: int, lifeTime: float, sourceEntId: int):
 	m_teamId = teamId

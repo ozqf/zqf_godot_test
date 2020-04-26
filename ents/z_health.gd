@@ -2,7 +2,6 @@ extends Node
 
 export var m_hp: int = 100
 export var m_team = 0
-var ent = null
 
 var m_isDead: bool = false
 

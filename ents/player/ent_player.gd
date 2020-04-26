@@ -68,8 +68,11 @@ func _ready():
 	m_inventory.init(m_weaponCentre, self.id)
 	_init_weapons()
 
-	m_hp.ent = self
-	#._ready()
+	#m_hp.ent = self
+	m_hp.m_team = common.TEAM_PLAYER
+	m_hp.connect("signal_death", self, "on_death")
+	m_hp.connect("signal_hit", self, "on_hit")
+	
 	m_fpsCamera.current = true
 	m_debugCamera.current = false
 	m_bodyMesh.hide()
@@ -134,6 +137,15 @@ func _process(_delta:float):
 
 func get_world_position():
 	return self.m_body.global_transform.origin
+
+########################################
+# Signals
+########################################
+func on_hit():
+	print("Player hit")
+
+func on_death():
+	print("Player death")
 
 ########################################
 # Interactions functions
