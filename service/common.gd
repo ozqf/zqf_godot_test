@@ -66,13 +66,13 @@ func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2)
 	var dp: float = dot_product(vx, vy, lineNormalX, lineNormalY)
 	return (dp > 0)
 
-func calc_pitch_degrees3D(v3:Vector3):
-	var radians = atan2(v3.y, v3.z)
-	return radians * RAD2DEG
+# func calc_pitch_degrees3D(v3:Vector3):
+# 	var radians = atan2(v3.y, v3.z)
+# 	return radians * RAD2DEG
 
-func calc_yaw_degrees3D(v3:Vector3):
-	var radians = atan2(v3.x, v3.z)
-	return radians * RAD2DEG
+# func calc_yaw_degrees3D(v3:Vector3):
+# 	var radians = atan2(v3.x, v3.z)
+# 	return radians * RAD2DEG
 
 func calc_euler_degrees(v: Vector3):
 	# yaw

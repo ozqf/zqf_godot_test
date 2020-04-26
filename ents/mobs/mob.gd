@@ -13,7 +13,7 @@ var MOVE_SPEED: float = 4
 onready var m_body = $body
 onready var hp = $body/health
 onready var weapon = $body/weapon
-onready var motor = $body/motor
+onready var motor = $body
 
 var stack = []
 var target = null
@@ -29,6 +29,8 @@ func _ready():
 	hp.connect("signal_death", self, "onDeath")
 	hp.connect("signal_hit", self, "onHit")
 
+	motor.interactor = self
+
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 20
 	prj_def.teamId = common.TEAM_MOBS
@@ -40,6 +42,12 @@ func _ready():
 # Signals
 ###################################################################
 func onDeath():
+	var origin = $body.get_global_transform().origin
+	origin.y += 1
+	for i in range(0, 15):
+		var debris = factory.create_debris()
+		factory.add_to_scene_root(debris, origin)
+		debris.throw_randomly()
 	queue_free()
 	pass
 

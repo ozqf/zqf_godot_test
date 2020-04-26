@@ -18,13 +18,20 @@ extends Spatial
 
 var MOVE_SPEED: float = 4
 
-onready var leftSensor = get_parent().get_node("sensors").get_node("left")
-onready var rightSensor = get_parent().get_node("sensors").get_node("right")
+# onready var leftSensor = get_parent().get_node("sensors").get_node("left")
+# onready var rightSensor = get_parent().get_node("sensors").get_node("right")
+onready var leftSensor = $sensors/left
+onready var rightSensor = $sensors/right
 #onready var parent:KinematicBody = get_parent()
+
+var interactor = null;
 
 var m_currentDegrees: float = 0
 var m_toTargetDegrees: float = 0
 var m_turnRateDegrees: float = 180
+
+func get_interactor():
+	return interactor
 
 func no_avoid_tick(_delta:float, _self: Spatial, _targetPos: Vector3):
 	var t = _self.global_transform

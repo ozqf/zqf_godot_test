@@ -12,6 +12,8 @@ var mob_t = preload("res://ents/mobs/ent_mob.tscn")
 
 var fx_impact_t = preload("res://fx/fx_bullet_impact.tscn")
 
+var fx_debris_t = preload("res://fx/fx_debris.tscn")
+
 ###########################################################################
 # factory
 ###########################################################################
@@ -30,6 +32,9 @@ func create_mob():
 func create_fx_bullet_impact():
 	return fx_impact_t.instance()
 
+func create_debris():
+	return fx_debris_t.instance()
+	
 func add_to_scene_root(obj: Spatial, pos: Vector3):
 	get_tree().get_root().add_child(obj)
 	obj.transform.origin = pos

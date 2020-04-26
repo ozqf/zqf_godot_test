@@ -156,6 +156,10 @@ slot_10={
 3d_physics/layer_5="triggers"
 3d_physics/layer_6="items"
 
+[physics]
+
+3d/default_gravity=15.0
+
 [rendering]
 
 quality/2d/use_pixel_snap=true
