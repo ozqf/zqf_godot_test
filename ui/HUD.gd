@@ -14,6 +14,10 @@ onready var m_playerStatus = $player_status
 onready var m_healthValue = $player_status/health/health_value
 onready var m_ammoValue = $player_status/ammo/ammo_value
 
+onready var m_hud_message: Label = $hud_message
+onready var m_hud_message_calls: int = 0
+onready var m_hud_message_tick: float = 0
+
 var numbers = {
 	"health": 0,
 	"ammo": 0
@@ -25,6 +29,7 @@ var m_numberChanges = []
 var m_stringChanges = []
 
 func _ready():
+	m_hud_message.text = ""
 	sys.add_observer(self)
 
 func _process(_delta):
@@ -39,6 +44,14 @@ func _process(_delta):
 			m_ammoValue.text = str(change.value)
 	m_numberChanges.clear()
 
+	# hide hud message
+	if m_hud_message_tick <= 0:
+		m_hud_message.text = ""
+		m_hud_message_tick = 99999
+	else:
+		m_hud_message_tick -= _delta
+
+
 func check_changed(name: String, value: float):
 	var current = numbers[name]
 	if current != value:
@@ -49,6 +62,16 @@ func check_changed(name: String, value: float):
 
 func string_changed(_name: String, _value: float):
 	pass
+
+func show_hud_message(msg: String):
+	m_hud_message_calls += 1
+	m_hud_message_tick = 4
+	m_hud_message.text = msg
+
+# func hide_hud_message():
+# 	m_hud_message_calls -= 1
+# 	if m_hud_message_calls == 0:
+# 		m_hud_message.text = ""
 	
 ########################################
 # Event response

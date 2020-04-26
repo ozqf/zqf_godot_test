@@ -1,6 +1,6 @@
 extends RigidBody
 
-var m_tick: float = 3
+var m_tick: float = 6
 
 func _process(_delta: float):
 	if m_tick <= 0:

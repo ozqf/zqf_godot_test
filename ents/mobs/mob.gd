@@ -46,7 +46,11 @@ func onDeath():
 	origin.y += 1
 	for i in range(0, 15):
 		var debris = factory.create_debris()
-		factory.add_to_scene_root(debris, origin)
+		var pos = origin
+		pos.x += rand_range(-0.5, 0.5)
+		pos.y += rand_range(-1, 1)
+		pos.z += rand_range(-0.5, 0.5)
+		factory.add_to_scene_root(debris, pos)
 		debris.throw_randomly()
 	queue_free()
 	pass

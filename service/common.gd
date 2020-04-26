@@ -66,14 +66,6 @@ func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2)
 	var dp: float = dot_product(vx, vy, lineNormalX, lineNormalY)
 	return (dp > 0)
 
-# func calc_pitch_degrees3D(v3:Vector3):
-# 	var radians = atan2(v3.y, v3.z)
-# 	return radians * RAD2DEG
-
-# func calc_yaw_degrees3D(v3:Vector3):
-# 	var radians = atan2(v3.x, v3.z)
-# 	return radians * RAD2DEG
-
 func calc_euler_degrees(v: Vector3):
 	# yaw
 	var yawRadians = atan2(-v.x, -v.z)
@@ -83,35 +75,6 @@ func calc_euler_degrees(v: Vector3):
 	var pitchRadians = atan2(v.y, flatMagnitude)
 	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
 	return result
-
-func calc_flat_plane_radians(dir: Vector3):
-	# source - C++ example
-	# implementation here has swapped Y and Z axes
-	# double yaw = Math.Atan2(ds.X, ds.Y);
-	# double pitch = Math.Atan2(ds.Z, Math.Sqrt((ds.X * ds.X) + (ds.Y * ds.Y)));
-	var result: Vector3 = Vector3()
-	# yaw
-	result.y = atan2(dir.x, dir.z)
-	result.x = atan2(dir.y, sqrt((dir.x * dir.x) + (dir.z * dir.z)))
-	return result
-
-func calc_flat_plane_radians_alt1(dir: Vector3):
-	var flatMag: float = dir.length()
-	var result:Vector3 = Vector3()
-	# x == pitch, y == yaw
-	result.y = atan2(dir.x, dir.z)
-	result.x = atan2(dir.y, flatMag)
-	return result
-
-func calc_euler_to_forward3D_1(pitchDegrees: float, yawDegrees: float):
-	var pitch = pitchDegrees * DEG2RAD
-	var yaw = yawDegrees * DEG2RAD
-	var matrix: Basis = Basis.IDENTITY
-	# inverted pitch for some reason...?
-	# order sensitive. apply pitch then yaw!
-	matrix = matrix.rotated(Vector3(1, 0, 0), -pitch)
-	matrix = matrix.rotated(Vector3(0, 1, 0), yaw)
-	return matrix.z
 
 # > Take a basis and cast a line forward from it to an endpoint
 # > Offset the endpoint right and up based on spread values
@@ -146,3 +109,45 @@ func extract_interactor(obj):
 	if !obj.has_method("get_interactor"):
 		return null
 	return obj.get_interactor()
+
+
+##########################################
+# TODO: Cleanup Defunct maths junk
+##########################################
+
+# func calc_flat_plane_radians(dir: Vector3):
+# 	# source - C++ example
+# 	# implementation here has swapped Y and Z axes
+# 	# double yaw = Math.Atan2(ds.X, ds.Y);
+# 	# double pitch = Math.Atan2(ds.Z, Math.Sqrt((ds.X * ds.X) + (ds.Y * ds.Y)));
+# 	var result: Vector3 = Vector3()
+# 	# yaw
+# 	result.y = atan2(dir.x, dir.z)
+# 	result.x = atan2(dir.y, sqrt((dir.x * dir.x) + (dir.z * dir.z)))
+# 	return result
+
+# func calc_flat_plane_radians_alt1(dir: Vector3):
+# 	var flatMag: float = dir.length()
+# 	var result:Vector3 = Vector3()
+# 	# x == pitch, y == yaw
+# 	result.y = atan2(dir.x, dir.z)
+# 	result.x = atan2(dir.y, flatMag)
+# 	return result
+
+# func calc_euler_to_forward3D_1(pitchDegrees: float, yawDegrees: float):
+# 	var pitch = pitchDegrees * DEG2RAD
+# 	var yaw = yawDegrees * DEG2RAD
+# 	var matrix: Basis = Basis.IDENTITY
+# 	# inverted pitch for some reason...?
+# 	# order sensitive. apply pitch then yaw!
+# 	matrix = matrix.rotated(Vector3(1, 0, 0), -pitch)
+# 	matrix = matrix.rotated(Vector3(0, 1, 0), yaw)
+# 	return matrix.z
+
+# func calc_pitch_degrees3D(v3:Vector3):
+# 	var radians = atan2(v3.y, v3.z)
+# 	return radians * RAD2DEG
+
+# func calc_yaw_degrees3D(v3:Vector3):
+# 	var radians = atan2(v3.x, v3.z)
+# 	return radians * RAD2DEG

@@ -173,6 +173,9 @@ https://github.com/godotengine/godot/issues/4875
 #### General
 https://docs.godotengine.org/en/3.2/getting_started/scripting/gdscript/gdscript_basics.html
 
+Info on exports to editor
+https://docs.godotengine.org/en/3.1/getting_started/scripting/gdscript/gdscript_basics.html#exports
+
 #### API Classes
 https://docs.godotengine.org/en/3.2/classes/index.html
 
