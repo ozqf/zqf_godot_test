@@ -57,24 +57,31 @@ margin_right = 240.0
 margin_bottom = 20.0
 text = "START"
 
-[node name="map02" type="Button" parent="root/VBoxContainer"]
+[node name="info" type="Button" parent="root/VBoxContainer"]
 margin_top = 24.0
 margin_right = 240.0
 margin_bottom = 44.0
-text = "MAP 2"
+text = "INFO"
 
-[node name="title2" type="Button" parent="root/VBoxContainer"]
+[node name="options" type="Button" parent="root/VBoxContainer"]
 margin_top = 48.0
 margin_right = 240.0
 margin_bottom = 68.0
-text = "TITLE"
+text = "OPTIONS"
 
-[node name="quit" type="Button" parent="root/VBoxContainer"]
+[node name="end_game" type="Button" parent="root/VBoxContainer"]
 margin_top = 72.0
 margin_right = 240.0
 margin_bottom = 92.0
+text = "END GAME"
+
+[node name="quit" type="Button" parent="root/VBoxContainer"]
+margin_top = 96.0
+margin_right = 240.0
+margin_bottom = 116.0
 text = "QUIT"
 [connection signal="pressed" from="root/VBoxContainer/start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="root/VBoxContainer/map02" to="." method="_on_map02_pressed"]
-[connection signal="pressed" from="root/VBoxContainer/title2" to="." method="_on_title_pressed"]
+[connection signal="pressed" from="root/VBoxContainer/info" to="." method="_on_info_pressed"]
+[connection signal="pressed" from="root/VBoxContainer/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="root/VBoxContainer/end_game" to="." method="_on_title_pressed"]
 [connection signal="pressed" from="root/VBoxContainer/quit" to="." method="_on_quit_pressed"]

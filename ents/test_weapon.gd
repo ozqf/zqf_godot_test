@@ -18,9 +18,9 @@ func shoot_primary():
 	m_tick = m_primaryRefireTime
 	var prj = factory.get_free_point_projectile()
 	var t = get_global_transform()
+	get_tree().get_root().add_child(prj)
 	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime, ownerId)
 	prj.launch(t.origin, -t.basis.z, def.speed)
-	get_tree().get_root().add_child(prj)
 
 func _process(_delta: float):
 	if m_tick > 0:

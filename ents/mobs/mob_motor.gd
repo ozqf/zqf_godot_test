@@ -23,9 +23,7 @@ onready var rightSensor = get_parent().get_node("sensors").get_node("right")
 #onready var parent:KinematicBody = get_parent()
 
 var m_currentDegrees: float = 0
-
 var m_toTargetDegrees: float = 0
-
 var m_turnRateDegrees: float = 180
 
 func no_avoid_tick(_delta:float, _self: Spatial, _targetPos: Vector3):

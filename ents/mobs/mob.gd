@@ -3,7 +3,10 @@ extends "../ent.gd"
 const AI_STATE_IDLE:int = 0
 const AI_STATE_MOVE:int = 1
 const AI_STATE_ATTACK:int = 2
-const AI_STATE_STUN:int = 3
+const AI_STATE_ATTACK_RECOVER:int = 3
+const AI_STATE_STUN:int = 4
+
+const AI_MOVE_THINK_TIME: float = 0.5
 
 var MOVE_SPEED: float = 4
 
@@ -15,7 +18,7 @@ onready var motor = $body/motor
 var stack = []
 var target = null
 var lastTargetPos: Vector3 = Vector3()
-var thinkTick: float = 0
+var m_thinkTick: float = 0
 
 ###################################################################
 # Init
@@ -27,7 +30,7 @@ func _ready():
 	hp.connect("signal_hit", self, "onHit")
 
 	var prj_def = factory.create_projectile_def()
-	prj_def.speed = 15
+	prj_def.speed = 20
 	prj_def.teamId = common.TEAM_MOBS
 	prj_def.lifeTime = 3
 	weapon.projectile_def = prj_def
@@ -80,34 +83,67 @@ func pop_state():
 	# else:
 		# print("Popped last state!")
 
+func swap_state(state: int):
+	pop_state()
+	push_state(state)
+
 ###################################################################
 # AI Ticks
 ###################################################################
+
+# returns false if still waiting to think
+func tick_think(_delta: float):
+	if m_thinkTick <= 0:
+		return true
+	else:
+		m_thinkTick -= _delta
+		return false
 
 func test_tick_motor(_delta:float):
 	if check_target() == false:
 		print("mob has no target")
 		return
+	if (m_thinkTick <= 0):
+		m_thinkTick = 0.1
+		swap_state(AI_STATE_ATTACK)
+		return
+	m_thinkTick -= _delta
 	var move: Vector3 = motor.tick(_delta, m_body, target.get_world_position())
 	move *= MOVE_SPEED
 	var _moveResult = m_body.move_and_slide(move)
 
-func tick_ai_stack(_delta: float):
+func _tick_ai_stack(_delta: float):
 	var stackSize = stack.size()
 	if stackSize == 0:
 		push_state(AI_STATE_IDLE)
 		stackSize += 1
 	
 	var current:int = stack[stackSize - 1]
+	# State machine
 	if current == AI_STATE_MOVE:
 		test_tick_motor(_delta)
 		pass
 	elif current == AI_STATE_ATTACK:
-		pass
+		if !tick_think(_delta):
+			return
+		m_thinkTick = 0.3
+		weapon.shoot_primary()
+		# swap to recover state
+		swap_state(AI_STATE_ATTACK_RECOVER)
+	elif current == AI_STATE_ATTACK_RECOVER:
+		if !tick_think(_delta):
+			return
+		pop_state()
 	elif current == AI_STATE_STUN:
-		pass
+		if !tick_think(_delta):
+			return
+		pop_state()
 	elif current == AI_STATE_IDLE:
-		pass
+		var target = check_target()
+		if !target:
+			return
+		m_thinkTick = 2
+		push_state(AI_STATE_MOVE)
 	else:
 		print("Unknown AI state " + str(current))
 		pop_state()
@@ -116,7 +152,7 @@ func tick_ai_stack(_delta: float):
 # Frame
 ###################################################################
 func _process(_delta:float):
-	test_tick_motor(_delta)
+	#test_tick_motor(_delta)
 	
-	#_tick_ai_stack(_delta)
+	_tick_ai_stack(_delta)
 	pass

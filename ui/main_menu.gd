@@ -12,6 +12,9 @@ func _ready():
 	_root = get_node("root")
 	sys.add_observer(self)
 	_consoleText = get_node("root/console/console_text")
+
+	# UI handlers are wired up in editor
+	# bog off until called for
 	off()
 
 func on():
@@ -43,16 +46,7 @@ func _process(_delta):
 		var command = _consoleText.text
 		_consoleText.text = ""
 		console.execute(command)
-		pass
-
-func _on_start_pressed():
-	console.execute(common.CMD_START_GAME)
-
-func _on_quit_pressed():
-	console.execute(common.CMD_EXIT_APP)
-
-func _on_title_pressed():
-	console.execute(common.CMD_GOTO_TITLE)
+	pass
 
 func observe_event(msg: String, _obj):
 	if msg == common.EVENT_LEVEL_LOADING:
@@ -63,3 +57,22 @@ func observe_event(msg: String, _obj):
 
 func _on_map02_pressed():
 	console.execute("map testmap02")
+
+###################################
+# UI handlers
+###################################
+func _on_start_pressed():
+	console.execute(common.CMD_START_GAME)
+
+func _on_quit_pressed():
+	console.execute(common.CMD_EXIT_APP)
+
+func _on_title_pressed():
+	console.execute(common.CMD_GOTO_TITLE)
+
+func _on_options_pressed():
+	print("Open options page")
+
+func _on_info_pressed():
+	print("Open info page")
+#
