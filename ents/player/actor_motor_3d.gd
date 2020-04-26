@@ -43,50 +43,41 @@ const TURN_RATE: float = 135.0
 # will be passed around for interactions
 var interactionParent = null;
 
+# State
 var move_mode: int = 1
+var _velocity: Vector3 = Vector3()
+var grounded:bool = false
+var m_yaw: float = 0
+var m_pitch: float = 0
+var m_airJumps: int = 1
+var m_maxAirJumps: int = 1
+var m_groundCollider = null
+
+
+# for reconstructing previous move etc
+var m_lastMove: Vector3 = Vector3()
+var m_lastDelta: float = 1 / 60
 var lastMouseSample: Vector2 = Vector2(0, 0)
 var physTick: float = 0
 
-var _velocity: Vector3 = Vector3()
-var lastMove: Vector3 = Vector3()
-var lastDelta: float = 1 / 60
+# for buffering external inputs
 var nextPushVelocity: Vector3 = Vector3()
 var nextThrowVelocity: Vector3 = Vector3()
-
-var yaw: float = 0
-var pitch: float = 0
-var grounded:bool = false
-var airJumps: int = 1
-var maxAirJumps: int = 1
-var groundCollider = null
 
 var writeDebug: bool = false
 var calcVelTxt: String = ""
 
+# Child node that is rotated with m_pitch
 onready var head:Spatial = $display/head
-onready var weapon_right = $display/head/weapon_right
-onready var weapon_left = $display/head/weapon_left
-onready var hp = $health
-onready var bodyMesh = $display/body_mesh
-onready var headMesh = $display/head/head_mesh
 
 func _ready():
-	print("Player 3D ready")
-	hp.m_team = common.TEAM_PLAYER
-
-	var prj_def = factory.create_projectile_def()
-	prj_def.speed = 75
-	weapon_right.projectile_def = prj_def
-
-	prj_def = factory.create_projectile_def()
-	prj_def.speed = 75
-	weapon_left.projectile_def = prj_def
+	print("Player Motor ready")
 
 func get_ground_check_msg():
 	var txt = "Grounded: " + str(grounded) + "\n"
 	if grounded:
-		txt = txt + "Self " + str(self) + " vs obj " + str(groundCollider) + "\n"
-		txt = txt + "Self " + self.name + " vs obj " + groundCollider.name + "\n"
+		txt = txt + "Self " + str(self) + " vs obj " + str(m_groundCollider) + "\n"
+		txt = txt + "Self " + self.name + " vs obj " + m_groundCollider.name + "\n"
 	return txt
 
 func _cast_ground_ray(origin: Vector3):
@@ -99,10 +90,10 @@ func _cast_ground_ray(origin: Vector3):
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	sys.debugDraw.add_line(origin, dest)
 	if result:
-		groundCollider = result.collider
+		m_groundCollider = result.collider
 		return true
 	else:
-		groundCollider = null
+		m_groundCollider = null
 		return false
 
 func _ground_check():
@@ -122,28 +113,19 @@ func _ground_check():
 	
 func _process(_delta: float):
 	grounded = _ground_check()
-	# if sys.bGameInputActive == true and Input.is_action_pressed("attack_1"):
-	# 	weapon_right.primaryOn = true
-	# 	weapon_left.primaryOn = true
-	# else:
-	# 	weapon_right.primaryOn = false
-	# 	weapon_left.primaryOn = false
 
 func process_input(_delta: float):
 	pass
 
 func throw(_throwVelocityPerSecond: Vector3):
-	#print("Throw actor3D - " + str(_throwVelocityPerSecond))
-	# Add the throw to be applied during the next tick
-	#nextPushVelocity += _throwVelocityPerSecond
 	nextThrowVelocity = _throwVelocityPerSecond
 	# reset air jumps
-	airJumps = maxAirJumps
+	m_airJumps = m_maxAirJumps
 
 func teleport(pos: Vector3):
 	#print("Actor teleport - " + str(pos))
 	transform.origin = pos
-	lastMove = Vector3()
+	m_lastMove = Vector3()
 
 func get_interactor():
 	return interactionParent
@@ -168,8 +150,8 @@ func calc_final_velocity(
 	# scaled back by last delta. Appears to be accurate to
 	# 4 decimal places.
 	var previousVelocity: Vector3
-	if lastDelta != 0:
-		previousVelocity = lastMove * (1 / lastDelta)
+	if m_lastDelta != 0:
+		previousVelocity = m_lastMove * (1 / m_lastDelta)
 		# clear vertical movement, it is handled separately via gravity!
 		previousVelocity.y = 0
 	else:
@@ -216,14 +198,14 @@ func calc_final_velocity(
 	if writeDebug:
 		calcVelTxt = "-- Calc Velocity --\n"
 		if printFullVectors:
-			calcVelTxt += "Last Move " + str(lastMove.length()) + ": " + str(lastMove) + "\n"
+			calcVelTxt += "Last Move " + str(m_lastMove.length()) + ": " + str(m_lastMove) + "\n"
 			calcVelTxt += "Last velocity " + str(previousVelocity.length()) + ": " + str(previousVelocity) + "\n"
 			calcVelTxt += "Push " + str(accelDir.length()) + ":" + str(accelDir) + "\n"
 		else:
-			calcVelTxt += "Last Move " + str(lastMove) + "\n"
+			calcVelTxt += "Last Move " + str(m_lastMove) + "\n"
 			calcVelTxt += "Last velocity " + str(previousVelocity.length()) + "\n"
 			calcVelTxt += "Push " + str(accelDir.length()) + "\n"
-		calcVelTxt += "Last DT " + str(lastDelta) + "\n"
+		calcVelTxt += "Last DT " + str(m_lastDelta) + "\n"
 		calcVelTxt += "ProjectionVel Dot: " + str(projectionVelocityDot) + "\n"
 		calcVelTxt += "Accel mag: " + str(accelerationMagnitude) + "\n"
 		calcVelTxt += "Final Horizontal move: " + str(result) + "\n"
@@ -252,7 +234,7 @@ func process_movement(_input, _delta: float):
 			mMoveX = -KEYBOARD_TURN_DEGREES_PER_SECOND
 		#var rotY: float = (mMoveX * common.DEG2RAD) * _delta
 		#rotate_y(rotY)
-		yaw += mMoveX * _delta
+		m_yaw += mMoveX * _delta
 		
 		var mMoveY: float = 0
 		# Vertical
@@ -260,7 +242,7 @@ func process_movement(_input, _delta: float):
 			mMoveY = KEYBOARD_TURN_DEGREES_PER_SECOND
 		if Input.is_action_pressed("ui_down"):
 			mMoveY = -KEYBOARD_TURN_DEGREES_PER_SECOND
-		pitch += mMoveY * _delta
+		m_pitch += mMoveY * _delta
 	
 	# ----
 	var _forward: Vector3 = global_transform.basis.z
@@ -303,15 +285,15 @@ func process_movement(_input, _delta: float):
 		if _velocity.y < 0:
 			_velocity.y = 0
 		# reset air jumps
-		airJumps = maxAirJumps
+		m_airJumps = m_maxAirJumps
 		# apply jumping if required. Stop movement into floor
 		if Input.is_action_pressed("ui_select") && _velocity.y <= 0:
 			_velocity.y = JUMP_METRES_PER_SECOND
 	# check for air jump
-	elif airJumps > 0 && Input.is_action_just_pressed("ui_select"):
+	elif m_airJumps > 0 && Input.is_action_just_pressed("ui_select"):
 			#print("Air jump!")
 			_velocity.y = JUMP_METRES_PER_SECOND
-			airJumps -= 1
+			m_airJumps -= 1
 	else:
 		# apply gravity
 		_velocity.y += gravity.y * _delta
@@ -335,8 +317,8 @@ func process_movement(_input, _delta: float):
 	if writeDebug:
 		# NOTE: Assumes that calcVelTxt was reset earlier this frame above
 		calcVelTxt += "Final Velocity " + str(_velocity.length()) + ": " + str(_velocity) + "\n"
-	lastMove = self.get_global_transform().origin - prevPosition
-	lastDelta = _delta
+	m_lastMove = self.get_global_transform().origin - prevPosition
+	m_lastDelta = _delta
 
 # TODO: Move test guff to separate class
 func _move_vehicle(_delta: float):
@@ -369,12 +351,12 @@ func _move_vehicle(_delta: float):
 
 func _apply_rotations(_delta: float):
 	var bodyRot:Vector3 = self.rotation_degrees
-	bodyRot.y = yaw
+	bodyRot.y = m_yaw
 	self.rotation_degrees = bodyRot
 
-	pitch = clamp(pitch, -PITCH_CAP_DEGREES, PITCH_CAP_DEGREES)
+	m_pitch = clamp(m_pitch, -PITCH_CAP_DEGREES, PITCH_CAP_DEGREES)
 	var camRot:Vector3 = head.rotation_degrees
-	camRot.x = pitch
+	camRot.x = m_pitch
 	head.rotation_degrees = camRot
 
 func _physics_process(_delta: float):
@@ -390,7 +372,7 @@ func _input(_event: InputEvent):
 	if move_mode != 1:
 		return
 	if _event is InputEventMouseMotion and sys.bGameInputActive == true:
-		# NOTE: Apply input to pitch/yaw values. But do not
+		# NOTE: Apply input to m_pitch/m_yaw values. But do not
 		# set spatial rotations yet.
 
 		# scale inputs by this ratio or mouse sensitivity is based on resolution!
@@ -401,10 +383,10 @@ func _input(_event: InputEvent):
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
 		var rotY: float = (mMoveX * common.DEG2RAD)
-		yaw += mMoveX
+		m_yaw += mMoveX
 
 		# vertical
 		# TODO: Uninverted mouse!
 		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
-		pitch += mMoveY
+		m_pitch += mMoveY
 	pass

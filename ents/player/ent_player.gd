@@ -125,7 +125,7 @@ func _process(_delta:float):
 		var bodyPos = m_body.global_transform.origin
 		var txt = m_body.get_ground_check_msg()
 		#txt += "Player ent pos " + str(selfPos) + "\nPlayer body pos: " + str(bodyPos) + "\n"
-		txt += "Pitch " + str(m_body.pitch) + " yaw " + str(m_body.yaw) + "\n"
+		txt += "Pitch " + str(m_body.m_pitch) + " yaw " + str(m_body.m_yaw) + "\n"
 		txt += "Velocity " + str(m_body._velocity) + "\n"
 		txt += m_body.calcVelTxt
 		sys.playerDebugText = txt

@@ -6,8 +6,6 @@ extends "res://ents/weapons/weapon.gd"
 #  secondary: spawn monsters
 ###############################
 
-var projectile_def = null
-
 const MODE_DESTROY: String = "Destroy"
 const MODE_CREATE: String = "Create"
 
@@ -23,13 +21,13 @@ func init(_launchNode: Spatial):
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 75
 	prj_def.damage = 10000
-	self.projectile_def = prj_def
+	self.m_projectile_def = prj_def
 
 func shoot_primary():
 	if !m_launchNode:
 		print("Weapon has no launch node")
 		return
-	var def = projectile_def
+	var def = self.m_projectile_def
 	self.m_tick = self.m_primaryRefireTime
 	#var prj = factory.create_projectile()
 	var prj = factory.get_free_point_projectile()

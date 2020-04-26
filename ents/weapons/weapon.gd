@@ -1,3 +1,4 @@
+# Base class for weapons
 extends Node
 
 var primaryOn: bool = false
@@ -13,6 +14,9 @@ var m_secondaryRefireTime: float = 0
 
 var m_view_model = null
 var m_isEquiped = null
+
+# If this weapon fires a projectile setup def here
+var m_projectile_def = null
 
 func init(_launchNode: Spatial):
 	m_launchNode = _launchNode
@@ -50,6 +54,11 @@ func get_loaded_ammo():
 func get_total_ammo():
 	return -1
 
+##############################
+# Sub-class sandbox functions
+# not all weapons will use
+##############################
+
 # check inputs and shoot
 func check_triggers():
 	if primaryOn:
@@ -69,3 +78,16 @@ func common_tick(_delta:float):
 		self.m_tick -= _delta
 		return
 	check_triggers()
+
+# Returns the projectile launched if additional stuff is required
+func shoot_projectile_def(def, origin: Vector3, forward: Vector3):
+	if !def:
+		print("Weapon has no projectile def")
+		return
+	self.m_tick = self.m_primaryRefireTime
+	var prj = factory.get_free_point_projectile()
+	#var t = launchNode.get_global_transform()
+	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime, ownerId)
+	get_tree().get_root().add_child(prj)
+	prj.launch(origin, forward, def.speed)
+	return prj

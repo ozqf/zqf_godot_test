@@ -1,3 +1,5 @@
+# Test weapon used on mobs
+# To be replaced if mobs are given a proper inventory
 extends Spatial
 
 var primaryOn: bool = false
@@ -14,7 +16,6 @@ func can_attack():
 func shoot_primary():
 	var def = projectile_def
 	m_tick = m_primaryRefireTime
-	#var prj = factory.create_projectile()
 	var prj = factory.get_free_point_projectile()
 	var t = get_global_transform()
 	prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime, ownerId)

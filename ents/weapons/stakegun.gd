@@ -4,8 +4,6 @@ enum State { ready, firing, cycling }
 
 var m_state = State.ready
 
-var projectile_def = null
-
 var m_ammoLoaded: int = 4
 var m_ammoMagSize: int = 4
 
@@ -23,7 +21,7 @@ func init(_launchNode: Spatial):
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 100
 	prj_def.damage = 40
-	self.projectile_def = prj_def
+	self.m_projectile_def = prj_def
 
 # func attach_view(view_stakegun):
 # 	self.m_view_model = view_stakegun
@@ -33,8 +31,7 @@ func get_loaded_ammo():
 	return m_ammoLoaded
 
 func shoot_stakes(_count: int):
-	print("Shoot " + str(_count) + " stakes")
-	var def = projectile_def
+	var def = self.m_projectile_def
 	self.m_tick = self.m_primaryRefireTime
 	var t = m_launchNode.get_global_transform()
 	var launchDir: Vector3
@@ -42,6 +39,7 @@ func shoot_stakes(_count: int):
 
 	var spreadH: float = 600
 	var spreadV: float = 300
+	# TODO: Stop using this array - wasted allocs!
 	var spreads = []
 	# always one straight forward
 	spreads.push_back(Vector2())
@@ -51,12 +49,8 @@ func shoot_stakes(_count: int):
 
 	for i in range(0, _count):
 		launchDir = common.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
-		var prj = factory.get_free_point_projectile()
-		prj.prepare_for_launch(def.teamId, def.damage, def.lifeTime, ownerId)
-		get_tree().get_root().add_child(prj)
-		prj.launch(t.origin, launchDir, def.speed)
+		var prj = .shoot_projectile_def(self.m_projectile_def, t.origin, launchDir)
 		prj.set_scale(Vector3(1.5, 1.5, 12))
-
 
 func shoot_primary():
 	shoot_stakes(1)
