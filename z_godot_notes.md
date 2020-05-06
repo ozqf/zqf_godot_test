@@ -163,11 +163,6 @@ ScrollContainer
 
 ## Links
 
-### Editor
-
-Cheatsheet of shortcuts
-https://github.com/godotengine/godot/issues/4875
-
 ### Scripting
 
 #### General
@@ -199,6 +194,11 @@ https://docs.godotengine.org/en/3.2/getting_started/step_by_step/singletons_auto
 https://docs.godotengine.org/en/3.2/classes/class_configfile.html#class-configfile
 https://docs.godotengine.org/en/3.2/tutorials/io/saving_games.html
 
+### Procedural Geometry Generation
+https://docs.godotengine.org/en/3.1/tutorials/content/procedural_geometry.html
+https://docs.godotengine.org/en/stable/tutorials/content/procedural_geometry/index.html
+https://godotengine.org/qa/26722/how-do-i-generate-a-mesh-from-code-in-godot
+
 ### GDNative
 https://stackedboxes.org/2017/08/20/trying-out-gdnative/
 https://www.josephcatrambone.com/?p=1056#setup
@@ -228,3 +228,12 @@ https://docs.godotengine.org/en/3.2/tutorials/3d/fps_tutorial/index.html
 Ultra basics - Flappy bird clone
 https://generalistprogrammer.com/tag/godot-3-2d-tutorial/
 
+
+### Editor
+
+Cheatsheet of shortcuts
+https://github.com/godotengine/godot/issues/4875
+
+https://docs.godotengine.org/en/3.2/tutorials/3d/environment_and_post_processing.html
+https://docs.godotengine.org/en/3.2/tutorials/3d/high_dynamic_range.html
+https://docs.godotengine.org/en/3.2/tutorials/3d/baked_lightmaps.html
