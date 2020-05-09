@@ -17,7 +17,7 @@ var _eventBlockMask = 0
 
 var frameNumber = 0
 
-var m_debugBugWindow: bool = true
+var m_debugBugWindow: bool = false
 
 func _ready():
 	# HACK - larger window for my desktop machine (:

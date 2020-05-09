@@ -69,7 +69,7 @@ func _ready():
 	# Create disc
 	m_disc = factory.create_disc_projectile()
 	g_ents.add_scene_object(m_disc)
-	m_disc.set_disc_owner(self)
+	m_disc.disc_init(self, m_weaponCentre)
 
 	# Assuming Id is already set here!
 	m_inventory.init(m_weaponCentre, self.id)
@@ -117,6 +117,13 @@ func _process(_delta:float):
 			print("Throw A")
 			var t = m_weaponCentre.get_global_transform()
 			m_disc.launch(t.origin, -t.basis.z)
+
+		# update the disc too
+		if Input.is_action_just_pressed("throw_b"):
+			print("Throw B")
+			m_disc.recall()
+			# var t = m_weaponCentre.get_global_transform()
+			# m_disc.launch(t.origin, -t.basis.z)
 
 		primaryOn = Input.is_action_pressed("attack_1")
 		secondaryOn = Input.is_action_pressed("attack_2")

@@ -120,7 +120,7 @@ func launch(pos: Vector3, forward: Vector3, speed: int):
 	# orientation
 	var lookPos: Vector3 = transform.origin + forward
 	self.look_at(lookPos, Vector3.UP)
-	print("prj look at " + str(lookPos))
+	#print("prj look at " + str(lookPos))
 	# pos and movement
 	transform.origin = pos;
 	m_velocity = forward * speed
