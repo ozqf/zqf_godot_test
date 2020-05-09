@@ -37,8 +37,8 @@ func try_hit(collider):
 		if !hp.take_hit(m_damage, m_teamId, m_velocity.normalized()):
 			# teams mismatch, ignore collision
 			return false
-	else:
-		print("PointPrj - no health to hit")
+	# else:
+	# 	print("PointPrj - no health to hit")
 	return true
 
 func _move_as_ray(delta: float):
@@ -118,9 +118,9 @@ func prepare_for_launch(teamId: int, damage: int, lifeTime: float, sourceEntId: 
 func launch(pos: Vector3, forward: Vector3, speed: int):
 	transform.origin = Vector3();
 	# orientation
-	var lookPos: Vector3 = forward
+	var lookPos: Vector3 = transform.origin + forward
 	self.look_at(lookPos, Vector3.UP)
-
+	print("prj look at " + str(lookPos))
 	# pos and movement
 	transform.origin = pos;
 	m_velocity = forward * speed

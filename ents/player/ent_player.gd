@@ -12,11 +12,13 @@ onready var m_debugCamera = $body/display/head/debug_camera_mount/camera
 onready var m_bodyMesh = $body/display/body_mesh
 onready var m_headMesh = $body/display/head/head_mesh
 
-onready var m_weaponCentre = $body/display/head/weapon_centre
+onready var m_weaponCentre: Spatial = $body/display/head/weapon_centre
 onready var m_weaponRight = $body/display/head/weapon_right
 onready var m_weaponLeft = $body/display/head/weapon_left
 
 onready var m_inventory = $inventory
+
+var m_disc = null
 
 ###############################################
 # Members
@@ -64,6 +66,11 @@ func _ready():
 	# Init inventory
 	###############################################
 
+	# Create disc
+	m_disc = factory.create_disc_projectile()
+	g_ents.add_scene_object(m_disc)
+	m_disc.set_disc_owner(self)
+
 	# Assuming Id is already set here!
 	m_inventory.init(m_weaponCentre, self.id)
 	_init_weapons()
@@ -104,6 +111,13 @@ func _process(_delta:float):
 	var primaryOn: bool = false
 	var secondaryOn: bool = false
 	if sys.bGameInputActive:
+
+		# update the disc too
+		if Input.is_action_just_pressed("throw_a"):
+			print("Throw A")
+			var t = m_weaponCentre.get_global_transform()
+			m_disc.launch(t.origin, -t.basis.z)
+
 		primaryOn = Input.is_action_pressed("attack_1")
 		secondaryOn = Input.is_action_pressed("attack_2")
 		if Input.is_action_just_pressed("next_weapon"):

@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const HUD_MESSAGE_FADE_TIME: int = 2
+
 class NumberChange:
 	var name: String
 	var value: float
@@ -51,7 +53,6 @@ func _process(_delta):
 	else:
 		m_hud_message_tick -= _delta
 
-
 func check_changed(name: String, value: float):
 	var current = numbers[name]
 	if current != value:
@@ -65,7 +66,7 @@ func string_changed(_name: String, _value: float):
 
 func show_hud_message(msg: String):
 	m_hud_message_calls += 1
-	m_hud_message_tick = 4
+	m_hud_message_tick = HUD_MESSAGE_FADE_TIME
 	m_hud_message.text = msg
 
 # func hide_hud_message():

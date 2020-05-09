@@ -14,11 +14,16 @@ var fx_impact_t = preload("res://fx/fx_bullet_impact.tscn")
 
 var fx_debris_t = preload("res://fx/fx_debris.tscn")
 
+var prj_disc_t = preload("res://ents/projectile/prj_throw_disc.tscn")
+
 ###########################################################################
 # factory
 ###########################################################################
 func create_projectile_def():
 	return projectile_def_t.new()
+
+func create_disc_projectile():
+	return prj_disc_t.instance()	
 
 func create_projectile():
 	return projectile_t.instance()
