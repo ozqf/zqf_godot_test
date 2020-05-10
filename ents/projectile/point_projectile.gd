@@ -47,7 +47,7 @@ func _move_as_ray(delta: float):
 	#var move = m_velocity * delta
 	#move *= delta
 	var dest = origin + (m_velocity * delta)
-	transform.origin = dest
+	#transform.origin = dest
 	# reminder -1 == all bits on!
 	var mask = -1
 	mask &= ~common.LAYER_FENCE
@@ -80,7 +80,7 @@ func remove_self():
 	call_deferred("queue_free")
 	pass
 
-func _process(delta: float):
+func _physics_process(delta: float):
 	if !m_active:
 		return
 	

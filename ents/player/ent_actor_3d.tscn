@@ -50,7 +50,7 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0 )
 
 [node name="laser_dot" parent="body/display/head" instance=ExtResource( 7 )]
-transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, -5.89665 )
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, -5.89665 )
 
 [node name="weapon_left_mesh" type="MeshInstance" parent="body/display/head"]
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.5, -0.35, -0.8, -0.75 )

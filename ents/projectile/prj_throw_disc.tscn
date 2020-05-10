@@ -1,20 +1,23 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ents/projectile/prj_throw_disc.gd" type="Script" id=1]
 
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.1, 0.1, 1 )
 
-[sub_resource type="SphereShape" id=3]
+[sub_resource type="SphereShape" id=2]
 
-[sub_resource type="SphereMesh" id=1]
+[sub_resource type="SphereMesh" id=3]
 
 [sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
 albedo_color = Color( 0, 1, 1, 1 )
 
-[sub_resource type="CubeMesh" id=6]
+[sub_resource type="CubeMesh" id=5]
 size = Vector3( 0.2, 0.2, 1.2 )
+
+[sub_resource type="CubeMesh" id=6]
+size = Vector3( 20, 0.1, 0.1 )
 
 [node name="prj_throw_disc" type="Spatial"]
 script = ExtResource( 1 )
@@ -23,7 +26,7 @@ script = ExtResource( 1 )
 collision_layer = 8
 
 [node name="CollisionShape" type="CollisionShape" parent="vs_world_body"]
-shape = SubResource( 5 )
+shape = SubResource( 1 )
 disabled = true
 
 [node name="vs_ent_body" type="Area" parent="vs_world_body"]
@@ -31,47 +34,37 @@ collision_layer = 8
 collision_mask = 60
 
 [node name="CollisionShape" type="CollisionShape" parent="vs_world_body/vs_ent_body"]
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="display" type="Spatial" parent="vs_world_body"]
 
 [node name="display" type="MeshInstance" parent="vs_world_body/display"]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.00229764, -1.19209e-07, -0.00549024 )
-mesh = SubResource( 1 )
+mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="vs_world_body/display"]
-mesh = SubResource( 6 )
+mesh = SubResource( 5 )
 material/0 = null
 
 [node name="crap_to_find_it_when_lost" type="Spatial" parent="vs_world_body/display"]
 
 [node name="display3" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, -32 )
-mesh = SubResource( 1 )
+transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="display4" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 29 )
-mesh = SubResource( 1 )
+transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="display5" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, -53, 0, 1 )
-mesh = SubResource( 1 )
+transform = Transform( -3.09086e-08, 3.09086e-08, -1, 0.707107, 0.707107, 0, 0.707107, -0.707107, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="display6" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 22, 0, 1 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="display7" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 40, 1 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="display8" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -100, 1 )
-mesh = SubResource( 1 )
+transform = Transform( -3.09086e-08, 3.09086e-08, -1, -0.707107, 0.707107, 4.37114e-08, 0.707107, 0.707107, 1.91069e-15, 0, 0, 0 )
+mesh = SubResource( 6 )
 material/0 = null

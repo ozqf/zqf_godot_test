@@ -110,18 +110,20 @@ func _process(_delta:float):
 	# Update inventory inputs
 	var primaryOn: bool = false
 	var secondaryOn: bool = false
+	var throwPrimary: bool = false
+	var throwSecondary: bool = false
 	if sys.bGameInputActive:
 
 		# update the disc too
-		if Input.is_action_just_pressed("throw_a"):
-			print("Throw A")
-			var t = m_weaponCentre.get_global_transform()
-			m_disc.launch(t.origin, -t.basis.z)
+		if Input.is_action_pressed("throw_a"):
+			throwPrimary = true;
+			# var t = m_weaponCentre.get_global_transform()
+			# m_disc.launch(t.origin, -t.basis.z)
 
 		# update the disc too
-		if Input.is_action_just_pressed("throw_b"):
-			print("Throw B")
-			m_disc.recall()
+		# if Input.is_action_just_pressed("throw_b"):
+		# 	print("Throw B")
+		# 	m_disc.recall()
 			# var t = m_weaponCentre.get_global_transform()
 			# m_disc.launch(t.origin, -t.basis.z)
 
@@ -143,6 +145,7 @@ func _process(_delta:float):
 			m_inventory.select_weapon_by_index(4)
 
 	m_inventory.update_inputs(primaryOn, secondaryOn)
+	m_disc.primaryOn = throwPrimary
 
 	if writeDebug:
 		var selfPos = global_transform.origin

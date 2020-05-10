@@ -83,6 +83,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, 4, -4 )
 [node name="debug_world_cube_1x8x5" parent="world/walls" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, 4, 4 )
 
+[node name="debug_world_cube_1x8x33" parent="world/walls" instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -26.5, 6, 4 )
+
 [node name="debug_world_cube_1x8x6" parent="world/walls" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, 4, 12 )
 
