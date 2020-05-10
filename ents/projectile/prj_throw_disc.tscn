@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ents/projectile/prj_throw_disc.gd" type="Script" id=1]
 
@@ -10,13 +10,33 @@ extents = Vector3( 0.1, 0.1, 1 )
 [sub_resource type="SphereMesh" id=3]
 
 [sub_resource type="SpatialMaterial" id=4]
-flags_unshaded = true
-albedo_color = Color( 0, 1, 1, 1 )
+flags_transparent = true
+albedo_color = Color( 1, 0, 0, 0.447059 )
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.1
+refraction_enabled = true
+refraction_scale = 0.01
+refraction_texture_channel = 0
+proximity_fade_enable = true
+proximity_fade_distance = 1.0
+distance_fade_mode = 1
+distance_fade_min_distance = 0.0
+distance_fade_max_distance = 6.0
 
 [sub_resource type="CubeMesh" id=5]
 size = Vector3( 0.2, 0.2, 1.2 )
 
-[sub_resource type="CubeMesh" id=6]
+[sub_resource type="SpatialMaterial" id=8]
+metallic = 1.0
+roughness = 0.41
+emission_enabled = true
+emission = Color( 1, 1, 1, 1 )
+emission_energy = 1.5
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="CubeMesh" id=7]
 size = Vector3( 20, 0.1, 0.1 )
 
 [node name="prj_throw_disc" type="Spatial"]
@@ -38,33 +58,34 @@ shape = SubResource( 2 )
 
 [node name="display" type="Spatial" parent="vs_world_body"]
 
-[node name="display" type="MeshInstance" parent="vs_world_body/display"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.00229764, -1.19209e-07, -0.00549024 )
+[node name="shell" type="MeshInstance" parent="vs_world_body/display"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
-[node name="MeshInstance" type="MeshInstance" parent="vs_world_body/display"]
+[node name="core" type="MeshInstance" parent="vs_world_body/display"]
 mesh = SubResource( 5 )
-material/0 = null
+material/0 = SubResource( 8 )
 
 [node name="crap_to_find_it_when_lost" type="Spatial" parent="vs_world_body/display"]
+visible = false
 
 [node name="display3" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
 transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="display4" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
 transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="display5" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
 transform = Transform( -3.09086e-08, 3.09086e-08, -1, 0.707107, 0.707107, 0, 0.707107, -0.707107, -4.37114e-08, 0, 0, 0 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="display6" type="MeshInstance" parent="vs_world_body/display/crap_to_find_it_when_lost"]
 transform = Transform( -3.09086e-08, 3.09086e-08, -1, -0.707107, 0.707107, 4.37114e-08, 0.707107, 0.707107, 1.91069e-15, 0, 0, 0 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null

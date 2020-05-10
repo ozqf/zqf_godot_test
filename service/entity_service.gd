@@ -95,8 +95,6 @@ func add_scene_object(obj: Node):
 	# TODO: add this object to a more specific node for grouping objects
 	#get_tree().root.add_child(obj)
 	self.add_child(obj)
-	print(obj.name + " is owned by the stupid fucking node " + str(self.name) + " Piece of shit fuckign why is this tree shit so fucking janky")
-
 
 ###########################################################################
 # Entity list

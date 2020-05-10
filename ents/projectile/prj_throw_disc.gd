@@ -22,7 +22,7 @@ var m_speed: float = THROW_SPEED
 var m_recallDelayTick: float = 0
 var m_startRecall: bool = false
 
-# TODO: Convert this class to use weapon base class.
+# TODO: Convert this class to use weapon base class...?
 var primaryOn: bool = false
 var secondaryOn: bool = false
 
@@ -65,6 +65,10 @@ func _ready():
 	_foo = m_entBody.connect("area_entered", self, "ent_area_entered")
 	_foo = m_entBody.connect("body_entered", self, "ent_body_entered")
 
+#######################################
+# Throw/recall logic
+#######################################
+
 func _hit(_rayHitResult):
 	return true
 
@@ -80,6 +84,7 @@ func _move_as_ray(_delta: float):
 		if _hit(result):
 			m_worldBody.transform.origin = result.position
 			m_state = DiscState.Stuck
+			print("Disc stopped against obj " + result.collider.name)
 			return true
 	# if fell threw continue
 	m_worldBody.transform.origin = dest
@@ -148,7 +153,7 @@ func launch(_pos: Vector3, _forward: Vector3):
 	m_lastPosition = _pos
 
 #######################################
-# Callbacks
+# Callbacks and Interactions
 #######################################
 
 func world_area_entered(_area: Area):
@@ -172,9 +177,15 @@ func world_body_entered(_body: PhysicsBody):
 func ent_area_entered(_area: Area):
 	if m_state == DiscState.Inactive:
 		return
-	print("Ent area entered " + _area.name)
+	print("Disc Ent area entered " + _area.name)
+	var _interactor = common.extract_interactor(_area)
+	if _interactor:
+		print("Disc hit area interactor " + _interactor.name)
 
 func ent_body_entered(_body: PhysicsBody):
 	if m_state == DiscState.Inactive:
 		return
-	print("Ent body entered " + _body.name)
+	print("Disc Ent body entered " + _body.name)
+	var _interactor = common.extract_interactor(_body)
+	if _interactor:
+		print("Disc hit body interactor " + _interactor.name)

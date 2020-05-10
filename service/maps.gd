@@ -54,9 +54,12 @@ func change_level_deferred(fullPath):
 		m_current_level.free()
 		m_current_level = null
 	# load new
-	var scene_class = ResourceLoader.load(fullPath)
-	m_current_level = scene_class.instance()
-	get_tree().get_root().add_child(m_current_level)
+	# var scene_class = ResourceLoader.load(fullPath)
+	# m_current_level = scene_class.instance()
+	# get_tree().get_root().add_child(m_current_level)
+	
+	# regular Godot level change:
+	var _foo = get_tree().change_scene(fullPath)
 
 func change_level(fullPath):
 	call_deferred("change_level_deferred", fullPath)

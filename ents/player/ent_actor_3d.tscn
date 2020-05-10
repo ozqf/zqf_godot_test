@@ -87,7 +87,6 @@ far = 1000.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 4.5 )
 
 [node name="camera" type="Camera" parent="body/display/head/debug_camera_mount"]
-environment = ExtResource( 3 )
 fov = 80.0
 far = 1000.0
 

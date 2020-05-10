@@ -133,8 +133,16 @@ ent
                 camera
 --
 
-### Application
-root:
+### Example Application
+
+root (base type Node)
+    autoload scene
+    autoload scene
+    autoload scene
+    current level scene
+        level node
+        level node
+        level node
 
 
 ## GUI
