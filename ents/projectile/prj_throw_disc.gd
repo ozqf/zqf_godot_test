@@ -22,6 +22,7 @@ var m_speed: float = THROW_SPEED
 var m_recallDelayTick: float = 0
 var m_startRecall: bool = false
 
+# TODO: Convert this class to use weapon base class.
 var primaryOn: bool = false
 var secondaryOn: bool = false
 
@@ -45,19 +46,16 @@ func check_recall_start():
 	if m_state == DiscState.Recalling:
 		return
 	# okay now do something
-	print("Recalling!")
 	m_state = DiscState.Recalling
 	m_startRecall = false
+
+	# TODO
+	# calc speed more dynamically OR
+	# lerp disc back to player so that recalling takes
+	# a specific limited amount of time
 	m_speed = RECALL_SPEED
-	# Calculate recall speed
-	# speed = distance / time ;)
-	# var ownerPos: Vector3 = m_owner.get_world_position()
-	# var selfPos: Vector3 = m_worldBody.transform.origin
-	# var toOwner: Vector3 = ownerPos - selfPos
-	# m_speed = toOwner.length() / MAX_RECALL_TIME
 
 func recall():
-	print("Recall disc")
 	m_startRecall = true
 
 func _ready():
@@ -67,23 +65,22 @@ func _ready():
 	_foo = m_entBody.connect("area_entered", self, "ent_area_entered")
 	_foo = m_entBody.connect("body_entered", self, "ent_body_entered")
 
+func _hit(_rayHitResult):
+	return true
+
 func _move_as_ray(_delta: float):
 	var space = m_worldBody.get_world().direct_space_state
 	var origin = m_worldBody.transform.origin
 	var dir = -m_worldBody.transform.basis.z
 	var velocity = (dir * THROW_SPEED) * _delta
 	var dest = origin + velocity
-	# move back a little for ray cast...?
-	# origin += m_worldBody.transform.basis.z
-	#m_worldBody.transform.origin = dest
-	# reminder -1 == all bits on!
 	var mask = common.LAYER_WORLD
 	var result = space.intersect_ray(origin, dest)
 	if result:
-		print("Disc ray - HIT!")
-		m_worldBody.transform.origin = result.position
-		m_state = DiscState.Stuck
-		return true
+		if _hit(result):
+			m_worldBody.transform.origin = result.position
+			m_state = DiscState.Stuck
+			return true
 	# if fell threw continue
 	m_worldBody.transform.origin = dest
 	return false
@@ -142,7 +139,6 @@ func launch(_pos: Vector3, _forward: Vector3):
 	m_state = DiscState.Thrown
 	m_speed = THROW_SPEED
 	m_display.show()
-	print("Launch disc from " + str(m_worldBody.transform.origin))
 	m_recallDelayTick = THROW_RECALL_DELAY
 
 	# use lookAt to change orientation
