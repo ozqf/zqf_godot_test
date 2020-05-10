@@ -5,4 +5,4 @@ func on_touch(_interactor):
 	# give 30 seconds of damage
 	var taken: int = _interactor.interaction_give("damage", 30)
 	if taken > 0:
-		queue_free()
+		.deactivate()

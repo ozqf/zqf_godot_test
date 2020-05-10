@@ -8,7 +8,7 @@ var m_ammoLoaded: int = 4
 var m_ammoMagSize: int = 4
 
 var m_cycleTick: float = 0
-var m_cycleTotalTime: float = 0.35
+var m_cycleTotalTime: float = 0.25
 
 func init(_launchNode: Spatial):
 	.init(_launchNode)

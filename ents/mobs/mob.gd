@@ -120,7 +120,7 @@ func test_tick_motor(_delta:float):
 		swap_state(AI_STATE_ATTACK)
 		return
 	m_thinkTick -= _delta
-	var move: Vector3 = motor.tick(_delta, m_body, target.get_world_position())
+	var move: Vector3 = motor.tick(_delta, m_body, target.ent_get_world_position())
 	move *= MOVE_SPEED
 	var _moveResult = m_body.move_and_slide(move)
 

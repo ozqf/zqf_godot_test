@@ -1,18 +1,20 @@
 extends Spatial
 
+const Enums = preload("res://Enums.gd")
+
 const THROW_RECALL_DELAY: float = 0.25
 const RECALL_FINISH_DISTANCE: float = 2.0
 const THROW_SPEED: float = 75.0
 const RECALL_SPEED: float = 150.0
 const MAX_RECALL_TIME: float = 2.0
 
-enum DiscState { Inactive, Thrown, Stuck, Recalling }
+#enum DiscState { Inactive, Thrown, Stuck, Recalling }
 
 onready var m_worldBody: Area = $vs_world_body
 onready var m_entBody: Area = $vs_world_body/vs_ent_body
 onready var m_display = $vs_world_body/display
 
-var m_state = DiscState.Inactive
+var m_state = Enums.DiscState.Inactive
 var m_owner: Spatial
 var m_launchNode: Spatial
 var m_lastPosition: Vector3 = Vector3()
@@ -21,6 +23,8 @@ var m_speed: float = THROW_SPEED
 # Don't allow a completely instant recall
 var m_recallDelayTick: float = 0
 var m_startRecall: bool = false
+var m_recallLerp: float = 0
+var m_recallOrigin: Transform = Transform()
 
 # TODO: Convert this class to use weapon base class...?
 var primaryOn: bool = false
@@ -28,35 +32,17 @@ var secondaryOn: bool = false
 
 var m_awaitControlOff: bool = false
 
+func get_disc_state():
+	return m_state
+
 func teleport(_pos: Vector3):
 	m_worldBody.transform.origin = _pos
 
 func disc_init(_newOwner: Spatial, _launchNode: Spatial):
 	m_owner = _newOwner
 	m_launchNode = _launchNode
-
-func check_recall_start():
-	if !m_startRecall:
-		return
-	if m_state == DiscState.Thrown:
-		if m_recallDelayTick > 0:
-			return
-	if m_state == DiscState.Inactive:
-		return
-	if m_state == DiscState.Recalling:
-		return
-	# okay now do something
-	m_state = DiscState.Recalling
-	m_startRecall = false
-
-	# TODO
-	# calc speed more dynamically OR
-	# lerp disc back to player so that recalling takes
-	# a specific limited amount of time
-	m_speed = RECALL_SPEED
-
-func recall():
-	m_startRecall = true
+	# pass owner to sub-components
+	m_entBody.set_interactor(m_owner)
 
 func _ready():
 	var _foo
@@ -83,7 +69,7 @@ func _move_as_ray(_delta: float):
 	if result:
 		if _hit(result):
 			m_worldBody.transform.origin = result.position
-			m_state = DiscState.Stuck
+			m_state = Enums.DiscState.Stuck
 			print("Disc stopped against obj " + result.collider.name)
 			return true
 	# if fell threw continue
@@ -97,25 +83,71 @@ func _process_thrown(_delta: float):
 	var pos = m_worldBody.transform.origin + move
 	m_worldBody.transform.origin = pos
 
-func _process_recall(_delta: float):
-	var ownerPos: Vector3 = m_owner.get_world_position()
-	var selfPos: Vector3 = m_worldBody.transform.origin
-	var toOwner: Vector3 = ownerPos - selfPos
-	if toOwner.length() <= RECALL_FINISH_DISTANCE:
-		m_state = DiscState.Inactive
-		m_display.hide()
+func check_recall_start():
+	if !m_startRecall:
 		return
-	toOwner = toOwner.normalized()
-	toOwner *= (m_speed * _delta)
-	m_worldBody.transform.origin = selfPos + toOwner
+	if m_state == Enums.DiscState.Thrown:
+		if m_recallDelayTick > 0:
+			return
+	if m_state == Enums.DiscState.Inactive:
+		return
+	if m_state == Enums.DiscState.Recalling:
+		return
+	# okay now do something
+	m_state = Enums.DiscState.Recalling
+	m_startRecall = false
+
+	# TODO
+	# calc speed more dynamically OR
+	# lerp disc back to player so that recalling takes
+	# a specific limited amount of time
+	m_speed = RECALL_SPEED
+	m_recallLerp = 0
+	m_recallOrigin = m_worldBody.transform
+
+func recall():
+	m_startRecall = true
+
+func _finish_recall():
+	m_state = Enums.DiscState.Inactive
+	m_display.hide()
+	
+func _process_recall(_delta: float):
+	# do a distance check as the player
+	# may have moved closer!
+	var originT = m_worldBody.get_transform()
+	var targetT = m_owner.ent_get_transform()
+	var toOwner: Vector3 = targetT.origin - m_worldBody.transform.origin
+	if toOwner.length() <= RECALL_FINISH_DISTANCE:
+		_finish_recall()
+		return
+	m_recallLerp += _delta
+	if (m_recallLerp > 1):
+		_finish_recall()
+		return
+	# position
+	
+	var t = originT.interpolate_with(targetT, m_recallLerp)
+	m_worldBody.set_transform(t)
+	# var ownerPos: Vector3 = m_owner.ent_get_world_position()
+	# var selfPos: Vector3 = m_worldBody.transform.origin
+	# var toOwner: Vector3 = ownerPos - selfPos
+	# if toOwner.length() <= RECALL_FINISH_DISTANCE:
+	# 	m_state = DiscState.Inactive
+	# 	m_display.hide()
+	# 	return
+	# toOwner = toOwner.normalized()
+	# toOwner *= (m_speed * _delta)
+	# m_worldBody.transform.origin = selfPos + toOwner
+	pass
 
 func process_input(_delta: float):
 	if primaryOn:
-		if m_state == DiscState.Inactive:
+		if m_state == Enums.DiscState.Inactive:
 			m_awaitControlOff = true
 			var t = m_launchNode.get_global_transform() 
 			launch(t.origin, -t.basis.z)
-		elif m_state == DiscState.Thrown || m_state == DiscState.Stuck:
+		elif m_state == Enums.DiscState.Thrown || m_state == Enums.DiscState.Stuck:
 			m_awaitControlOff = true
 			recall()
 
@@ -128,20 +160,20 @@ func _physics_process(_delta: float):
 	check_recall_start()
 	m_recallDelayTick -= _delta
 	# Thrown
-	if m_state == DiscState.Thrown:
+	if m_state == Enums.DiscState.Thrown:
 		#_process_thrown(_delta)
 		_move_as_ray(_delta)
 	# Recalling
-	if m_state == DiscState.Recalling:
+	if m_state == Enums.DiscState.Recalling:
 		_process_recall(_delta)
 
 func launch(_pos: Vector3, _forward: Vector3):
-	if m_state != DiscState.Inactive:
+	if m_state != Enums.DiscState.Inactive:
 		print("Cannot throw yet state is "+ str(m_state))
 		return
 	transform.origin = Vector3()
 	m_startRecall = false
-	m_state = DiscState.Thrown
+	m_state = Enums.DiscState.Thrown
 	m_speed = THROW_SPEED
 	m_display.show()
 	m_recallDelayTick = THROW_RECALL_DELAY
@@ -157,7 +189,7 @@ func launch(_pos: Vector3, _forward: Vector3):
 #######################################
 
 func world_area_entered(_area: Area):
-	if m_state != DiscState.Thrown:
+	if m_state != Enums.DiscState.Thrown:
 		return
 	print("World area entered: " + _area.name)
 	# if (_area.collision_layer | common.LAYER_WORLD):
@@ -166,7 +198,7 @@ func world_area_entered(_area: Area):
 	# 	print("Disc stuck!")
 
 func world_body_entered(_body: PhysicsBody):
-	if m_state != DiscState.Thrown:
+	if m_state != Enums.DiscState.Thrown:
 		return
 	print("World body entered: " + _body.name)
 	# if (_body.collision_layer | common.LAYER_WORLD):
@@ -175,7 +207,7 @@ func world_body_entered(_body: PhysicsBody):
 	# 	print("Disc stuck!")
 
 func ent_area_entered(_area: Area):
-	if m_state == DiscState.Inactive:
+	if m_state == Enums.DiscState.Inactive:
 		return
 	print("Disc Ent area entered " + _area.name)
 	var _interactor = common.extract_interactor(_area)
@@ -183,9 +215,12 @@ func ent_area_entered(_area: Area):
 		print("Disc hit area interactor " + _interactor.name)
 
 func ent_body_entered(_body: PhysicsBody):
-	if m_state == DiscState.Inactive:
+	if m_state == Enums.DiscState.Inactive:
 		return
 	print("Disc Ent body entered " + _body.name)
 	var _interactor = common.extract_interactor(_body)
 	if _interactor:
 		print("Disc hit body interactor " + _interactor.name)
+
+func get_interactor():
+	return m_owner

@@ -158,10 +158,14 @@ func _process(_delta:float):
 		sys.playerDebugText = txt
 	pass
 	sys.hud.check_changed("ammo", m_inventory.get_loaded_ammo())
+	sys.hud.check_changed("disc_state", m_disc.get_disc_state())
 
-func get_world_position():
+func ent_get_world_position():
 	return self.m_body.global_transform.origin
 
+func ent_get_transform():
+	return self.m_body.global_transform
+	
 ########################################
 # Signals
 ########################################

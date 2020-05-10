@@ -72,7 +72,10 @@ func _notification(what):
 # Query
 ########################################
 # override this if the entity's position is a child node!
-func get_world_position():
+func ent_get_world_position():
+	return global_transform.origin
+
+func ent_get_transform():
 	return global_transform.origin
 
 ########################################

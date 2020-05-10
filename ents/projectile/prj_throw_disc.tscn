@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ents/projectile/prj_throw_disc.gd" type="Script" id=1]
+[ext_resource path="res://ents/interaction_provider.gd" type="Script" id=2]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.1, 0.1, 1 )
@@ -11,7 +12,7 @@ extents = Vector3( 0.1, 0.1, 1 )
 
 [sub_resource type="SpatialMaterial" id=4]
 flags_transparent = true
-albedo_color = Color( 1, 0, 0, 0.447059 )
+albedo_color = Color( 0, 1, 1, 0.2 )
 metallic = 1.0
 metallic_specular = 0.0
 roughness = 0.1
@@ -50,8 +51,10 @@ shape = SubResource( 1 )
 disabled = true
 
 [node name="vs_ent_body" type="Area" parent="vs_world_body"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 collision_layer = 8
 collision_mask = 60
+script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="vs_world_body/vs_ent_body"]
 shape = SubResource( 2 )

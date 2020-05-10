@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const Enums = preload("res://Enums.gd")
+
 const HUD_MESSAGE_FADE_TIME: int = 2
 
 class NumberChange:
@@ -16,13 +18,16 @@ onready var m_playerStatus = $player_status
 onready var m_healthValue = $player_status/health/health_value
 onready var m_ammoValue = $player_status/ammo/ammo_value
 
+onready var m_disc_message = $disc_message
+
 onready var m_hud_message: Label = $hud_message
 onready var m_hud_message_calls: int = 0
 onready var m_hud_message_tick: float = 0
 
 var numbers = {
 	"health": 0,
-	"ammo": 0
+	"ammo": 0,
+	"disc_state": 1
 }
 
 var event_mask: int = common.EVENT_BIT_UI
@@ -44,6 +49,8 @@ func _process(_delta):
 		if change.name == "ammo":
 			numbers["ammo"] = change.value
 			m_ammoValue.text = str(change.value)
+		elif change.name == "disc_state":
+			_update_disc_state(change.value)
 	m_numberChanges.clear()
 
 	# hide hud message
@@ -52,6 +59,19 @@ func _process(_delta):
 		m_hud_message_tick = 99999
 	else:
 		m_hud_message_tick -= _delta
+
+func _update_disc_state(_state):
+	var txt: String = ""
+	if _state == Enums.DiscState.Inactive:
+		txt = "Ready"
+	elif _state == Enums.DiscState.Thrown:
+		txt = "Thrown"
+	elif _state == Enums.DiscState.Recalling:
+		txt = "Returning"
+	elif _state == Enums.DiscState.Stuck:
+		txt = "Stuck"
+	m_disc_message.text = txt
+	
 
 func check_changed(name: String, value: float):
 	var current = numbers[name]
