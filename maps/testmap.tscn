@@ -123,29 +123,32 @@ material/0 = SubResource( 6 )
 [node name="debug_world_cube_1x8x1" parent="world/walls" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, 4, -28 )
 
+[node name="debug_world_cube_1x8x37" parent="world/walls" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, 4, -36 )
+
 [node name="debug_world_cube_1x8x17" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x18" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x22" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x21" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x24" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 20, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 20, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x23" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x20" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -28, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -28, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x19" parent="world/walls" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -20, 4, -32.5 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -20, 4, -40.5 )
 
 [node name="debug_world_cube_1x8x32" parent="world/walls" instance=ExtResource( 9 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12, 4, 32.5 )
@@ -203,6 +206,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 4, 37 )
 
 [node name="debug_world_cube_1x8x16" parent="world/walls" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32.498, 3.99359, -28.0036 )
+
+[node name="debug_world_cube_1x8x36" parent="world/walls" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32.498, 3.99359, -36.0036 )
 
 [node name="debug_world_cube_1x8x15" parent="world/walls" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32.498, 3.99359, -20.0036 )
@@ -340,7 +346,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, 10 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1, 10 )
 
 [node name="clip_volume" parent="world/arena_hull" instance=ExtResource( 5 )]
-transform = Transform( 32, 0, 0, 0, 10, 0, 0, 0, 1, 0, 18, -33 )
+transform = Transform( 32, 0, 0, 0, 10, 0, 0, 0, 1, 0, 19, -33 )
 
 [node name="clip_volume2" parent="world/arena_hull" instance=ExtResource( 5 )]
 transform = Transform( 32, 0, 0, 0, 10, 0, 0, 0, 1, 0, 18, 33 )
@@ -530,6 +536,30 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -1, -28 )
 [node name="debug_world_cube_8x60" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, -1, -28 )
 
+[node name="debug_world_cube_8x81" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -1, -36 )
+
+[node name="debug_world_cube_8x80" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -1, -36 )
+
+[node name="debug_world_cube_8x79" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -1, -36 )
+
+[node name="debug_world_cube_8x78" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28, -1, -36 )
+
+[node name="debug_world_cube_8x77" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -1, -36 )
+
+[node name="debug_world_cube_8x76" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -1, -36 )
+
+[node name="debug_world_cube_8x75" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -1, -36 )
+
+[node name="debug_world_cube_8x74" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, -1, -36 )
+
 [node name="debug_world_cube_8x71" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 9, -28 )
 
@@ -553,6 +583,30 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 9, -28 )
 
 [node name="debug_world_cube_8x64" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 9, -28 )
+
+[node name="debug_world_cube_8x89" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 9, -36 )
+
+[node name="debug_world_cube_8x88" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 9, -36 )
+
+[node name="debug_world_cube_8x87" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 9, -36 )
+
+[node name="debug_world_cube_8x86" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 9, -36 )
+
+[node name="debug_world_cube_8x85" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 9, -36 )
+
+[node name="debug_world_cube_8x84" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 9, -36 )
+
+[node name="debug_world_cube_8x83" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 9, -36 )
+
+[node name="debug_world_cube_8x82" parent="world/arena_hull/floor" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 9, -36 )
 
 [node name="MeshInstance" type="MeshInstance" parent="world"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20 )
