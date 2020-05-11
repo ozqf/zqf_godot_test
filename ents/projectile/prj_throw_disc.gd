@@ -5,7 +5,8 @@ const Enums = preload("res://Enums.gd")
 
 const THROW_RECALL_DELAY: float = 0.25
 const RECALL_FINISH_DISTANCE: float = 2.0
-const THROW_SPEED: float = 75.0
+#const THROW_SPEED_GUIDED: float = 50.0
+const THROW_SPEED: float = 50.0
 const RECALL_SPEED: float = 150.0
 const MAX_RECALL_TIME: float = 2.0
 
@@ -13,12 +14,14 @@ onready var m_worldBody: Area = $vs_world_body
 onready var m_entBody: Area = $vs_world_body/vs_ent_body
 onready var m_display = $vs_world_body/display
 onready var m_coreDisplay = $vs_world_body/display/core
+onready var m_light: OmniLight = $vs_world_body/display/light
 
 var m_state = Enums.DiscState.Inactive
 var m_effect = Enums.DiscEffect.None
 
 var m_owner: Spatial
 var m_launchNode: Spatial
+var m_laserDot: Spatial
 var m_lastPosition: Vector3 = Vector3()
 var m_speed: float = THROW_SPEED
 
@@ -42,9 +45,10 @@ func get_disc_state():
 func teleport(_pos: Vector3):
 	m_worldBody.transform.origin = _pos
 
-func disc_init(_newOwner: Spatial, _launchNode: Spatial):
+func disc_init(_newOwner: Spatial, _launchNode: Spatial, _laserDotNode: Spatial):
 	m_owner = _newOwner
 	m_launchNode = _launchNode
+	m_laserDot = _laserDotNode
 	# pass owner to sub-components
 	m_entBody.set_interactor(m_owner)
 
@@ -72,7 +76,12 @@ func _move_as_ray(_delta: float):
 	var result = space.intersect_ray(origin, dest)
 	if result:
 		if _hit(result):
-			m_worldBody.transform.origin = result.position
+			# move final position back slightly so that light
+			# source at centre is not IN the surface
+			var pos: Vector3 = result.position
+			# pos -= (dir * 0.5)
+			m_light.transform.origin = Vector3(0, 0, 0.5)
+			m_worldBody.transform.origin = pos
 			m_state = Enums.DiscState.Stuck
 			print("Disc stopped against obj " + result.collider.name)
 			return true
@@ -114,6 +123,8 @@ func check_recall_start():
 	m_speed = RECALL_SPEED
 	m_recallLerp = 0
 	m_recallOrigin = m_worldBody.transform
+	# reset light position too
+	m_light.transform.origin = Vector3()
 
 func recall():
 	m_startRecall = true
@@ -161,6 +172,17 @@ func process_input(_delta: float):
 			m_awaitControlOff = true
 			recall()
 
+func turn_toward_laser(_delta: float):
+	if !m_laserDot:
+		return
+	var result = Transform()
+	var dotPos: Vector3 = m_laserDot.get_global_transform().origin
+	# var curDir = -m_worldBody.transform.basis.z
+	# var targetDir = (m_laserDot.transform.origin - m_worldBody.transform.origin).normalized()
+	var towardLaser = m_worldBody.get_global_transform().looking_at(dotPos, Vector3.UP)
+	var t = m_worldBody.transform.interpolate_with(towardLaser, 0.5)
+	m_worldBody.set_transform(t)
+
 func custom_physics_process(_delta: float):
 	if !m_awaitControlOff:
 		process_input(_delta)
@@ -171,8 +193,12 @@ func custom_physics_process(_delta: float):
 	m_recallDelayTick -= _delta
 	# Thrown
 	if m_state == Enums.DiscState.Thrown:
-		#_process_thrown(_delta)
+		# animate
 		_rotate_core(_delta)
+		# turn if necessary
+		if primaryOn:
+			turn_toward_laser(_delta)
+		# move
 		_move_as_ray(_delta)
 	# Recalling
 	if m_state == Enums.DiscState.Recalling:
@@ -183,6 +209,8 @@ func launch(_pos: Vector3, _forward: Vector3):
 		print("Cannot throw yet state is "+ str(m_state))
 		return
 	transform.origin = Vector3()
+	# reset light position too
+	m_light.transform.origin = Vector3()
 	m_startRecall = false
 	m_state = Enums.DiscState.Thrown
 	m_speed = THROW_SPEED

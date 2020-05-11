@@ -6,7 +6,7 @@ func _process(_delta):
 	var origin: Vector3 = trans.origin
 	var forward: Vector3 = trans.basis.z
 	forward = -forward
-	var dest: Vector3 = origin + (forward * 100)
+	var dest: Vector3 = origin + (forward * 1000)
 	var mask = common.LAYER_WORLD | common.LAYER_ENTITIES
 	
 	var space = get_world().direct_space_state

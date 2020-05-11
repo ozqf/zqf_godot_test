@@ -15,6 +15,7 @@ onready var m_headMesh = $body/display/head/head_mesh
 onready var m_weaponCentre: Spatial = $body/display/head/weapon_centre
 onready var m_weaponRight = $body/display/head/weapon_right
 onready var m_weaponLeft = $body/display/head/weapon_left
+onready var m_laserDot: Spatial = $body/display/head/laser_dot
 
 onready var m_inventory = $inventory
 
@@ -72,7 +73,7 @@ func _ready():
 	# Create disc
 	m_disc = factory.create_disc_projectile()
 	g_ents.add_scene_object(m_disc)
-	m_disc.disc_init(self, m_weaponCentre)
+	m_disc.disc_init(self, m_weaponCentre, m_laserDot)
 
 	# Assuming Id is already set here!
 	m_inventory.init(m_weaponCentre, self.id)

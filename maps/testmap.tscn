@@ -15,11 +15,11 @@
 [ext_resource path="res://ents/info/ent_embue_fire.gd" type="Script" id=13]
 [ext_resource path="res://ents/info/ent_embue_bounce.gd" type="Script" id=14]
 
-[sub_resource type="SphereShape" id=2]
+[sub_resource type="SphereShape" id=1]
 
-[sub_resource type="SphereMesh" id=3]
+[sub_resource type="SphereMesh" id=2]
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
 albedo_color = Color( 1, 1, 0, 0.329412 )
 emission_enabled = true
@@ -28,11 +28,11 @@ emission_energy = 1.56
 emission_operator = 0
 emission_on_uv2 = false
 
-[sub_resource type="SphereShape" id=5]
+[sub_resource type="SphereShape" id=4]
 
-[sub_resource type="SphereMesh" id=6]
+[sub_resource type="SphereMesh" id=5]
 
-[sub_resource type="SpatialMaterial" id=7]
+[sub_resource type="SpatialMaterial" id=6]
 flags_transparent = true
 albedo_color = Color( 0, 0, 1, 0.372549 )
 emission_enabled = true
@@ -41,7 +41,7 @@ emission_energy = 1.5
 emission_operator = 0
 emission_on_uv2 = false
 
-[sub_resource type="SphereMesh" id=1]
+[sub_resource type="SphereMesh" id=7]
 
 [node name="testmap" type="Spatial"]
 
@@ -97,11 +97,11 @@ collision_mask = 224
 script = ExtResource( 13 )
 
 [node name="CollisionShape" type="CollisionShape" parent="entities/actors/ent_imbue_fire"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="entities/actors/ent_imbue_fire"]
-mesh = SubResource( 3 )
-material/0 = SubResource( 4 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
 
 [node name="ent_imbue_bounce" type="Area" parent="entities/actors"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 3, 10 )
@@ -110,11 +110,11 @@ collision_mask = 224
 script = ExtResource( 14 )
 
 [node name="CollisionShape" type="CollisionShape" parent="entities/actors/ent_imbue_bounce"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="entities/actors/ent_imbue_bounce"]
-mesh = SubResource( 6 )
-material/0 = SubResource( 7 )
+mesh = SubResource( 5 )
+material/0 = SubResource( 6 )
 
 [node name="world" type="Spatial" parent="."]
 
@@ -556,10 +556,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 9, -28 )
 
 [node name="MeshInstance" type="MeshInstance" parent="world"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20 )
-mesh = SubResource( 1 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="world"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
-mesh = SubResource( 1 )
+mesh = SubResource( 7 )
 material/0 = null
