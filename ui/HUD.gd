@@ -65,11 +65,11 @@ func _update_disc_state(_state):
 	if _state == Enums.DiscState.Inactive:
 		txt = "Ready"
 	elif _state == Enums.DiscState.Thrown:
-		txt = "Thrown"
+		txt = "Thrown..."
 	elif _state == Enums.DiscState.Recalling:
-		txt = "Returning"
+		txt = "...Returning"
 	elif _state == Enums.DiscState.Stuck:
-		txt = "Stuck"
+		txt = "...Stuck..."
 	m_disc_message.text = txt
 	
 

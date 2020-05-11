@@ -9,14 +9,14 @@ const THROW_SPEED: float = 75.0
 const RECALL_SPEED: float = 150.0
 const MAX_RECALL_TIME: float = 2.0
 
-#enum DiscState { Inactive, Thrown, Stuck, Recalling }
-
 onready var m_worldBody: Area = $vs_world_body
 onready var m_entBody: Area = $vs_world_body/vs_ent_body
 onready var m_display = $vs_world_body/display
 onready var m_coreDisplay = $vs_world_body/display/core
 
 var m_state = Enums.DiscState.Inactive
+var m_effect = Enums.DiscEffect.None
+
 var m_owner: Spatial
 var m_launchNode: Spatial
 var m_lastPosition: Vector3 = Vector3()
@@ -224,6 +224,14 @@ func ent_area_entered(_area: Area):
 	var _interactor = common.extract_interactor(_area)
 	if _interactor:
 		print("Disc hit area interactor " + _interactor.name)
+		if _interactor:
+			var imbue = _interactor.interaction_get_imbue_effect()
+			if imbue == "fire":
+				print("!!!FIRE!!!")
+				return false
+			elif imbue == "bounce":
+				print("!!!BOUNCE!!!")
+				return false
 
 func ent_body_entered(_body: PhysicsBody):
 	if m_state == Enums.DiscState.Inactive:

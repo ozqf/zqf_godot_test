@@ -95,5 +95,8 @@ func interaction_teleport(_pos: Vector3):
 func interaction_give(_itemName: String, _amount: int):
 	return 0
 
+func interaction_get_imbue_effect():
+	return ""
+
 # func interaction_hurt(damage: int):
 # 	print("Hurt ent " + self.name + " for " + str(damage))
