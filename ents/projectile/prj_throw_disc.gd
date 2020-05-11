@@ -5,8 +5,8 @@ const Enums = preload("res://Enums.gd")
 
 const THROW_RECALL_DELAY: float = 0.25
 const RECALL_FINISH_DISTANCE: float = 2.0
-#const THROW_SPEED_GUIDED: float = 50.0
-const THROW_SPEED: float = 50.0
+const THROW_SPEED_GUIDED: float = 40.0
+const THROW_SPEED: float = 75.0
 const RECALL_SPEED: float = 150.0
 const MAX_RECALL_TIME: float = 2.0
 
@@ -70,7 +70,7 @@ func _move_as_ray(_delta: float):
 	var space = m_worldBody.get_world().direct_space_state
 	var origin = m_worldBody.transform.origin
 	var dir = -m_worldBody.transform.basis.z
-	var velocity = (dir * THROW_SPEED) * _delta
+	var velocity = (dir * m_speed) * _delta
 	var dest = origin + velocity
 	var mask = common.LAYER_WORLD
 	var result = space.intersect_ray(origin, dest)
@@ -180,7 +180,8 @@ func turn_toward_laser(_delta: float):
 	# var curDir = -m_worldBody.transform.basis.z
 	# var targetDir = (m_laserDot.transform.origin - m_worldBody.transform.origin).normalized()
 	var towardLaser = m_worldBody.get_global_transform().looking_at(dotPos, Vector3.UP)
-	var t = m_worldBody.transform.interpolate_with(towardLaser, 0.5)
+	# TODO: lerp value here is random, should really have a proper rotation rate
+	var t = m_worldBody.transform.interpolate_with(towardLaser, 0.25)
 	m_worldBody.set_transform(t)
 
 func custom_physics_process(_delta: float):
@@ -197,7 +198,10 @@ func custom_physics_process(_delta: float):
 		_rotate_core(_delta)
 		# turn if necessary
 		if primaryOn:
+			m_speed = THROW_SPEED_GUIDED
 			turn_toward_laser(_delta)
+		else:
+			m_speed = THROW_SPEED
 		# move
 		_move_as_ray(_delta)
 	# Recalling
