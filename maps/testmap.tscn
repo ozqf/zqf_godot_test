@@ -20,6 +20,48 @@
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 12 )
 
+[node name="entities" type="Spatial" parent="."]
+
+[node name="lights" type="Spatial" parent="entities"]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="entities/lights"]
+transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 7, 0 )
+shadow_enabled = true
+
+[node name="actors" type="Spatial" parent="entities"]
+
+[node name="ent_item_damage" parent="entities/actors" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0 )
+
+[node name="ent_actor_3d" parent="entities/actors" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 38 )
+
+[node name="Spatial" type="Spatial" parent="entities/actors"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18 )
+
+[node name="trigger" parent="entities/actors" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20 )
+triggerType = 1
+throwVelocity = Vector3( 0, 32, -16 )
+
+[node name="trigger2" parent="entities/actors" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
+triggerType = 1
+throwVelocity = Vector3( 0, 32, 0 )
+
+[node name="trigger3" parent="entities/actors" instance=ExtResource( 4 )]
+transform = Transform( 300, 0, 0, 0, 1, 0, 0, 0, 300, 0, -12, 0 )
+triggerType = 2
+throwVelocity = Vector3( 0, 0, 8 )
+
+[node name="ent_info_player_start" parent="entities" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 22.5 )
+
+[node name="ent_hud_message" parent="entities" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 34 )
+message = "Welcome to Cubic Hunters
+Blockout Prototype"
+
 [node name="world" type="Spatial" parent="."]
 
 [node name="walls" type="Spatial" parent="world"]
@@ -204,6 +246,21 @@ transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 26, 0, -1
 transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 30, 0, -18 )
 
 [node name="blocks" type="Spatial" parent="world"]
+
+[node name="item_grab_distance_geometry" type="Spatial" parent="world"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 219, -46 )
+
+[node name="debug_world_cube_8x77" parent="world/item_grab_distance_geometry" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -1.52588e-05, 4 )
+
+[node name="debug_world_cube_8x76" parent="world/item_grab_distance_geometry" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -1.52588e-05, 4 )
+
+[node name="debug_world_cube_8x75" parent="world/item_grab_distance_geometry" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -1.52588e-05, -4 )
+
+[node name="debug_world_cube_8x74" parent="world/item_grab_distance_geometry" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -1.52588e-05, -4 )
 
 [node name="arena_hull" type="Spatial" parent="world"]
 
@@ -452,43 +509,3 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
 mesh = SubResource( 1 )
 material/0 = null
-
-[node name="lights" type="Spatial" parent="."]
-
-[node name="DirectionalLight" type="DirectionalLight" parent="lights"]
-transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 7, 0 )
-shadow_enabled = true
-
-[node name="actors" type="Spatial" parent="."]
-
-[node name="ent_item_damage" parent="actors" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0 )
-
-[node name="ent_actor_3d" parent="actors" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 38 )
-
-[node name="Spatial" type="Spatial" parent="actors"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18 )
-
-[node name="trigger" parent="actors" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20 )
-triggerType = 1
-throwVelocity = Vector3( 0, 32, -16 )
-
-[node name="trigger2" parent="actors" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
-triggerType = 1
-throwVelocity = Vector3( 0, 32, 0 )
-
-[node name="trigger3" parent="actors" instance=ExtResource( 4 )]
-transform = Transform( 300, 0, 0, 0, 1, 0, 0, 0, 300, 0, -12, 0 )
-triggerType = 2
-throwVelocity = Vector3( 0, 0, 8 )
-
-[node name="ent_info_player_start" parent="." instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 22.5 )
-
-[node name="ent_hud_message" parent="." instance=ExtResource( 2 )]
-transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 34 )
-message = "Welcome to Cubic Hunters
-Blockout Prototype"

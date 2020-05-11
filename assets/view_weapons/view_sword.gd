@@ -11,6 +11,9 @@ func _ready():
 	position_2_node.hide()
 	pass
 
+func set_view_show(show: bool):
+	self.visible = show
+
 func set_state(_ammo: int, _rotateTime: float, _rotateMax: float, _loadTime: float, _loadMax: float):
 	var lerpPercent = _rotateTime / _rotateMax
 	sys.weaponDebugText = "Sword time " + str(lerpPercent)

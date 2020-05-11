@@ -8,6 +8,18 @@ extents = Vector3( 0.1, 0.1, 1 )
 
 [sub_resource type="SphereShape" id=2]
 
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 1, 1, 1 )
+
+[sub_resource type="SpatialMaterial" id=6]
+metallic = 1.0
+roughness = 0.41
+emission_enabled = true
+emission = Color( 1, 1, 1, 1 )
+emission_energy = 1.5
+emission_operator = 0
+emission_on_uv2 = false
+
 [sub_resource type="SphereMesh" id=3]
 
 [sub_resource type="SpatialMaterial" id=4]
@@ -24,18 +36,6 @@ proximity_fade_distance = 1.0
 distance_fade_mode = 1
 distance_fade_min_distance = 0.0
 distance_fade_max_distance = 6.0
-
-[sub_resource type="CubeMesh" id=5]
-size = Vector3( 0.2, 0.2, 1.2 )
-
-[sub_resource type="SpatialMaterial" id=8]
-metallic = 1.0
-roughness = 0.41
-emission_enabled = true
-emission = Color( 1, 1, 1, 1 )
-emission_energy = 1.5
-emission_operator = 0
-emission_on_uv2 = false
 
 [sub_resource type="CubeMesh" id=7]
 size = Vector3( 20, 0.1, 0.1 )
@@ -61,14 +61,23 @@ shape = SubResource( 2 )
 
 [node name="display" type="Spatial" parent="vs_world_body"]
 
+[node name="core" type="Spatial" parent="vs_world_body/display"]
+
+[node name="blade" type="MeshInstance" parent="vs_world_body/display/core"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 2.5, 0, 0, -0.2 )
+mesh = SubResource( 5 )
+material/0 = SubResource( 6 )
+
+[node name="blade2" type="MeshInstance" parent="vs_world_body/display/core"]
+transform = Transform( 0.1, 0, 0, 0, 0.7, 0, 0, 0, 0.1, 0, 0, 0.5 )
+mesh = SubResource( 5 )
+material/0 = SubResource( 6 )
+
 [node name="shell" type="MeshInstance" parent="vs_world_body/display"]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+visible = false
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
-
-[node name="core" type="MeshInstance" parent="vs_world_body/display"]
-mesh = SubResource( 5 )
-material/0 = SubResource( 8 )
 
 [node name="crap_to_find_it_when_lost" type="Spatial" parent="vs_world_body/display"]
 visible = false

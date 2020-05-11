@@ -1,4 +1,5 @@
 extends Spatial
+class_name prj_throw_disc
 
 const Enums = preload("res://Enums.gd")
 
@@ -13,6 +14,7 @@ const MAX_RECALL_TIME: float = 2.0
 onready var m_worldBody: Area = $vs_world_body
 onready var m_entBody: Area = $vs_world_body/vs_ent_body
 onready var m_display = $vs_world_body/display
+onready var m_coreDisplay = $vs_world_body/display/core
 
 var m_state = Enums.DiscState.Inactive
 var m_owner: Spatial
@@ -25,6 +27,8 @@ var m_recallDelayTick: float = 0
 var m_startRecall: bool = false
 var m_recallLerp: float = 0
 var m_recallOrigin: Transform = Transform()
+
+var m_coreSpinDegrees: float = 0
 
 # TODO: Convert this class to use weapon base class...?
 var primaryOn: bool = false
@@ -75,6 +79,12 @@ func _move_as_ray(_delta: float):
 	# if fell threw continue
 	m_worldBody.transform.origin = dest
 	return false
+
+func _rotate_core(_delta: float):
+	m_coreSpinDegrees += 1440 * _delta
+	var coreRot: Vector3 = m_coreDisplay.rotation_degrees
+	coreRot.x = -m_coreSpinDegrees
+	m_coreDisplay.rotation_degrees = coreRot
 
 func _process_thrown(_delta: float):
 	m_lastPosition = m_worldBody.transform.origin
@@ -151,7 +161,7 @@ func process_input(_delta: float):
 			m_awaitControlOff = true
 			recall()
 
-func _physics_process(_delta: float):
+func custom_physics_process(_delta: float):
 	if !m_awaitControlOff:
 		process_input(_delta)
 	elif primaryOn == false:
@@ -162,6 +172,7 @@ func _physics_process(_delta: float):
 	# Thrown
 	if m_state == Enums.DiscState.Thrown:
 		#_process_thrown(_delta)
+		_rotate_core(_delta)
 		_move_as_ray(_delta)
 	# Recalling
 	if m_state == Enums.DiscState.Recalling:

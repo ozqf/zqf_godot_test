@@ -30,6 +30,9 @@ var writeDebug: bool = true
 # Init
 ###############################################
 func _init_weapons():
+	# pass disc to sword to control:
+	var sword = $inventory/sword
+	sword.set_disc(m_disc)
 	# must be added in slot order!
 	m_inventory.add_weapon_node($inventory/sword)
 	m_inventory.add_weapon_node($inventory/stakegun)
