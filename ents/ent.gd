@@ -1,7 +1,7 @@
 # Base class for all game objects in world
 # eg player, mobs, items, projectiles, triggers
-# 
-extends Spatial
+# Extends Interactor
+extends "res://ents/interactor_base/spatial_interactor_base.gd"
 
 export var isPlayer: bool = false
 export var entName: String = ""
@@ -77,26 +77,3 @@ func ent_get_world_position():
 
 func ent_get_transform():
 	return global_transform.origin
-
-########################################
-# Interactions functions
-########################################
-
-func get_interactor():
-	return self
-
-func interaction_throw(_throwVelocityPerSecond: Vector3):
-	pass
-
-func interaction_teleport(_pos: Vector3):
-	pass
-
-# Returns the quantity taken. Returns 0 if nothing can be taken
-func interaction_give(_itemName: String, _amount: int):
-	return 0
-
-func interaction_get_imbue_effect():
-	return ""
-
-# func interaction_hurt(damage: int):
-# 	print("Hurt ent " + self.name + " for " + str(damage))

@@ -10,6 +10,7 @@ var m_cycleTick: float = 0
 var m_cycleTotalTime: float = 0.3
 
 var m_disc: prj_throw_disc_t
+var m_volume
 
 func init(_launchNode: Spatial):
 	.init(_launchNode)
@@ -20,6 +21,13 @@ func init(_launchNode: Spatial):
 
 func set_disc(_newDisc: prj_throw_disc_t):
 	m_disc = _newDisc
+
+func set_melee_volume(_volumeNode):
+	m_volume = _volumeNode
+
+func shoot_primary():
+	m_volume.fire()
+	.shoot_primary()
 
 func shoot_secondary():
 	# do nothing, secondary is handled by the disc

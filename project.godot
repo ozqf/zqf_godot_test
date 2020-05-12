@@ -13,9 +13,21 @@ _global_script_classes=[ {
 "class": "prj_throw_disc",
 "language": "GDScript",
 "path": "res://ents/projectile/prj_throw_disc.gd"
+}, {
+"base": "RigidBody",
+"class": "rigidbody_interactor_base",
+"language": "GDScript",
+"path": "res://ents/interactor_base/rigidbody_interactor_base.gd"
+}, {
+"base": "Spatial",
+"class": "spatial_interactor_base",
+"language": "GDScript",
+"path": "res://ents/interactor_base/spatial_interactor_base.gd"
 } ]
 _global_script_class_icons={
-"prj_throw_disc": ""
+"prj_throw_disc": "",
+"rigidbody_interactor_base": "",
+"spatial_interactor_base": ""
 }
 
 [application]

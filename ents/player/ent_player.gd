@@ -16,6 +16,7 @@ onready var m_weaponCentre: Spatial = $body/display/head/weapon_centre
 onready var m_weaponRight = $body/display/head/weapon_right
 onready var m_weaponLeft = $body/display/head/weapon_left
 onready var m_laserDot: Spatial = $body/display/head/laser_dot
+onready var m_weaponMelee = $body/display/head/weapon_melee
 
 onready var m_inventory = $inventory
 
@@ -34,6 +35,7 @@ func _init_weapons():
 	# pass disc to sword to control:
 	var sword = $inventory/sword
 	sword.set_disc(m_disc)
+	sword.set_melee_volume(m_weaponMelee)
 	# must be added in slot order!
 	m_inventory.add_weapon_node($inventory/sword)
 	m_inventory.add_weapon_node($inventory/stakegun)
