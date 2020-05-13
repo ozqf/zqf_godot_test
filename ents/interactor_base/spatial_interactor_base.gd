@@ -1,5 +1,6 @@
 extends Spatial
 class_name spatial_interactor_base
+const Enums = preload("res://Enums.gd")
 
 ########################################
 # Interactions functions
@@ -21,5 +22,5 @@ func interaction_give(_itemName: String, _amount: int):
 func interaction_get_imbue_effect():
 	return ""
 
-# func interaction_hurt(damage: int):
-# 	print("Hurt ent " + self.name + " for " + str(damage))
+func interaction_take_hit(_hitData: Dictionary):
+	return Enums.InteractHitResult.None

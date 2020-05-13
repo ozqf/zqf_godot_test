@@ -46,6 +46,33 @@ _arr.size()
 _arr.count()
 ```
 
+### Dictionary
+
+```
+var my_dir = {} # Creates an empty dictionary.
+var points_dir = {"White": 50, "Yellow": 75, "Orange": 100}
+var another_dir = {
+    key1 = value1,
+    key2 = value2,
+    key3 = value3,
+}
+```
+Access:
+```
+var x = dictionary[x];
+var y = dictionary.y
+```
+To add extra keys just assign directly
+
+Compare
+```
+dir1 = {"a": 1, "b": 2, "c": 3}
+dir2 = {"a": 1, "b": 2, "c": 3}
+
+func compare_dictionaries():
+    print(dir1.hash() == dir2.hash()) # Will print true.
+```
+
 ### Node Tree traversal/usage
 
 Get Root of current:

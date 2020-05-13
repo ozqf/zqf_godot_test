@@ -118,15 +118,6 @@ func extract_interactor(obj):
 		return null
 	return obj.get_interactor()
 
-# func set_position_and_forward(_obj: Spatial, _pos: Vector3, _forward: Vector3):
-# 	# use lookAt to change orientation
-# 	var lookAt: Vector3 = _obj.transform.origin + _forward
-# 	_obj.look_at(lookAt, Vector3.UP)
-# 	_obj.transform.origin = _pos
-# 	print(_obj.name + " fucking shitty origin " + str(_obj.transform.origin))
-# 	print("Should fucking fucking at fucking shitty fucking position " + str(_pos) + " But it fucking isn't")
-# 	print("AARGH I really hate this fucking API")
-
 ##########################################
 # TODO: Cleanup Defunct maths junk
 ##########################################
