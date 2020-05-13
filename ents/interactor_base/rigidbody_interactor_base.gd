@@ -22,5 +22,5 @@ func interaction_give(_itemName: String, _amount: int):
 func interaction_get_imbue_effect():
 	return ""
 
-func interaction_take_hit(_dmg, _attackerTeamId: int, _dir: Vector3):
-	return Enums.InteractHitResult.None
+func interaction_take_hit(_hitData: Dictionary):
+	return common.create_hit_response_dict(Enums.InteractHitResult.None)

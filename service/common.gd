@@ -1,4 +1,5 @@
 extends Node
+const Enums = preload("res://Enums.gd")
 
 # Must be kept in sync with physics layers setup in project
 # (look under [layer_names] in project.godot)
@@ -52,6 +53,24 @@ const RAD2DEG = 57.29577951308
 
 var debugSpawnPosition: Vector3 = Vector3()
 var debugSpawnType: String = "mob"
+ 
+##########################################
+# Make various dictionaries
+##########################################
+func create_hit_dict(dmg: int, pushStrength: float, attackTeam: int, type: String, sourceEnt: int, dir: Vector3):
+	return {
+		dmg = dmg,
+		pushStr = pushStrength,
+		atkTeam = attackTeam,
+		type = type,
+		dir = dir,
+		ent = sourceEnt
+	}
+
+func create_hit_response_dict(_responseType):
+	return {
+		type = Enums.InteractHitResult.None
+	}
 
 ##########################################
 # Utility functions

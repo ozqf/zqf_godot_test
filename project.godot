@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Enums",
+"language": "GDScript",
+"path": "res://Enums.gd"
+}, {
 "base": "Spatial",
 "class": "prj_throw_disc",
 "language": "GDScript",
@@ -25,6 +30,7 @@ _global_script_classes=[ {
 "path": "res://ents/interactor_base/spatial_interactor_base.gd"
 } ]
 _global_script_class_icons={
+"Enums": "",
 "prj_throw_disc": "",
 "rigidbody_interactor_base": "",
 "spatial_interactor_base": ""
