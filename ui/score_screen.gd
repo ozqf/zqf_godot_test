@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 onready var container: Control = $screen_container
-var event_mask: int = common.EVENT_BIT_GAME_STATE
+var event_mask: int = com.EVENT_BIT_GAME_STATE
 
 func _ready():
 	container.hide()

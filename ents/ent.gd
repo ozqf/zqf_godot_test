@@ -49,7 +49,7 @@ func on_ent_destroy():
 # Event response
 ########################################
 func observe_event(_msg: String, _params):
-	if _msg == common.EVENT_ENTITY_TRIGGER:
+	if _msg == com.EVENT_ENTITY_TRIGGER:
 		if str(_params) == entName:
 			ent_trigger()
 	pass
@@ -59,10 +59,10 @@ func _notification(what):
 		# destructor logic
 		# inform interested parties
 		if !culled:
-			var eventType = common.EVENT_MOB_DIED
+			var eventType = com.EVENT_MOB_DIED
 			if isPlayer:
-				eventType = common.EVENT_PLAYER_DIED
-			sys.broadcast(eventType, self, common.EVENT_BIT_ENTITY_SPAWN)
+				eventType = com.EVENT_PLAYER_DIED
+			sys.broadcast(eventType, self, com.EVENT_BIT_ENTITY_SPAWN)
 		# clean up
 		sys.remove_observer(self)
 		g_ents.deregister_ent(self)

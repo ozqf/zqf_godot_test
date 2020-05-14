@@ -30,7 +30,7 @@ var numbers = {
 	"disc_state": 1
 }
 
-var event_mask: int = common.EVENT_BIT_UI
+var event_mask: int = com.EVENT_BIT_UI
 
 var m_numberChanges = []
 var m_stringChanges = []

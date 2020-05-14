@@ -50,8 +50,8 @@ func _move_as_ray(delta: float):
 	#transform.origin = dest
 	# reminder -1 == all bits on!
 	var mask = -1
-	mask &= ~common.LAYER_FENCE
-	mask &= ~common.LAYER_ITEMS
+	mask &= ~com.LAYER_FENCE
+	mask &= ~com.LAYER_ITEMS
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	if result:
 		# try and hit it
@@ -59,7 +59,7 @@ func _move_as_ray(delta: float):
 			# hit! Spawn fx and die
 			var impact = factory.create_fx_bullet_impact()
 			factory.add_to_scene_root(impact, result.position)
-			impact.rotation_degrees = common.calc_euler_degrees(result.normal)
+			impact.rotation_degrees = com.calc_euler_degrees(result.normal)
 			return true
 		# damage target
 		#print("pp hit collider: " + str(result.collider))

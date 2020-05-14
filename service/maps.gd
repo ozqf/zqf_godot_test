@@ -10,9 +10,9 @@ var m_current_level = null;
 
 func _ready():
 	print("Globals init")
-	console.register_text_command(common.CMD_EXIT_APP, self, "cmd_exit", "", "Close the application")
-	console.register_text_command(common.CMD_START_GAME, self, "cmd_start_game", "", "Start a new game")
-	console.register_text_command(common.CMD_GOTO_TITLE, self, "cmd_goto_title", "", "Go to the title screen")
+	console.register_text_command(com.CMD_EXIT_APP, self, "cmd_exit", "", "Close the application")
+	console.register_text_command(com.CMD_START_GAME, self, "cmd_start_game", "", "Start a new game")
+	console.register_text_command(com.CMD_GOTO_TITLE, self, "cmd_goto_title", "", "Go to the title screen")
 	console.register_text_command("map", self, "cmd_map", "tt", "Load the provided map scene. No file extension. Must be in the maps directory")
 	console.register_text_command("complete", self, "cmd_complete_map", "", "Complete the current level")
 	console.register_text_command("gameover", self, "cmd_game_over", "", "Enter game over state")
@@ -29,7 +29,7 @@ func _process(_delta: float):
 			m_isLoading = false
 			m_loadTick = m_loadTickMax
 			# tell the world
-			sys.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+			sys.broadcast(com.EVENT_LEVEL_START, null, com.EVENT_BIT_GAME_STATE)
 			pass
 		pass
 	pass
@@ -39,7 +39,7 @@ func load_scene(path: String):
 		print("Load scene failed - null path")
 	print("MAPS Loading " + path)
 	
-	sys.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
+	sys.broadcast(com.EVENT_LEVEL_LOADING, null, com.EVENT_BIT_GAME_STATE)
 	
 	var _foo = get_tree().change_scene(path)
 	var _b:Node = get_tree().get_root()
@@ -48,7 +48,7 @@ func load_scene(path: String):
 
 func change_level_deferred(fullPath):
 	m_isLoading = true
-	sys.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
+	sys.broadcast(com.EVENT_LEVEL_LOADING, null, com.EVENT_BIT_GAME_STATE)
 	# clean up
 	if m_current_level:
 		m_current_level.free()

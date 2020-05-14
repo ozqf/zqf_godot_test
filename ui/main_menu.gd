@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-var event_mask: int = common.EVENT_BIT_GAME_STATE
+var event_mask: int = com.EVENT_BIT_GAME_STATE
 
 var _on:bool = true;
 var _root = null
@@ -49,10 +49,10 @@ func _process(_delta):
 	pass
 
 func observe_event(msg: String, _obj):
-	if msg == common.EVENT_LEVEL_LOADING:
+	if msg == com.EVENT_LEVEL_LOADING:
 		set_process(false)
 		off()
-	elif msg == common.EVENT_LEVEL_START:
+	elif msg == com.EVENT_LEVEL_START:
 		set_process(true)
 
 func _on_map02_pressed():
@@ -62,13 +62,13 @@ func _on_map02_pressed():
 # UI handlers
 ###################################
 func _on_start_pressed():
-	console.execute(common.CMD_START_GAME)
+	console.execute(com.CMD_START_GAME)
 
 func _on_quit_pressed():
-	console.execute(common.CMD_EXIT_APP)
+	console.execute(com.CMD_EXIT_APP)
 
 func _on_title_pressed():
-	console.execute(common.CMD_GOTO_TITLE)
+	console.execute(com.CMD_GOTO_TITLE)
 
 func _on_options_pressed():
 	print("Open options page")

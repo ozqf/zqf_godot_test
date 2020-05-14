@@ -7,7 +7,7 @@ enum GameState { loading, ready, playing, over, complete }
 
 var game_state = GameState.loading
 
-var event_mask: int = common.EVENT_BIT_GAME_STATE | common.EVENT_BIT_ENTITY_SPAWN
+var event_mask: int = com.EVENT_BIT_GAME_STATE | com.EVENT_BIT_ENTITY_SPAWN
 
 onready var proc_gen = $proc_gen_world
 var plyr = null
@@ -42,19 +42,19 @@ func on_world_loaded(msg: String, obj):
 	$load_camera.current = false
 	print("Scene - world loaded: " + msg)
 	sys.debugText = "World pos step: " + str(obj._positionStep)
-	sys.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+	sys.broadcast(com.EVENT_LEVEL_START, null, com.EVENT_BIT_GAME_STATE)
 	pass
 
 func _start_game():
 	sys.game_root = self
 	if proc_gen == null:
 		print("Start game - no proc gen")
-		sys.broadcast(common.EVENT_LEVEL_START, null, common.EVENT_BIT_GAME_STATE)
+		sys.broadcast(com.EVENT_LEVEL_START, null, com.EVENT_BIT_GAME_STATE)
 		return
 	var errCode: int = proc_gen.connect("load_state", self, "on_world_loaded")
 	print("Connect err: " + str(errCode))
 	sys.debugText = "Make world"
-	sys.broadcast(common.EVENT_LEVEL_LOADING, null, common.EVENT_BIT_GAME_STATE)
+	sys.broadcast(com.EVENT_LEVEL_LOADING, null, com.EVENT_BIT_GAME_STATE)
 	proc_gen.begin_load(proc_gen.asci)
 
 func _ready():
@@ -71,11 +71,11 @@ func on_level_complete():
 
 func observe_event(msg: String, _obj):
 	print("Game scene observe event " + msg)
-	if msg == common.EVENT_LEVEL_COMPLETE:
+	if msg == com.EVENT_LEVEL_COMPLETE:
 		on_level_complete()
-	if (msg == common.EVENT_PLAYER_SPAWN):
+	if (msg == com.EVENT_PLAYER_SPAWN):
 		plyr = _obj
-	if (msg == common.EVENT_PLAYER_DIED):
+	if (msg == com.EVENT_PLAYER_DIED):
 		if plyr == _obj:
 			plyr = null
 		

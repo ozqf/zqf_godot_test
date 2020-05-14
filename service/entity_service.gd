@@ -4,7 +4,7 @@ enum GameState { loading, ready, playing, over, complete }
 
 var game_state = GameState.loading
 
-var event_mask = common.EVENT_BIT_GAME_STATE | common.EVENT_BIT_ENTITY_SPAWN
+var event_mask = com.EVENT_BIT_GAME_STATE | com.EVENT_BIT_ENTITY_SPAWN
 
 var players = []
 var player = null
@@ -26,9 +26,9 @@ var ents = []
 func _ready():
 	print("Global entity server init")
 	sys.add_observer(self)
-	console.register_text_command(common.CMD_TRIGGER_ENTS, self, "cmd_trigger", "", "Trigger specified entity names")
-	console.register_text_command(common.CMD_SPAWN, self, "cmd_spawn", "", "Spawn specified entity type at aim position")
-	console.register_text_command(common.CMD_LIST_ENTS, self, "cmd_ents", "", "List current entities")
+	console.register_text_command(com.CMD_TRIGGER_ENTS, self, "cmd_trigger", "", "Trigger specified entity names")
+	console.register_text_command(com.CMD_SPAWN, self, "cmd_spawn", "", "Spawn specified entity type at aim position")
+	console.register_text_command(com.CMD_LIST_ENTS, self, "cmd_ents", "", "List current entities")
 	pass
 
 func cmd_spawn(tokens: PoolStringArray):
@@ -39,7 +39,7 @@ func cmd_spawn(tokens: PoolStringArray):
 	var typeName = tokens[1]
 	var result: Spatial = null
 	# Grab debug position global
-	var pos = common.debugSpawnPosition
+	var pos = com.debugSpawnPosition
 	# spawn
 	if typeName == "mob":
 		result = factory.create_mob()
@@ -140,7 +140,7 @@ func deregister_ent(ent):
 # Broadcast triggering
 ###########################################################################
 func trigger_entity(entName: String):
-	sys.broadcast(common.EVENT_ENTITY_TRIGGER, entName, common.EVENT_BIT_ENTITY_TRIGGER)
+	sys.broadcast(com.EVENT_ENTITY_TRIGGER, entName, com.EVENT_BIT_ENTITY_TRIGGER)
 
 func trigger_entities(targets: PoolStringArray):
 	for i in range(0, targets.size()):
@@ -150,7 +150,7 @@ func trigger_entities(targets: PoolStringArray):
 # Event response
 ###########################################################################
 func observe_event(msg: String, _params):
-	if msg == common.EVENT_LEVEL_LOADING:
+	if msg == com.EVENT_LEVEL_LOADING:
 		var l: int = ents.size()
 		print("ENTS - freeing " + str(l) + " ents")
 		var i: int = l - 1
@@ -161,11 +161,11 @@ func observe_event(msg: String, _params):
 		ents.clear()
 		m_starts.clear()
 		pass
-	elif msg == common.EVENT_LEVEL_START:
+	elif msg == com.EVENT_LEVEL_START:
 		pass
-	elif msg == common.EVENT_LEVEL_COMPLETE:
+	elif msg == com.EVENT_LEVEL_COMPLETE:
 		pass
-	elif msg == common.EVENT_PLAYER_SPAWN:
+	elif msg == com.EVENT_PLAYER_SPAWN:
 		register_player(_params)
-	elif msg == common.EVENT_PLAYER_DIED:
+	elif msg == com.EVENT_PLAYER_DIED:
 		deregister_player(_params)

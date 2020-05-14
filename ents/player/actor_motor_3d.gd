@@ -85,7 +85,7 @@ func _cast_ground_ray(origin: Vector3):
 	origin.y += 0.1
 	var dest = origin
 	dest.y -= 0.15
-	var mask = common.LAYER_WORLD
+	var mask = com.LAYER_WORLD
 	var space = get_world().direct_space_state
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	sys.debugDraw.add_line(origin, dest)
@@ -232,7 +232,7 @@ func process_movement(_input, _delta: float):
 			mMoveX = KEYBOARD_TURN_DEGREES_PER_SECOND
 		if Input.is_action_pressed("ui_right"):
 			mMoveX = -KEYBOARD_TURN_DEGREES_PER_SECOND
-		#var rotY: float = (mMoveX * common.DEG2RAD) * _delta
+		#var rotY: float = (mMoveX * com.DEG2RAD) * _delta
 		#rotate_y(rotY)
 		m_yaw += mMoveX * _delta
 		
@@ -341,10 +341,10 @@ func _move_vehicle(_delta: float):
 		if Input.is_action_pressed("move_backward"):
 			_velocity *= 0.95
 		if Input.is_action_pressed("move_left"):
-			var rotY = (TURN_RATE * common.DEG2RAD) * _delta
+			var rotY = (TURN_RATE * com.DEG2RAD) * _delta
 			rotate_y(rotY)
 		if Input.is_action_pressed("move_right"):
-			var rotY = (-TURN_RATE * common.DEG2RAD) * _delta
+			var rotY = (-TURN_RATE * com.DEG2RAD) * _delta
 			rotate_y(rotY)
 	var _moveResult: Vector3 = move_and_slide(_velocity)
 	pass
@@ -376,13 +376,13 @@ func _input(_event: InputEvent):
 		# set spatial rotations yet.
 
 		# scale inputs by this ratio or mouse sensitivity is based on resolution!
-		var scrSizeRatio: Vector2 = common.get_window_to_screen_ratio()
+		var scrSizeRatio: Vector2 = com.get_window_to_screen_ratio()
 
 		# Horizontal
 		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY * scrSizeRatio.x)
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
-		var rotY: float = (mMoveX * common.DEG2RAD)
+		var rotY: float = (mMoveX * com.DEG2RAD)
 		m_yaw += mMoveX
 
 		# vertical

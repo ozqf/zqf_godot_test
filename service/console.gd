@@ -115,10 +115,10 @@ func tokenise(_text:String):
 # objects
 func register_text_command(name:String, obj, funcName, signature: String, description: String):
 	# Validate
-	if common.strNullOrEmpty(name):
+	if com.strNullOrEmpty(name):
 		print("Console commands must have a name")
 		return
-	if common.strNullOrEmpty(funcName):
+	if com.strNullOrEmpty(funcName):
 		print("Console commands must have a description")
 		return
 	if obj == null:
@@ -150,7 +150,7 @@ func execute(command: String):
 		print("No command " + tokens[0] + " found")
 		return
 	
-	if !common.strNullOrEmpty(cmd.signature) && !check_token_signature(tokens, cmd.signature):
+	if !com.strNullOrEmpty(cmd.signature) && !check_token_signature(tokens, cmd.signature):
 		print("FAILED " + str(tokens) + " does not match signature " + cmd.signature)
 		return
 	cmd.callback.call_func(tokens)

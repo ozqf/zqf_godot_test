@@ -23,4 +23,4 @@ func interaction_get_imbue_effect():
 	return ""
 
 func interaction_take_hit(_hitData: Dictionary):
-	return common.create_hit_response_dict(Enums.InteractHitResult.None)
+	return com.create_hit_response(Enums.InteractHitResult.None)

@@ -31,14 +31,14 @@ func on_touch(_interactor):
 	print("Item base on_touch")
 
 func on_touch_area(area: Area):
-	var interactor = common.extract_interactor(area)
+	var interactor = com.extract_interactor(area)
 	if interactor == null:
 		print("Item base found no interactor on " + str(area.name))
 		return
 	on_touch(interactor)
 
 func on_touch_body(body: Spatial):
-	var interactor = common.extract_interactor(body)
+	var interactor = com.extract_interactor(body)
 	if interactor == null:
 		print("Item base found no interactor on " + str(body.name))
 		return

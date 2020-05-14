@@ -8,7 +8,7 @@ var m_max_children: int = 1
 var m_children: PoolIntArray = []
 
 func _ready():
-	event_mask = common.EVENT_BIT_ENTITY_SPAWN | common.EVENT_BIT_ENTITY_TRIGGER
+	event_mask = com.EVENT_BIT_ENTITY_SPAWN | com.EVENT_BIT_ENTITY_TRIGGER
 	sys.add_observer(self)
 
 func _notification(what):
@@ -18,14 +18,14 @@ func _notification(what):
 		pass
 
 func observe_event(_msg: String, _params):
-	if _msg == common.EVENT_MOB_DIED:
+	if _msg == com.EVENT_MOB_DIED:
 		var numChildren = m_children.size()
 		for i in range(0, numChildren):
 			if int(m_children[i]) == int(_params.id):
 				m_children.remove(i)
 				return
 		pass
-	if _msg == common.EVENT_ENTITY_TRIGGER:
+	if _msg == com.EVENT_ENTITY_TRIGGER:
 		if entName == _params && m_active == false:
 			print("Spawner " + entName + " triggered")
 			m_active = true

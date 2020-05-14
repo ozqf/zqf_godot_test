@@ -48,7 +48,7 @@ func shoot_stakes(_count: int):
 		spreads.push_back(Vector2(rand_range(-spreadH, spreadH), rand_range(-spreadV, spreadV)))
 
 	for i in range(0, _count):
-		launchDir = common.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
+		launchDir = com.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
 		var prj = .shoot_projectile_def(self.m_projectile_def, t.origin, launchDir)
 		prj.set_scale(Vector3(1.5, 1.5, 12))
 

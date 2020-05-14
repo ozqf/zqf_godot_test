@@ -25,7 +25,7 @@ var m_thinkTick: float = 0
 ###################################################################
 func _ready():
 	# force set team
-	hp.m_team = common.TEAM_MOBS
+	hp.m_team = com.TEAM_MOBS
 	hp.connect("signal_death", self, "onDeath")
 	hp.connect("signal_hit", self, "onHit")
 
@@ -33,7 +33,7 @@ func _ready():
 
 	var prj_def = factory.create_projectile_def()
 	prj_def.speed = 20
-	prj_def.teamId = common.TEAM_MOBS
+	prj_def.teamId = com.TEAM_MOBS
 	prj_def.lifeTime = 3
 	weapon.projectile_def = prj_def
 	weapon.m_primaryRefireTime = 2
@@ -44,14 +44,15 @@ func _ready():
 func onDeath():
 	var origin = $body.get_global_transform().origin
 	origin.y += 1
-	for i in range(0, 15):
-		var debris = factory.create_debris()
-		var pos = origin
-		pos.x += rand_range(-0.5, 0.5)
-		pos.y += rand_range(-1, 1)
-		pos.z += rand_range(-0.5, 0.5)
-		factory.add_to_scene_root(debris, pos)
-		debris.throw_randomly()
+	com.spawn_blocks_explosion(origin, 15)
+	# for i in range(0, 15):
+	# 	var debris = factory.create_debris()
+	# 	var pos = origin
+	# 	pos.x += rand_range(-0.5, 0.5)
+	# 	pos.y += rand_range(-1, 1)
+	# 	pos.z += rand_range(-0.5, 0.5)
+	# 	factory.add_to_scene_root(debris, pos)
+	# 	debris.throw_randomly()
 	queue_free()
 	pass
 

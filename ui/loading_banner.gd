@@ -1,6 +1,6 @@
 extends Node2D
 
-var event_mask: int = common.EVENT_BIT_GAME_STATE
+var event_mask: int = com.EVENT_BIT_GAME_STATE
 onready var text = $load_percent
 
 func _ready():

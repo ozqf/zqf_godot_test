@@ -39,8 +39,8 @@ var secondaryOn: bool = false
 
 var m_awaitControlOff: bool = false
 
-var m_throwHitDict: Dictionary = common.create_hit_dict(100, 0.5, 0, "throw", 0, Vector3())
-var m_recallHitDict: Dictionary = common.create_hit_dict(1, 1, 0, "recall", 0, Vector3())
+var m_throwHitDict: Dictionary = com.create_hit(100, 0.5, 0, "throw", 0, Vector3())
+var m_recallHitDict: Dictionary = com.create_hit(1, 1, 0, "recall", 0, Vector3())
 
 func get_disc_state():
 	return m_state
@@ -67,7 +67,7 @@ func _ready():
 #######################################
 
 func _hit(_rayHitResult):
-	var interact = common.extract_interactor(_rayHitResult.collider)
+	var interact = com.extract_interactor(_rayHitResult.collider)
 	if (interact):
 		interact.interaction_take_hit(m_throwHitDict)
 	return true
@@ -78,7 +78,7 @@ func _move_as_ray(_delta: float):
 	var dir = -m_worldBody.transform.basis.z
 	var velocity = (dir * m_speed) * _delta
 	var dest = origin + velocity
-	var mask = common.LAYER_WORLD
+	var mask = com.LAYER_WORLD
 	var result = space.intersect_ray(origin, dest)
 	if result:
 		m_throwHitDict.dir = dir
@@ -242,7 +242,7 @@ func world_area_entered(_area: Area):
 	if m_state != Enums.DiscState.Thrown:
 		return
 	print("World area entered: " + _area.name)
-	# if (_area.collision_layer | common.LAYER_WORLD):
+	# if (_area.collision_layer | com.LAYER_WORLD):
 	# 	m_state = DiscState.Stuck
 	# 	m_worldBody.transform.origin = m_lastPosition
 	# 	print("Disc stuck!")
@@ -251,7 +251,7 @@ func world_body_entered(_body: PhysicsBody):
 	if m_state != Enums.DiscState.Thrown:
 		return
 	print("World body entered: " + _body.name)
-	# if (_body.collision_layer | common.LAYER_WORLD):
+	# if (_body.collision_layer | com.LAYER_WORLD):
 	# 	m_state = DiscState.Stuck
 	# 	m_worldBody.transform.origin = m_lastPosition
 	# 	print("Disc stuck!")
@@ -260,7 +260,7 @@ func ent_area_entered(_area: Area):
 	if m_state == Enums.DiscState.Inactive:
 		return
 	print("Disc Ent area entered " + _area.name)
-	var _interactor = common.extract_interactor(_area)
+	var _interactor = com.extract_interactor(_area)
 	if _interactor:
 		print("Disc hit area interactor " + _interactor.name)
 		if _interactor:
@@ -276,7 +276,7 @@ func ent_body_entered(_body: PhysicsBody):
 	if m_state == Enums.DiscState.Inactive:
 		return
 	print("Disc Ent body entered " + _body.name)
-	var _interactor = common.extract_interactor(_body)
+	var _interactor = com.extract_interactor(_body)
 	if _interactor:
 		print("Disc hit body interactor " + _interactor.name)
 

@@ -57,7 +57,7 @@ var debugSpawnType: String = "mob"
 ##########################################
 # Make various dictionaries
 ##########################################
-func create_hit_dict(dmg: int, pushStrength: float, attackTeam: int, type: String, sourceEnt: int, dir: Vector3):
+func create_hit(dmg: int, pushStrength: float, attackTeam: int, type: String, sourceEnt: int, dir: Vector3):
 	return {
 		dmg = dmg,
 		pushStr = pushStrength,
@@ -67,7 +67,7 @@ func create_hit_dict(dmg: int, pushStrength: float, attackTeam: int, type: Strin
 		ent = sourceEnt
 	}
 
-func create_hit_response_dict(_responseType):
+func create_hit_response(_responseType):
 	return {
 		type = Enums.InteractHitResult.None
 	}

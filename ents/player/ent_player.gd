@@ -82,7 +82,7 @@ func _ready():
 	_init_weapons()
 
 	#m_hp.ent = self
-	m_hp.m_team = common.TEAM_PLAYER
+	m_hp.m_team = com.TEAM_PLAYER
 	m_hp.connect("signal_death", self, "on_death")
 	m_hp.connect("signal_hit", self, "on_hit")
 	
@@ -93,7 +93,7 @@ func _ready():
 	# attach to body for physical interactions
 	m_body.interactionParent = self
 
-	sys.broadcast(common.EVENT_PLAYER_SPAWN, self, common.EVENT_BIT_ENTITY_SPAWN)
+	sys.broadcast(com.EVENT_PLAYER_SPAWN, self, com.EVENT_BIT_ENTITY_SPAWN)
 
 func toggle_cameras():
 	if m_fpsCamera.current == true:
@@ -195,6 +195,6 @@ func interaction_teleport(_pos: Vector3):
 func interaction_give(_itemName: String, _amount: int):
 	if _itemName == "damage":
 		print("Player taking " + str(_amount) + " of damage powerup")
-		sys.broadcast(common.EVENT_PLAYER_GAINED_POWER, _amount, common.EVENT_BIT_UI)
+		sys.broadcast(com.EVENT_PLAYER_GAINED_POWER, _amount, com.EVENT_BIT_UI)
 		return _amount
 	return 0

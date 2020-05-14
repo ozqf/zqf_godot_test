@@ -62,7 +62,7 @@ func no_avoid_tick(_delta:float, _self: Spatial, _targetPos: Vector3):
 	#var dp: float = Vector3(dx, _selfPos.y, dz).dot(_targetPos)
 	var self2D: Vector2 = Vector2(_selfPos.x, _selfPos.z)
 	var tar2D: Vector2 = Vector2(_targetPos.x, _targetPos.z)
-	var bTarIsOnLeft = common.is_point_left_of_line2D(self2D, moveLine, tar2D)
+	var bTarIsOnLeft = com.is_point_left_of_line2D(self2D, moveLine, tar2D)
 	
 	var turn: float = 0
 	

@@ -29,7 +29,7 @@ func _ready():
 	
 	print("Globals init")
 	console.register_text_command("observers", self, "cmd_observers", "", "List global event observers")
-	console.register_text_command(common.CMD_SYSTEM_INFO, self, "cmd_sys", "", "Print system info")
+	console.register_text_command(com.CMD_SYSTEM_INFO, self, "cmd_sys", "", "Print system info")
 
 func _process(_delta: float):
 	debugText = str(Engine.get_frames_per_second())
@@ -45,7 +45,7 @@ func cmd_sys(_tokens: PoolStringArray):
 	var scr: Vector2 = OS.get_screen_size()
 	print("Real Window size " + str(real.x) + ", " + str(real.y))
 	print("Screen size " + str(scr.x) + ", " + str(scr.y))
-	var ratio = common.get_window_to_screen_ratio()
+	var ratio = com.get_window_to_screen_ratio()
 	print("Ratio: " + str(ratio.x) + ", " + str(ratio.y))
 	pass
 

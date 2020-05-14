@@ -50,7 +50,7 @@ func shoot_pellets(numPellets: int, spreadH: float, spreadV: float):
 
 	#m_debugTxt = ""
 	for i in range(0, spreads.size()):
-		launchDir = common.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
+		launchDir = com.calc_forward_spread_from_basis(t.origin, t.basis, spreads[i].x, spreads[i].y)
 		.shoot_projectile_def(self.m_projectile_def, t.origin, launchDir)
 
 func shoot_primary():

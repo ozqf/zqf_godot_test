@@ -16,7 +16,7 @@ func on_body_entered(_body):
 	#print("TRIGGER: body entered")
 	if triggerType == 1:
 		# throw target
-		var interactor = common.extract_interactor(_body)
+		var interactor = com.extract_interactor(_body)
 		if !interactor:
 			return
 		interactor.interaction_throw(throwVelocity)
@@ -30,7 +30,7 @@ func on_body_entered(_body):
 		pass
 	elif triggerType == 2:
 		pass
-		var interactor = common.extract_interactor(_body)
+		var interactor = com.extract_interactor(_body)
 		if !interactor:
 			return
 		interactor.interaction_teleport(throwVelocity)
