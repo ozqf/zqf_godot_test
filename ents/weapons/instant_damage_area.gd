@@ -17,7 +17,6 @@ func _on():
 	pass
 
 func _off():
-	print("Off")
 	m_on = false
 	# disable
 	m_shape.disabled = true

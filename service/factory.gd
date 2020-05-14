@@ -45,7 +45,7 @@ func add_to_scene_root(obj: Spatial, pos: Vector3):
 	obj.transform.origin = pos
 
 func spawn_blocks_explosion(origin: Vector3, count: int):
-	for i in range(0, 15):
+	for i in range(0, count):
 		var debris = create_debris()
 		var pos = origin
 		pos.x += rand_range(-0.5, 0.5)

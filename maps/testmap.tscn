@@ -64,33 +64,22 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0 )
 
 [node name="ent_actor_3d" parent="entities/actors" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 38 )
-entName = null
-targets = null
 
 [node name="Spatial" type="Spatial" parent="entities/actors"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18 )
 
 [node name="trigger" parent="entities/actors" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20 )
-isPlayer = null
-entName = null
-targets = null
 triggerType = 1
 throwVelocity = Vector3( 0, 32, -16 )
 
 [node name="trigger2" parent="entities/actors" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
-isPlayer = null
-entName = null
-targets = null
 triggerType = 1
 throwVelocity = Vector3( 0, 32, 0 )
 
 [node name="trigger3" parent="entities/actors" instance=ExtResource( 4 )]
 transform = Transform( 300, 0, 0, 0, 1, 0, 0, 0, 300, 0, -12, 0 )
-isPlayer = null
-entName = null
-targets = null
 triggerType = 2
 throwVelocity = Vector3( 0, 0, 8 )
 

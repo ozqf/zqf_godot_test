@@ -44,7 +44,7 @@ func _ready():
 func onDeath():
 	var origin = $body.get_global_transform().origin
 	origin.y += 1
-	com.spawn_blocks_explosion(origin, 15)
+	factory.spawn_blocks_explosion(origin, 15)
 	# for i in range(0, 15):
 	# 	var debris = factory.create_debris()
 	# 	var pos = origin
