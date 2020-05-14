@@ -1,3 +1,5 @@
+.vs
+.vscode
 
 # Godot-specific ignores
 # .import/ # fs this is necessary!
