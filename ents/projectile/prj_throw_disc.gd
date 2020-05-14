@@ -39,6 +39,9 @@ var secondaryOn: bool = false
 
 var m_awaitControlOff: bool = false
 
+var m_throwHitDict: Dictionary = common.create_hit_dict(100, 0.5, 0, "throw", 0, Vector3())
+var m_recallHitDict: Dictionary = common.create_hit_dict(1, 1, 0, "recall", 0, Vector3())
+
 func get_disc_state():
 	return m_state
 
@@ -64,6 +67,9 @@ func _ready():
 #######################################
 
 func _hit(_rayHitResult):
+	var interact = common.extract_interactor(_rayHitResult.collider)
+	if (interact):
+		interact.interaction_take_hit(m_throwHitDict)
 	return true
 
 func _move_as_ray(_delta: float):
@@ -75,6 +81,7 @@ func _move_as_ray(_delta: float):
 	var mask = common.LAYER_WORLD
 	var result = space.intersect_ray(origin, dest)
 	if result:
+		m_throwHitDict.dir = dir
 		if _hit(result):
 			# move final position back slightly so that light
 			# source at centre is not IN the surface
