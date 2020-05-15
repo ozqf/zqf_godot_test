@@ -30,6 +30,7 @@ func _ready():
 	print("Globals init")
 	console.register_text_command("observers", self, "cmd_observers", "", "List global event observers")
 	console.register_text_command(com.CMD_SYSTEM_INFO, self, "cmd_sys", "", "Print system info")
+	console.register_text_command("big", self, "cmd_big", "", "Debug - increase window size")
 
 func _process(_delta: float):
 	debugText = str(Engine.get_frames_per_second())
@@ -38,6 +39,12 @@ func _process(_delta: float):
 ###########################################################################
 # Console commands
 ###########################################################################
+
+func cmd_big(_tokens: PoolStringArray):
+	var scrSize: Vector2 = OS.get_screen_size()
+	if scrSize.y >= 1080:
+		OS.set_window_size(Vector2(1600, 900))
+		OS.center_window()
 
 func cmd_sys(_tokens: PoolStringArray):
 	print("=== System info ===")
