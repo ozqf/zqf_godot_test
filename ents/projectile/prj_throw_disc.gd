@@ -40,7 +40,7 @@ var secondaryOn: bool = false
 var m_awaitControlOff: bool = false
 
 var m_throwHitDict: Dictionary = com.create_hit(100, 0.5, 0, "throw", 0, Vector3())
-var m_recallHitDict: Dictionary = com.create_hit(1, 1, 0, "recall", 0, Vector3())
+var m_recallHitDict: Dictionary = com.create_hit(0, 1, 0, "recall", 0, Vector3())
 
 func get_disc_state():
 	return m_state
@@ -69,8 +69,15 @@ func _ready():
 func _hit(_rayHitResult):
 	var interact = com.extract_interactor(_rayHitResult.collider)
 	if (interact):
-		interact.interaction_take_hit(m_throwHitDict)
-	return true
+		var hit = interact.interaction_take_hit(m_throwHitDict)
+		if hit.type == Enums.InteractHitResult.Damaged:
+			return 1
+		elif hit.type == Enums.InteractHitResult.Killed:
+			print("Disc killed!")
+			return 2
+		else:
+			return 0
+	return 1
 
 func _move_as_ray(_delta: float):
 	var space = m_worldBody.get_world().direct_space_state
@@ -82,7 +89,8 @@ func _move_as_ray(_delta: float):
 	var result = space.intersect_ray(origin, dest)
 	if result:
 		m_throwHitDict.dir = dir
-		if _hit(result):
+		var hitResponse = _hit(result)
+		if hitResponse == 1:
 			# move final position back slightly so that light
 			# source at centre is not IN the surface
 			var pos: Vector3 = result.position
@@ -92,6 +100,9 @@ func _move_as_ray(_delta: float):
 			m_state = Enums.DiscState.Stuck
 			print("Disc stopped against obj " + result.collider.name)
 			return true
+		elif hitResponse == 2:
+			recall()
+			return false
 	# if fell threw continue
 	m_worldBody.transform.origin = dest
 	return false

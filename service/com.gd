@@ -69,7 +69,7 @@ func create_hit(dmg: int, pushStrength: float, attackTeam: int, type: String, so
 
 func create_hit_response(_responseType):
 	return {
-		type = Enums.InteractHitResult.None
+		type = _responseType
 	}
 
 ##########################################

@@ -121,7 +121,7 @@ transform = Transform( 0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.1, 0, -0.7 )
 visible = false
 
 [node name="weapon_melee" type="Spatial" parent="body/display/head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, -0.2, -1.6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2.5, 0, -0.2, -2 )
 script = ExtResource( 17 )
 
 [node name="MeshInstance" type="MeshInstance" parent="body/display/head/weapon_melee"]

@@ -51,7 +51,7 @@ var m_yaw: float = 0
 var m_pitch: float = 0
 var m_airJumps: int = 1
 var m_maxAirJumps: int = 1
-var m_groundCollider = null
+#var m_groundCollider = null
 
 
 # for reconstructing previous move etc
@@ -75,9 +75,9 @@ func _ready():
 
 func get_ground_check_msg():
 	var txt = "Grounded: " + str(grounded) + "\n"
-	if grounded:
-		txt = txt + "Self " + str(self) + " vs obj " + str(m_groundCollider) + "\n"
-		txt = txt + "Self " + self.name + " vs obj " + m_groundCollider.name + "\n"
+	# if grounded:
+	# 	txt = txt + "Self " + str(self) + " vs obj " + str(m_groundCollider) + "\n"
+	# 	txt = txt + "Self " + self.name + " vs obj " + m_groundCollider.name + "\n"
 	return txt
 
 func _cast_ground_ray(origin: Vector3):
@@ -90,10 +90,12 @@ func _cast_ground_ray(origin: Vector3):
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	sys.debugDraw.add_line(origin, dest)
 	if result:
-		m_groundCollider = result.collider
+		# TODO: Tracking of current contact object - is tricky if
+		# object is destructable (eg a crate)!
+		#m_groundCollider = result.collider
 		return true
 	else:
-		m_groundCollider = null
+		#m_groundCollider = null
 		return false
 
 func _ground_check():

@@ -6,7 +6,7 @@ onready var m_mesh: MeshInstance = $MeshInstance
 
 var m_tick: int = 0
 var m_on: bool = false
-var m_hitDict: Dictionary = com.create_hit(100, 0.5, 0, "throw", 0, Vector3())
+var m_hitDict: Dictionary = com.create_hit(50, 0.5, 0, "melee", 0, Vector3())
 var m_hits = []
 
 func _on():

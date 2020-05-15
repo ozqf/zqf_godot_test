@@ -11,7 +11,7 @@ var m_damage: int = 20
 var m_sourceEntId: int = 0
 
 var m_visibilityTick: float = 0.02
- 
+
 var m_active: bool = true
 
 func _ready():
@@ -32,9 +32,21 @@ func _explosion_scan():
 
 # returns false if target was not valid to hit
 func try_hit(collider):
+	var dir: Vector3 = m_velocity.normalized()
+	# try and find an interactor
+	var iactor = com.extract_interactor(collider)
+	if iactor:
+		var hitData = com.create_hit(m_damage, 1, m_teamId, "prj", m_sourceEntId, dir)
+		var result = iactor.interaction_take_hit(hitData)
+		if result.type != Enums.InteractHitResult.None:
+			return true
+		else:
+			return false
+	
+	# try and find a health component
 	if collider.has_node("health"):
 		var hp:Node = collider.get_node("health")
-		if !hp.take_hit(m_damage, m_teamId, m_velocity.normalized()):
+		if !hp.take_hit(m_damage, m_teamId, dir):
 			# teams mismatch, ignore collision
 			return false
 	# else:
