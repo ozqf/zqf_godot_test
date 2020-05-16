@@ -5,7 +5,8 @@
 [ext_resource path="res://world/tiles/ent_tile_3d.tscn" type="PackedScene" id=3]
 [ext_resource path="res://world/tiles/ent_floor_3d.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ents/spawn/spawner.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ents/info/ent_trigger.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ents/trigger/ent_trigger.tscn" type="PackedScene" id=6]
+
 
 [node name="testmap" type="Spatial"]
 

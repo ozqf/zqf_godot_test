@@ -3,7 +3,7 @@
 [ext_resource path="res://ents/player/ent_actor_3d.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ents/info/ent_hud_message.tscn" type="PackedScene" id=2]
 [ext_resource path="res://world/tiles/ent_tile_3d.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ents/info/ent_trigger.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ents/trigger/ent_trigger.tscn" type="PackedScene" id=4]
 [ext_resource path="res://world/tiles/clip_volume.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ents/items/ent_item_damage.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/mesh_raw/debug_world_cube_1x1.tscn" type="PackedScene" id=7]
@@ -131,7 +131,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 17 )
 
 [node name="ent_trigger_shoot_switch" parent="entities/actors" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 1.2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 1.25 )
 
 [node name="world" type="Spatial" parent="."]
 
@@ -636,4 +636,4 @@ mesh = SubResource( 7 )
 material/0 = null
 
 [node name="ent_prop_crate" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 9 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.951, 1, 9 )

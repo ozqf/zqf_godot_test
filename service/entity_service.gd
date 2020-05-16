@@ -20,6 +20,9 @@ var nextLocalId: int = -1
 # Master entity list for searches etc.
 var ents = []
 
+var m_orphanNodes = []
+var m_updatableOrphanNodes = []
+
 ###########################################################################
 # Init
 ###########################################################################
@@ -89,12 +92,43 @@ func register_start(_start):
 	m_starts.push_back(_start)
 
 ###########################################################################
+# Node tree utilities
+###########################################################################
+# 
+# if a node removes itself from the tree to deactivate, record a reference
+# here!
+func add_orphan_node(node: Node):
+	print("Add orphan node " + node.name)
+	m_orphanNodes.push_back(node)
+
+func remove_orphan_node(node: Node):
+	print("Remove orphan node " + node.name)
+	var i = m_orphanNodes.find(node)
+	m_orphanNodes.remove(i)
+
+func add_updatable_orphan_node(node: Node):
+	print("Add orphan node " + node.name)
+	m_updatableOrphanNodes.push_back(node)
+
+func remove_updatable_orphan_node(node: Node):
+	print("Remove orphan node " + node.name)
+	var i = m_updatableOrphanNodes.find(node)
+	m_updatableOrphanNodes.remove(i)
+	
+###########################################################################
 # scene list
 ###########################################################################
 func add_scene_object(obj: Node):
 	# TODO: add this object to a more specific node for grouping objects
 	#get_tree().root.add_child(obj)
 	self.add_child(obj)
+
+func _process(_delta: float):
+	# go in reverse - nodes may remove themselves
+	# TODO: Make this safer, if one orphan triggers some event that removes another...
+	var l: int = m_updatableOrphanNodes.size()
+	for i in range(l - 1, -1, -1):
+		m_updatableOrphanNodes[i].orphan_process(_delta)
 
 ###########################################################################
 # Entity list

@@ -16,6 +16,9 @@ onready var m_display = $vs_world_body/display
 onready var m_coreDisplay = $vs_world_body/display/core
 onready var m_light: OmniLight = $vs_world_body/display/light
 
+var m_worldParent: Node = null
+var m_attachParent: Node = null
+
 var m_state = Enums.DiscState.Inactive
 var m_effect = Enums.DiscEffect.None
 
@@ -39,8 +42,10 @@ var secondaryOn: bool = false
 
 var m_awaitControlOff: bool = false
 
-var m_throwHitDict: Dictionary = com.create_hit(100, 0.5, 0, "throw", 0, Vector3())
+var m_throwHitDict: Dictionary = com.create_hit(75, 0.5, 0, "throw", 0, Vector3())
 var m_recallHitDict: Dictionary = com.create_hit(0, 1, 0, "recall", 0, Vector3())
+
+var m_recallGlobalT: Transform
 
 func get_disc_state():
 	return m_state
@@ -61,6 +66,41 @@ func _ready():
 	_foo = m_worldBody.connect("body_entered", self, "world_body_entered")
 	_foo = m_entBody.connect("area_entered", self, "ent_area_entered")
 	_foo = m_entBody.connect("body_entered", self, "ent_body_entered")
+
+#######################################
+# Stick to object
+#######################################
+func stick_to_node(node: Node):
+	# save world parent if it hasn't been already
+	if m_worldParent == null:
+		m_worldParent = get_parent()
+	# attach to new parent
+	m_attachParent = node
+	var globalT = m_worldBody.get_global_transform()
+	get_parent().remove_child(self)
+	m_attachParent.add_child(self)
+	m_worldBody.global_transform = globalT
+	var _foo = m_attachParent.connect("tree_exiting", self, "_on_attach_parent_removed")
+	print("Disc attached to " + m_attachParent.name)
+	#var _foo = self.connect("tree_exiting", self, "_on_attach_parent_removed")
+
+func _on_attach_parent_removed():
+	if m_attachParent == null:
+		# automatic recall might cancel attach
+		return
+	# return to previous parent
+	print("Disc saw parent '" + m_attachParent.name + "' exiting tree: " + str(m_attachParent.is_inside_tree()))
+	print("World body in tree? " + str(m_worldBody.is_inside_tree()))
+	#var globalT = m_worldBody.get_global_transform() # errors... sigh
+	var globalT = m_recallGlobalT
+	get_parent().remove_child(self)
+	m_worldParent.add_child(self)
+	m_worldBody.global_transform = globalT
+	m_attachParent.disconnect("tree_exiting", self, "_on_attach_parent_removed")
+	#self.disconnect("tree_exiting", self, "_on_attach_parent_removed")
+	m_attachParent = null
+	if m_state == Enums.DiscState.Stuck:
+		recall()
 
 #######################################
 # Throw/recall logic
@@ -99,6 +139,7 @@ func _move_as_ray(_delta: float):
 			m_worldBody.transform.origin = pos
 			m_state = Enums.DiscState.Stuck
 			print("Disc stopped against obj " + result.collider.name)
+			stick_to_node(result.collider)
 			return true
 		elif hitResponse == 2:
 			recall()
@@ -133,6 +174,9 @@ func check_recall_start():
 	# okay now do something
 	m_state = Enums.DiscState.Recalling
 	m_startRecall = false
+
+	# detach
+	_on_attach_parent_removed()
 
 	# TODO
 	# calc speed more dynamically OR
@@ -222,8 +266,11 @@ func custom_physics_process(_delta: float):
 			m_speed = THROW_SPEED
 		# move
 		_move_as_ray(_delta)
+	elif m_state == Enums.DiscState.Stuck:
+		# record global transform for recall if attach parent dies
+		m_recallGlobalT = m_worldBody.get_global_transform()
 	# Recalling
-	if m_state == Enums.DiscState.Recalling:
+	elif m_state == Enums.DiscState.Recalling:
 		_process_recall(_delta)
 
 func launch(_pos: Vector3, _forward: Vector3):
