@@ -5,7 +5,7 @@ const Enums = preload("res://Enums.gd")
 
 const THROW_RECALL_DELAY: float = 0.25
 const RECALL_FINISH_DISTANCE: float = 2.0
-const THROW_SPEED_GUIDED: float = 40.0
+const THROW_SPEED_GUIDED: float = 25.0
 const THROW_SPEED: float = 75.0
 const RECALL_SPEED: float = 150.0
 const MAX_RECALL_TIME: float = 2.0
@@ -16,10 +16,14 @@ onready var m_display = $vs_world_body/display
 onready var m_coreDisplay = $vs_world_body/display/core
 onready var m_light: OmniLight = $vs_world_body/display/light
 
+var m_throwDamage: int = 100
+
 var m_worldParent: Node = null
 var m_attachParent: Node = null
 
 var m_state = Enums.DiscState.Inactive
+var m_isGuided: bool = false
+var m_isCloseToLaser: bool = false
 var m_effect = Enums.DiscEffect.None
 
 var m_owner: Spatial
@@ -52,6 +56,9 @@ func get_disc_state():
 
 func teleport(_pos: Vector3):
 	m_worldBody.transform.origin = _pos
+
+func dist_to_laser():
+	return 
 
 func disc_init(_newOwner: Spatial, _launchNode: Spatial, _laserDotNode: Spatial):
 	m_owner = _newOwner
@@ -110,14 +117,19 @@ func _hit(_rayHitResult):
 	var interact = com.extract_interactor(_rayHitResult.collider)
 	if (interact):
 		var hit = interact.interaction_take_hit(m_throwHitDict)
+		m_throwHitDict.dmg -= hit.dmgTaken
 		if hit.type == Enums.InteractHitResult.Damaged:
-			return 1
+			if m_throwHitDict.dmg <= 0:
+				return "stop"
+			return "recall"
 		elif hit.type == Enums.InteractHitResult.Killed:
-			print("Disc killed!")
-			return 2
+			if m_throwHitDict.dmg <= 0:
+				"recall"
+			#print("Disc killed!")
+			return "continue"
 		else:
-			return 0
-	return 1
+			return ""
+	return "stop"
 
 func _move_as_ray(_delta: float):
 	var space = m_worldBody.get_world().direct_space_state
@@ -125,12 +137,29 @@ func _move_as_ray(_delta: float):
 	var dir = -m_worldBody.transform.basis.z
 	var velocity = (dir * m_speed) * _delta
 	var dest = origin + velocity
-	var mask = com.LAYER_WORLD
-	var result = space.intersect_ray(origin, dest)
+	
+	# scale move to not exceed target if guided
+	if m_isGuided:
+		var distToMove:float = (dest - origin).length()
+		var distToGuideTarget:float = (m_laserDot.m_discPos - origin).length()
+		var ratio:float = (distToMove / distToGuideTarget)
+		if (distToMove > distToGuideTarget):
+			m_isCloseToLaser = true
+			dest = origin + (dir * distToMove)
+		m_isCloseToLaser = false
+	else:
+		m_isCloseToLaser = false
+
+	var mask = -1
+	mask &= ~com.LAYER_PLAYER
+	mask &= ~com.LAYER_DEBRIS
+	#mask &= ~com.LAYER_ITEMS
+	var result = space.intersect_ray(origin, dest, [], mask)
 	if result:
 		m_throwHitDict.dir = dir
 		var hitResponse = _hit(result)
-		if hitResponse == 1:
+
+		if hitResponse == "stop":
 			# move final position back slightly so that light
 			# source at centre is not IN the surface
 			var pos: Vector3 = result.position
@@ -141,9 +170,11 @@ func _move_as_ray(_delta: float):
 			print("Disc stopped against obj " + result.collider.name)
 			stick_to_node(result.collider)
 			return true
-		elif hitResponse == 2:
-			recall()
+		elif hitResponse == "continue":
+			#recall()
 			return false
+		elif hitResponse == "recall":
+			recall()
 	# if fell threw continue
 	m_worldBody.transform.origin = dest
 	return false
@@ -234,17 +265,25 @@ func process_input(_delta: float):
 			m_awaitControlOff = true
 			recall()
 
-func turn_toward_laser(_delta: float):
+func turn_toward_laser(_delta: float, fullTurn: bool):
 	if !m_laserDot:
 		return
 	var result = Transform()
-	var dotPos: Vector3 = m_laserDot.get_global_transform().origin
+	#var dotPos: Vector3 = m_laserDot.get_global_transform().origin
+	var dotPos: Vector3 = m_laserDot.m_discPos
 	# var curDir = -m_worldBody.transform.basis.z
 	# var targetDir = (m_laserDot.transform.origin - m_worldBody.transform.origin).normalized()
 	var towardLaser = m_worldBody.get_global_transform().looking_at(dotPos, Vector3.UP)
 	# TODO: lerp value here is random, should really have a proper rotation rate
-	var t = m_worldBody.transform.interpolate_with(towardLaser, 0.25)
+	var t
+	if fullTurn:
+		t = m_worldBody.transform.interpolate_with(towardLaser, 1)
+	else:
+		t = m_worldBody.transform.interpolate_with(towardLaser, 0.8)
 	m_worldBody.set_transform(t)
+
+func _dist_to_laser_from_origin():
+	return (m_laserDot.m_discPos - m_worldBody.transform.origin).length()
 
 func custom_physics_process(_delta: float):
 	if !m_awaitControlOff:
@@ -256,12 +295,25 @@ func custom_physics_process(_delta: float):
 	m_recallDelayTick -= _delta
 	# Thrown
 	if m_state == Enums.DiscState.Thrown:
+		if !primaryOn && m_isGuided:
+			# just released after guiding
+			print("!Release disc!")
+			var distToLaser: float = _dist_to_laser_from_origin()
+			print("Dist at release: " + str(distToLaser))
+			if distToLaser < 0.3:
+				# one final turn to laser direction
+				m_worldBody.transform.basis = m_launchNode.get_global_transform().basis
+			else:
+				# turn to laser
+				turn_toward_laser(_delta, true)
+			pass
+		m_isGuided = primaryOn
 		# animate
 		_rotate_core(_delta)
 		# turn if necessary
 		if primaryOn:
 			m_speed = THROW_SPEED_GUIDED
-			turn_toward_laser(_delta)
+			turn_toward_laser(_delta, false)
 		else:
 			m_speed = THROW_SPEED
 		# move
@@ -278,6 +330,8 @@ func launch(_pos: Vector3, _forward: Vector3):
 		print("Cannot throw yet state is "+ str(m_state))
 		return
 	transform.origin = Vector3()
+	# reset damage to max - hits will deplete it
+	m_throwHitDict.dmg = m_throwDamage;
 	# reset light position too
 	m_light.transform.origin = Vector3()
 	m_startRecall = false

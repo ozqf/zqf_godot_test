@@ -2,8 +2,8 @@ extends "res://ents/interactor_base/kinematicbody_interactor_base.gd"
 
 var m_worldParent: Node = null;
 
-var m_maxhealth: int = 100
-var m_health: int = 100
+var m_maxhealth: int = 25
+var m_health: int = 25
 
 var m_respawning: bool = false
 var m_tick: float = 0
@@ -31,14 +31,16 @@ func respawn():
 
 func interaction_take_hit(_hitData: Dictionary):
 	if m_health <= 0:
-		return com.create_hit_response(Enums.InteractHitResult.None)
+		return com.create_hit_response(Enums.InteractHitResult.None, 0)
 	
 	m_health -= _hitData.dmg
+	var taken:int = _hitData.dmg
 	if (m_health <= 0):
+		taken -= m_health
 		print("CRATE died to type " + _hitData.type)
 		die()
-		return com.create_hit_response(Enums.InteractHitResult.Killed)
-	return com.create_hit_response(Enums.InteractHitResult.Damaged)
+		return com.create_hit_response(Enums.InteractHitResult.Killed, taken)
+	return com.create_hit_response(Enums.InteractHitResult.Damaged, taken)
 	#return com.create_hit_response(Enums.InteractHitResult.None)
 
 # func _process(_delta:float):

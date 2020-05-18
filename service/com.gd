@@ -10,6 +10,9 @@ const LAYER_PROJECTILES: int = (1 << 3)
 const LAYER_TRIGGERS: int = (1 << 4)
 const LAYER_ITEMS: int = (1 << 5)
 const LAYER_PLAYER: int = (1 << 6)
+const LAYER_THROWABLE: int = (1 << 7)
+const LAYER_SENSORS: int = (1 << 8)
+const LAYER_DEBRIS: int = (1 << 9)
 
 # Categories of event that can be masked
 const EVENT_BIT_GAME_STATE: int = (1 << 0)
@@ -67,9 +70,10 @@ func create_hit(dmg: int, pushStrength: float, attackTeam: int, type: String, so
 		ent = sourceEnt
 	}
 
-func create_hit_response(_responseType):
+func create_hit_response(_responseType: int, dmgTaken: int):
 	return {
-		type = _responseType
+		type = _responseType,
+		dmgTaken = dmgTaken
 	}
 
 ##########################################

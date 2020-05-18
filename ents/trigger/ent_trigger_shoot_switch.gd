@@ -7,7 +7,7 @@ onready var m_pressed: Spatial = $pressed
 var m_state: int = 0
 var m_tick: float = 0
 var m_resetTime: float = 2
-var m_hitResponse = com.create_hit_response(Enums.InteractHitResult.Damaged)
+var m_hitResponse = com.create_hit_response(Enums.InteractHitResult.Damaged, 0)
 
 func _ready():
 	m_body.set_interactor(self)

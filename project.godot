@@ -200,6 +200,7 @@ throw_b={
 3d_physics/layer_7="player"
 3d_physics/layer_8="throwable"
 3d_physics/layer_9="sensors"
+3d_physics/layer_10="debris"
 
 [physics]
 
