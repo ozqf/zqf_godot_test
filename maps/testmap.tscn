@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://ents/player/ent_actor_3d.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ents/info/ent_hud_message.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://ents/props/ent_prop_crate.tscn" type="PackedScene" id=15]
 [ext_resource path="res://ents/trigger/ent_trigger_shoot_switch.tscn" type="PackedScene" id=16]
 [ext_resource path="res://ents/info/ent_info_platform.tscn" type="PackedScene" id=17]
+[ext_resource path="res://ents/props/ent_prop_gas_cylinder.tscn" type="PackedScene" id=18]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -463,6 +464,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -1, 12 )
 
 [node name="debug_world_cube_8x25" parent="world/Navigation/NavigationMeshInstance/world_geometry/arena_hull/floor" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -1, 20 )
+
+[node name="ent_prop_gas_cylinder" parent="world/Navigation/NavigationMeshInstance/world_geometry/arena_hull/floor/debug_world_cube_8x25" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
 [node name="debug_world_cube_8x24" parent="world/Navigation/NavigationMeshInstance/world_geometry/arena_hull/floor" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -1, 20 )

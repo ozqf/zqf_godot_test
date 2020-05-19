@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ents/props/ent_prop_gas_cylinder.gd" type="Script" id=1]
+
+[sub_resource type="CylinderShape" id=1]
+
+[sub_resource type="CylinderMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.792157, 0, 0, 1 )
+metallic = 0.75
+metallic_specular = 0.64
+roughness = 0.34
+
+[node name="ent_prop_gas_cylinder" type="KinematicBody"]
+collision_layer = 4
+collision_mask = 15
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 1.2, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )

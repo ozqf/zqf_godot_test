@@ -25,7 +25,7 @@ var m_thinkTick: float = 0
 ###################################################################
 func _ready():
 	# force set team
-	hp.m_team = com.TEAM_MOBS
+	hp.team = com.TEAM_MOBS
 	hp.connect("signal_death", self, "onDeath")
 	hp.connect("signal_hit", self, "onHit")
 

@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ents/props/ent_prop_crate.gd" type="Script" id=1]
+[ext_resource path="res://ents/comp_health.gd" type="Script" id=2]
+[ext_resource path="res://ents/comp_respawner.gd" type="Script" id=3]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -22,3 +24,9 @@ shape = SubResource( 1 )
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
+
+[node name="health" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="respawner" type="Node" parent="."]
+script = ExtResource( 3 )

@@ -97,24 +97,22 @@ func register_start(_start):
 # 
 # if a node removes itself from the tree to deactivate, record a reference
 # here!
-func add_orphan_node(node: Node):
+func add_orphan_node(node: Node, _updater: Node):
 	print("Add orphan node " + node.name)
-	m_orphanNodes.push_back(node)
+	var item = {
+		node = node,
+		updater = _updater
+	}
+	m_orphanNodes.push_back(item)
 
 func remove_orphan_node(node: Node):
 	print("Remove orphan node " + node.name)
-	var i = m_orphanNodes.find(node)
-	m_orphanNodes.remove(i)
+	var l:int = m_orphanNodes.size()
+	for i in range(l - 1, -1, -1):
+		if m_orphanNodes[i].node == node:
+			m_orphanNodes.remove(i)
+			return
 
-func add_updatable_orphan_node(node: Node):
-	print("Add orphan node " + node.name)
-	m_updatableOrphanNodes.push_back(node)
-
-func remove_updatable_orphan_node(node: Node):
-	print("Remove orphan node " + node.name)
-	var i = m_updatableOrphanNodes.find(node)
-	m_updatableOrphanNodes.remove(i)
-	
 ###########################################################################
 # scene list
 ###########################################################################
@@ -124,11 +122,15 @@ func add_scene_object(obj: Node):
 	self.add_child(obj)
 
 func _process(_delta: float):
+	var l: int
 	# go in reverse - nodes may remove themselves
 	# TODO: Make this safer, if one orphan triggers some event that removes another...
-	var l: int = m_updatableOrphanNodes.size()
+	l = m_orphanNodes.size()
 	for i in range(l - 1, -1, -1):
-		m_updatableOrphanNodes[i].orphan_process(_delta)
+		var item = m_orphanNodes[i]
+		if item.updater != null:
+			item.updater.orphan_process(_delta)
+	pass
 
 ###########################################################################
 # Entity list

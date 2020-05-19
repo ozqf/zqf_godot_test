@@ -63,7 +63,7 @@ func _move_as_ray(delta: float):
 	# reminder -1 == all bits on!
 	var mask = -1
 	mask &= ~com.LAYER_FENCE
-	mask &= ~com.LAYER_ITEMS
+	#mask &= ~com.LAYER_ITEMS
 	var result = space.intersect_ray(origin, dest, [self], mask)
 	if result:
 		# try and hit it

@@ -1,11 +1,11 @@
 extends Spatial
-class_name prj_throw_disc
+#class_name prj_throw_disc_defunct
 
 const Enums = preload("res://Enums.gd")
 
 const THROW_RECALL_DELAY: float = 0.25
 const RECALL_FINISH_DISTANCE: float = 2.0
-const THROW_SPEED_GUIDED: float = 40.0
+const THROW_SPEED_GUIDED: float = 25.0
 const THROW_SPEED: float = 75.0
 const RECALL_SPEED: float = 150.0
 const MAX_RECALL_TIME: float = 2.0
@@ -140,16 +140,16 @@ func _move_as_ray(_delta: float):
 	var dest = origin + velocity
 	
 	# scale move to not exceed target if guided
-	# if m_isGuided:
-	# 	var distToMove:float = (dest - origin).length()
-	# 	var distToGuideTarget:float = (m_laserDot.m_discPos - origin).length()
-	# 	var ratio:float = (distToMove / distToGuideTarget)
-	# 	if (distToMove > distToGuideTarget):
-	# 		m_isCloseToLaser = true
-	# 		dest = origin + (dir * distToMove)
-	# 	m_isCloseToLaser = false
-	# else:
-	# 	m_isCloseToLaser = false
+	if m_isGuided:
+		var distToMove:float = (dest - origin).length()
+		var distToGuideTarget:float = (m_laserDot.m_discPos - origin).length()
+		var ratio:float = (distToMove / distToGuideTarget)
+		if (distToMove > distToGuideTarget):
+			m_isCloseToLaser = true
+			dest = origin + (dir * distToMove)
+		m_isCloseToLaser = false
+	else:
+		m_isCloseToLaser = false
 
 	var mask = -1
 	mask &= ~com.LAYER_PLAYER
@@ -274,8 +274,8 @@ func turn_toward_laser(_delta: float, fullTurn: bool):
 	if !m_laserDot:
 		return
 	var result = Transform()
-	var dotPos: Vector3 = m_laserDot.get_global_transform().origin
-	# var dotPos: Vector3 = m_laserDot.m_discPos
+	#var dotPos: Vector3 = m_laserDot.get_global_transform().origin
+	var dotPos: Vector3 = m_laserDot.m_discPos
 	# var curDir = -m_worldBody.transform.basis.z
 	# var targetDir = (m_laserDot.transform.origin - m_worldBody.transform.origin).normalized()
 	var towardLaser = m_worldBody.get_global_transform().looking_at(dotPos, Vector3.UP)
@@ -300,19 +300,19 @@ func custom_physics_process(_delta: float):
 	m_recallDelayTick -= _delta
 	# Thrown
 	if m_state == Enums.DiscState.Thrown:
-		# if !primaryOn && m_isGuided:
-		# 	# just released after guiding
-		# 	print("!Release disc!")
-		# 	var distToLaser: float = _dist_to_laser_from_origin()
-		# 	print("Dist at release: " + str(distToLaser))
-		# 	if distToLaser < 0.3:
-		# 		# one final turn to laser direction
-		# 		m_worldBody.transform.basis = m_launchNode.get_global_transform().basis
-		# 	else:
-		# 		# turn to laser
-		# 		turn_toward_laser(_delta, true)
-		# 	pass
-		# m_isGuided = primaryOn
+		if !primaryOn && m_isGuided:
+			# just released after guiding
+			print("!Release disc!")
+			var distToLaser: float = _dist_to_laser_from_origin()
+			print("Dist at release: " + str(distToLaser))
+			if distToLaser < 0.3:
+				# one final turn to laser direction
+				m_worldBody.transform.basis = m_launchNode.get_global_transform().basis
+			else:
+				# turn to laser
+				turn_toward_laser(_delta, true)
+			pass
+		m_isGuided = primaryOn
 		# animate
 		_rotate_core(_delta)
 		# turn if necessary

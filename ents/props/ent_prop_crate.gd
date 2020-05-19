@@ -1,56 +1,28 @@
 extends "res://ents/interactor_base/kinematicbody_interactor_base.gd"
 
-var m_worldParent: Node = null;
+onready var m_hp = $health
+onready var m_respawner = $respawner
 
-var m_maxhealth: int = 25
-var m_health: int = 25
-
-var m_respawning: bool = false
-var m_tick: float = 0
-var m_respawnTime: float = 20
+var m_respawns: bool = true
 
 func die():
+	if m_hp.m_isDead:
+		return
 	var origin = get_global_transform().origin
-	#origin.y += 1
 	factory.spawn_blocks_explosion(origin, 15)
-	m_respawning = true
+	if m_respawns:
+		m_respawner.set_respawn_time(20)
+		m_respawner.start_respawn(self)
+	else:
+		queue_free()
 
-	# remove from tree
-	g_ents.add_updatable_orphan_node(self)
-	m_worldParent = get_parent()
-	print("Crate removing self from tree")
-	m_worldParent.remove_child(self)
-
-func respawn():
-	m_respawning = false
-	m_tick = 0
-	m_health = m_maxhealth
-
-	g_ents.remove_updatable_orphan_node(self)
-	m_worldParent.add_child(self)
+# called from respawner
+func on_respawn():
+	m_hp.respawn()
 
 func interaction_take_hit(_hitData: Dictionary):
-	if m_health <= 0:
-		return com.create_hit_response(Enums.InteractHitResult.None, 0)
-	
-	m_health -= _hitData.dmg
-	var taken:int = _hitData.dmg
-	if (m_health <= 0):
-		taken -= m_health
+	var _response = m_hp.take_hit_data(_hitData)
+	if _response.type == Enums.InteractHitResult.Killed:
 		print("CRATE died to type " + _hitData.type)
 		die()
-		return com.create_hit_response(Enums.InteractHitResult.Killed, taken)
-	return com.create_hit_response(Enums.InteractHitResult.Damaged, taken)
-	#return com.create_hit_response(Enums.InteractHitResult.None)
-
-# func _process(_delta:float):
-# 	if m_respawning:
-# 		m_tick += _delta
-# 		if m_tick >= m_respawnTime:
-# 			respawn()
-
-func orphan_process(_delta: float):
-	if m_respawning:
-		m_tick += _delta
-		if m_tick >= m_respawnTime:
-			respawn()
+	return _response

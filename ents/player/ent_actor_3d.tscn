@@ -3,7 +3,7 @@
 [ext_resource path="res://ents/player/actor_motor_3d.gd" type="Script" id=1]
 [ext_resource path="res://ents/test_weapon.gd" type="Script" id=2]
 [ext_resource path="res://world/default_world_env.tres" type="Environment" id=3]
-[ext_resource path="res://ents/z_health.gd" type="Script" id=4]
+[ext_resource path="res://ents/comp_health.gd" type="Script" id=4]
 [ext_resource path="res://ents/player/ent_player.gd" type="Script" id=5]
 [ext_resource path="res://ents/weapons/god_hand.gd" type="Script" id=6]
 [ext_resource path="res://fx/laser_dot.tscn" type="PackedScene" id=7]
@@ -17,6 +17,7 @@
 [ext_resource path="res://ents/weapons/sword.gd" type="Script" id=15]
 [ext_resource path="res://ents/weapons/rocket_launcher.gd" type="Script" id=16]
 [ext_resource path="res://ents/weapons/instant_damage_area.gd" type="Script" id=17]
+
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5

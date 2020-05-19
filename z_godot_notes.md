@@ -128,6 +128,10 @@ http://docs.godotengine.org/en/latest/getting_started/step_by_step/singletons_au
 * Autoload tab
 * Add script (click singleton)
 
+### Signals
+
+
+
 ## Application Node layouts
 
 root

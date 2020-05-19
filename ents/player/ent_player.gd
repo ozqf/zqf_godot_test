@@ -82,7 +82,7 @@ func _ready():
 	_init_weapons()
 
 	#m_hp.ent = self
-	m_hp.m_team = com.TEAM_PLAYER
+	m_hp.team = com.TEAM_PLAYER
 	m_hp.connect("signal_death", self, "on_death")
 	m_hp.connect("signal_hit", self, "on_hit")
 	
