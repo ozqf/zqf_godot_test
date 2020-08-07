@@ -33,6 +33,7 @@ func take_hit(_dmg: int, _attackerTeamId: int, _dir: Vector3):
 func take_hit_data(_hitData: Dictionary):
 	if (m_isDead):
 		return com.create_hit_response(Enums.InteractHitResult.None, 0)
+	print("comp hp take hit data")
 	m_hp -= _hitData.dmg
 	var taken:int = _hitData.dmg
 	var responseType = Enums.InteractHitResult.Damaged

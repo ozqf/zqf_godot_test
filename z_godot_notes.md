@@ -213,6 +213,10 @@ https://docs.godotengine.org/en/3.1/getting_started/scripting/gdscript/gdscript_
 #### API Classes
 https://docs.godotengine.org/en/3.2/classes/index.html
 
+#### Explanation of 'Servers' Architecture
+https://docs.godotengine.org/en/stable/tutorials/optimization/using_servers.html
+
+
 #### Error Codes
 http://docs.godotengine.org/en/3.2/classes/class_@globalscope.html#enum-globalscope-error
 

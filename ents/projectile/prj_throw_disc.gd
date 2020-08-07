@@ -88,7 +88,7 @@ func stick_to_node(node: Node):
 	m_attachParent.add_child(self)
 	m_worldBody.global_transform = globalT
 	var _foo = m_attachParent.connect("tree_exiting", self, "_on_attach_parent_removed")
-	print("Disc attached to " + m_attachParent.name)
+	# print("Disc attached to " + m_attachParent.name)
 	#var _foo = self.connect("tree_exiting", self, "_on_attach_parent_removed")
 
 func _on_attach_parent_removed():
@@ -96,8 +96,8 @@ func _on_attach_parent_removed():
 		# automatic recall might cancel attach
 		return
 	# return to previous parent
-	print("Disc saw parent '" + m_attachParent.name + "' exiting tree: " + str(m_attachParent.is_inside_tree()))
-	print("World body in tree? " + str(m_worldBody.is_inside_tree()))
+	# print("Disc saw parent '" + m_attachParent.name + "' exiting tree: " + str(m_attachParent.is_inside_tree()))
+	# print("World body in tree? " + str(m_worldBody.is_inside_tree()))
 	#var globalT = m_worldBody.get_global_transform() # errors... sigh
 	var globalT = m_recallGlobalT
 	get_parent().remove_child(self)
@@ -358,7 +358,7 @@ func launch(_pos: Vector3, _forward: Vector3):
 func world_area_entered(_area: Area):
 	if m_state != Enums.DiscState.Thrown:
 		return
-	print("World area entered: " + _area.name)
+	# print("World area entered: " + _area.name)
 	# if (_area.collision_layer | com.LAYER_WORLD):
 	# 	m_state = DiscState.Stuck
 	# 	m_worldBody.transform.origin = m_lastPosition
@@ -367,7 +367,7 @@ func world_area_entered(_area: Area):
 func world_body_entered(_body: PhysicsBody):
 	if m_state != Enums.DiscState.Thrown:
 		return
-	print("World body entered: " + _body.name)
+	# print("World body entered: " + _body.name)
 	# if (_body.collision_layer | com.LAYER_WORLD):
 	# 	m_state = DiscState.Stuck
 	# 	m_worldBody.transform.origin = m_lastPosition
@@ -376,10 +376,10 @@ func world_body_entered(_body: PhysicsBody):
 func ent_area_entered(_area: Area):
 	if m_state == Enums.DiscState.Inactive:
 		return
-	print("Disc Ent area entered " + _area.name)
+	# print("Disc Ent area entered " + _area.name)
 	var _interactor = com.extract_interactor(_area)
 	if _interactor:
-		print("Disc hit area interactor " + _interactor.name)
+		# print("Disc hit area interactor " + _interactor.name)
 		if _interactor:
 			var imbue = _interactor.interaction_get_imbue_effect()
 			if imbue == "fire":
@@ -392,10 +392,10 @@ func ent_area_entered(_area: Area):
 func ent_body_entered(_body: PhysicsBody):
 	if m_state == Enums.DiscState.Inactive:
 		return
-	print("Disc Ent body entered " + _body.name)
+	# print("Disc Ent body entered " + _body.name)
 	var _interactor = com.extract_interactor(_body)
-	if _interactor:
-		print("Disc hit body interactor " + _interactor.name)
+	# if _interactor:
+	# 	print("Disc hit body interactor " + _interactor.name)
 
 func get_interactor():
 	return m_owner

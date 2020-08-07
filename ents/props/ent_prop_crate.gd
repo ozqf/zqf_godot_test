@@ -5,9 +5,11 @@ onready var m_respawner = $respawner
 
 var m_respawns: bool = true
 
+func _ready():
+	m_hp.team = com.TEAM_NONE
+	m_hp.m_hp = 25
+
 func die():
-	if m_hp.m_isDead:
-		return
 	var origin = get_global_transform().origin
 	factory.spawn_blocks_explosion(origin, 15)
 	if m_respawns:

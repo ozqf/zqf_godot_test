@@ -50,6 +50,7 @@ const CMD_SPAWN: String = "spawn"
 
 const TEAM_PLAYER: int =  0
 const TEAM_MOBS: int = 1
+const TEAM_NONE: int = 2
 
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
