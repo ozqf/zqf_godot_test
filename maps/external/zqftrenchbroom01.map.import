@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/zqftrenchbroom01.map-faf48506ce191f76597be651007c93a8.tres"
+
+[deps]
+
+source_file="res://maps/external/zqftrenchbroom01.map"
+dest_files=[ "res://.import/zqftrenchbroom01.map-faf48506ce191f76597be651007c93a8.tres" ]
+
+[params]
+

@@ -7,7 +7,6 @@
 [ext_resource path="res://ents/spawn/spawner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ents/trigger/ent_trigger.tscn" type="PackedScene" id=6]
 
-
 [node name="testmap" type="Spatial"]
 
 [node name="world" type="Spatial" parent="."]

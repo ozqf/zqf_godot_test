@@ -679,3 +679,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 9, -36 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5 )
 mesh = SubResource( 11 )
 material/0 = null
+
+[node name="Spatial" type="Spatial" parent="."]
